@@ -1,0 +1,103 @@
+@import url("../styles/constants.css");
+
+.privacy-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: var(--privacy-body);
+}
+
+.privacy-personal-info,
+.privacy-disappearing-messages,
+.privacy-blocked-contacts {
+  padding: 20px 30px;
+  background-color: var(--privacy-list);
+}
+
+.privacy-personal-info h3,
+.privacy-disappearing-messages h3 {
+  font-size: 14px;
+  line-height: normal;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 10px;
+}
+
+.privacy-last-seen,
+.privacy-profile-photo,
+.privacy-about,
+.privacy-read-receipts {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: var(--border-bottom);
+}
+
+.privacy-read-receipts {
+  border-bottom: none;
+}
+
+.privacy-last-seen-container,
+.privacy-profile-photo-container,
+.privacy-about-container,
+.privacy-read-receipts-container {
+  flex: 1;
+}
+
+.privacy-disappearing-messages,
+.privacy-blocked-contacts {
+  margin-top: 10px;
+}
+
+.privacy-disappearing-messages-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.privacy-disappearing-messages-container-text {
+  flex: 1;
+}
+
+.privacy-groups,
+.privacy-blocked {
+  display: flex;
+  justify-content: center;
+  padding: 5px 0;
+  align-items: center;
+  border-bottom: var(--border-bottom);
+}
+
+.privacy-blocked {
+  border-bottom: none;
+}
+
+.privacy-groups-container,
+.privacy-blocked-container {
+  flex: 1;
+}
+
+.privacy-last-seen-container h4,
+.privacy-profile-photo-container h4,
+.privacy-about-container h4,
+.privacy-read-receipts-container h4,
+.privacy-disappearing-messages-container-text h4,
+.privacy-groups-container h4,
+.privacy-blocked-container h4 {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--primary-strong);
+}
+
+.privacy-last-seen-container p,
+.privacy-profile-photo-container p,
+.privacy-about-container p,
+.privacy-read-receipts-container p,
+.privacy-disappearing-messages-container-text p,
+.privacy-groups-container p,
+.privacy-blocked-container p {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text-secondary);
+}

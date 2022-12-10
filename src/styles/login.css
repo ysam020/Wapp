@@ -1,0 +1,39 @@
+@import url("../styles/constants.css");
+
+.login {
+  background-color: var(--login-background);
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  place-items: center;
+}
+
+.login-container {
+  padding: 100px;
+  text-align: center;
+  background-color: var(--login-box);
+  border-radius: 10px;
+  box-shadow: var(--text-muted);
+}
+
+.login-container img {
+  object-fit: contain;
+  height: 100px;
+  margin-bottom: 40px;
+}
+
+.login h1 {
+  color: var(--primary-strong);
+}
+
+.login-container button {
+  margin-top: 15px;
+  text-transform: inherit;
+  background-color: var(--button);
+  color: #fff;
+  padding: 10px 15px;
+}
+
+.login-container button:hover {
+  background-color: var(--button);
+}

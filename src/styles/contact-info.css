@@ -1,0 +1,142 @@
+@import url("../styles/constants.css");
+
+.contact-info-img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  background-color: var(--contact-info-body);
+}
+
+.contact-info-img h3 {
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 400;
+  margin-top: 20px;
+  color: var(--primary-strong);
+}
+
+.contact-info-about {
+  background-color: var(--contact-info-body);
+  margin-top: 8px;
+  padding: 20px 30px;
+}
+
+.contact-info-about h5 {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--secondary-strong);
+}
+
+.contact-info-about p {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--primary-strong);
+  margin-top: 5px;
+}
+
+.contact-info-media {
+  background-color: var(--contact-info-body);
+  margin-top: 8px;
+  padding: 10px 30px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.contact-info-media h5 {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  flex: 1;
+}
+
+.media-right-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-info-body {
+  background-color: var(--contact-info-body);
+  flex: 1;
+  padding: 0 30px 0 20px;
+  margin-top: 8px;
+}
+
+.starred-messages,
+.mute-notification,
+.disappearing-messages,
+.encryption {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+.starred-messages h5 {
+  flex: 1;
+}
+
+.mute-notification h5 {
+  flex: 1;
+}
+
+.disappearing-messages-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.block {
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+  color: var(--red);
+  cursor: pointer;
+}
+
+.report {
+  display: flex;
+  align-items: center;
+  color: var(--red);
+  cursor: pointer;
+}
+
+.delete-chat {
+  display: flex;
+  align-items: center;
+  padding-bottom: 20px;
+  cursor: pointer;
+}
+
+.starred-messages h5,
+.mute-notification h5,
+.disappearing-messages h5,
+.encryption h5,
+.block h5,
+.report h5,
+.delete-chat h5 {
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 500;
+  color: var(--primary-strong);
+}
+
+.media-right-container,
+.disappearing-messages p,
+.encryption p {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.block h5,
+.report h5,
+.delete-chat h5 {
+  color: var(--red);
+  user-select: none;
+}

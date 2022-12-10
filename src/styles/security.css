@@ -1,0 +1,61 @@
+@import url("./constants.css");
+
+.security-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: var(--security-body);
+  padding: 0 30px;
+}
+
+.security-body h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--primary-strong);
+  margin-bottom: 20px;
+}
+
+.security-body h4 {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--primary-strong);
+  margin-bottom: 10px;
+}
+
+.security-body p {
+  color: var(--text-secondary);
+}
+
+.security-body a {
+  color: var(--link-color);
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.security-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.security-list {
+  padding: 20px 0;
+  border-bottom: var(--border-bottom);
+}
+
+.security-list-item {
+  display: flex;
+  padding: 5px 0;
+}
+
+.security-row-2 {
+  display: flex;
+  align-items: self-start;
+  padding: 20px 0;
+}
+
+.security-row-2-text {
+  padding-left: 10px;
+}

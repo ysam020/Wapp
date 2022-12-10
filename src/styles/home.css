@@ -1,0 +1,24 @@
+@import url("../styles/constants.css");
+
+.home {
+  width: 100%;
+}
+
+.home-container {
+  display: flex;
+  height: 100%;
+}
+
+.home-bg-img {
+  height: 200px;
+}
+
+.home-bg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex: 1;
+  background-color: var(--home-background);
+  min-width: 300px;
+}

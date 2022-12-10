@@ -1,0 +1,60 @@
+@import url("./constants.css");
+/* @import url("./styles/constants.css"); */
+
+.search-messages-body {
+  flex: 1;
+  overflow-y: scroll;
+  background-color: var(--search-messages-body);
+  width: var(--panel-width);
+  max-width: var(--panel-width);
+}
+
+.search-messages-input-container {
+  display: flex;
+  align-items: center;
+  background-color: var(--search-message-search-input);
+  border-radius: 10px;
+  flex: 1;
+  margin: 8px 8px 15px 8px;
+}
+
+.search-messages-input-container input {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  width: 100%;
+  color: var(--primary-strong);
+}
+
+.searched-message-container {
+  border-bottom: var(--border-bottom);
+  padding: 20px;
+  max-width: var(--panel-width);
+}
+
+.searched-message-container span {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--searched-text);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.searched-message-container p {
+  color: var(--searched-text);
+  font-size: 14px;
+  font-weight: 600;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: none;
+}
+
+.searched-message-container a {
+  color: var(--link-color);
+  font-size: 14px;
+  font-weight: 600;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: none;
+  text-decoration: underline;
+}

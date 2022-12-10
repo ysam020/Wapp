@@ -1,0 +1,66 @@
+@import url("../styles/constants.css");
+
+.settings-notifications-body {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--notifications-body);
+  flex: 1;
+}
+
+.settings-notifications-messages {
+  background-color: var(--notifications-list);
+  padding: 20px;
+}
+
+.settings-notifications-messages h3 {
+  font-size: 15px;
+  line-height: normal;
+  font-weight: 500;
+  color: var(--teal);
+  text-transform: uppercase;
+}
+
+.notifications-messages-container {
+  display: flex;
+  padding-top: 30px;
+}
+
+.notifications-messages-container h4 {
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: normal;
+  color: var(--primary-strong);
+}
+
+.notifications-messages-container p {
+  color: var(--text-secondary);
+}
+
+.notifications-messages-text {
+  flex: 1;
+}
+
+.settings-notifications-sounds {
+  background-color: var(--notifications-list);
+  margin-top: 10px;
+  padding: 30px 20px;
+}
+
+.notifications-sounds-container {
+  display: flex;
+}
+
+.notifications-sounds-container h4 {
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: normal;
+  color: var(--primary-strong);
+}
+
+.notifications-sounds-container p {
+  color: var(--text-secondary);
+}
+
+.notifications-sounds-text {
+  flex: 1;
+}

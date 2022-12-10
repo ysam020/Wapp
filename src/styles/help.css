@@ -1,0 +1,60 @@
+@import url("../styles/constants.css");
+
+.help-header-container h3 {
+  color: var(--white);
+  margin-left: 25px;
+  font-size: 19px;
+  line-height: 23px;
+  font-weight: 500;
+}
+
+.help-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: var(--help-body);
+}
+
+.help-body p {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.help-body h4 {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--primary-strong);
+}
+
+.help-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+  width: 300px;
+  height: 300px;
+  margin: auto;
+}
+
+.help-list {
+  background-color: var(--help-list);
+  margin-top: 30px;
+}
+
+.help-list-item {
+  display: flex;
+  align-items: center;
+  border-bottom: var(--border-bottom);
+  padding: 5px 30px;
+  cursor: pointer;
+}
+
+.help-list-item:last-child {
+  border-bottom: none;
+}
+
+.help-list-item:hover {
+  background-color: var(--help-list-hover);
+}

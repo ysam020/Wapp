@@ -1,0 +1,138 @@
+@import url("./constants.css");
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: var(--panel-width);
+  max-width: var(--panel-width);
+  overflow-y: scroll;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--sidebar-header-background);
+  border-right: var(--border-right);
+}
+
+.sidebar-header-right {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 10vw;
+}
+
+.sidebar-header .MuiSvgIcon-root.avatar-icon {
+  font-size: 50px !important;
+}
+
+.sidebar-search {
+  display: flex;
+  padding: 10px;
+  border-bottom: var(--border-bottom);
+  background-color: var(--sidebar-background);
+}
+
+.sidebar-search-container {
+  display: flex;
+  align-items: center;
+  background-color: var(--sidebar-search-background);
+  border-radius: 10px;
+  flex: 1;
+}
+
+.sidebar-search-container input {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  width: 100%;
+  color: var(--primary-strong);
+}
+
+.sidebar-chat {
+  flex: 1;
+  overflow: scroll;
+  background-color: var(--sidebar-background);
+}
+
+a {
+  text-decoration: none;
+  color: var(--primary-strong);
+}
+
+.sidebar-chat-item {
+  display: flex;
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: var(--border-bottom);
+}
+
+.sidebar-chat-item:hover {
+  background-color: var(--sidebar-chat-background-hover);
+}
+
+.sidebar-chat-info {
+  margin-left: 15px;
+  flex: 1;
+  overflow: hidden;
+}
+
+.sidebar-chat-info-row-1 h3 {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 21px;
+  color: var(--primary-strong);
+}
+
+.sidebar-chat-info p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--text-secondary);
+}
+
+.sidebar-chat-info-row-1 {
+  display: flex;
+  overflow: hidden;
+}
+
+.sidebar-chat-info-row-1 h3 {
+  flex: 1;
+}
+
+.sidebar-chat-info-row-2 p {
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.sidebar-popover-container {
+  position: relative;
+}
+
+.sidebar-popover {
+  position: absolute;
+  top: 50px;
+  left: -180px;
+  background-color: var(--popover);
+  z-index: 100;
+  padding: 13px 0;
+  box-shadow: var(--popover-box-shadow);
+}
+
+.sidebar-popover h4 {
+  font-size: 14px;
+  line-height: 14px;
+  color: var(--popover-text);
+  padding: 13px 85px 13px 25px;
+  text-align: left;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.sidebar-popover h4:hover {
+  background-color: var(--popover-hover);
+}

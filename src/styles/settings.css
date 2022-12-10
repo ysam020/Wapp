@@ -1,0 +1,65 @@
+@import url("./constants.css");
+
+.settings-body {
+  background-color: var(--settings-body);
+  flex: 1;
+}
+
+.settings-user-info {
+  padding: 20px;
+  display: flex;
+  cursor: pointer;
+}
+
+.settings-user-info:hover {
+  background-color: var(--settings-user-info-hover);
+}
+
+.settings-user-info-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  padding-left: 20px;
+}
+
+.settings-user-info-text h3 {
+  font-size: 19px;
+  line-height: 28px;
+  font-weight: 500;
+  color: var(--primary-strong);
+}
+
+.settings-user-info-text p {
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 500;
+  color: var(--primary-strong);
+}
+
+.settings-list {
+  padding: 10px 0;
+}
+
+.settings-list-item {
+  display: flex;
+  align-items: center;
+  border-bottom: var(--border-bottom);
+  padding: 5px 20px;
+  cursor: pointer;
+}
+
+.settings-list-item:hover {
+  background-color: var(--settings-list-hover);
+}
+
+.settings-list-item h5 {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 500;
+  color: var(--primary-strong);
+  padding-left: 15px;
+}
