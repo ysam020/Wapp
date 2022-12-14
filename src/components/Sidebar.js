@@ -78,6 +78,7 @@ function Sidebar() {
         return user;
       }
     }
+    return false;
   });
 
   // Map all searched users

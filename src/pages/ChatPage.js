@@ -133,6 +133,7 @@ function ChatPage() {
                 return searchTerm;
               }
             }
+            return false;
           })
         );
 
