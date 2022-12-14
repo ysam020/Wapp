@@ -92,7 +92,15 @@ function Chat({
     getUser();
     getMessages();
     checkBlockedUser();
-  }, [chatMessages]); // Run each time chatMessages is update
+  }, [
+    chatMessages,
+    chatUser.email,
+    currentUser.email,
+    emailId,
+    setBlock,
+    setChatUser,
+    getMessages,
+  ]); // Run each time chatMessages is update
 
   // Hide emojiBox on escape key
   useEffect(() => {
@@ -194,15 +202,6 @@ function Chat({
             />
           ))}
         </div>
-
-        {/* If user is blocked, display block notification */}
-        {block.length !== 0 ? (
-          <div className="block-notification">
-            <p>You blocked this contact</p>
-          </div>
-        ) : (
-          ""
-        )}
       </div>
 
       {emojiBox && (
@@ -227,60 +226,66 @@ function Chat({
         />
       )}
 
-      <div className="chat-footer">
-        {closeButton && (
+      {block.length !== 0 ? (
+        <div className="chat-footer-blocked">
+          <p>Cant send message to a blocked contact {chatUser.email}</p>
+        </div>
+      ) : (
+        <div className="chat-footer">
+          {closeButton && (
+            <IconButton
+              className={classes.icon}
+              onClick={() => {
+                setEmojiBox(!emojiBox);
+                setCloseButton(!closeButton);
+                setGifButton(!gifButton);
+                ref.current.focus();
+              }}
+            >
+              <CloseOutlinedIcon />
+            </IconButton>
+          )}
+
           <IconButton
             className={classes.icon}
             onClick={() => {
-              setEmojiBox(!emojiBox);
-              setCloseButton(!closeButton);
-              setGifButton(!gifButton);
+              setEmojiBox(true);
+              setCloseButton(true);
+              setGifButton(true);
               ref.current.focus();
             }}
           >
-            <CloseOutlinedIcon />
+            <InsertEmoticonOutlinedIcon />
           </IconButton>
-        )}
 
-        <IconButton
-          className={classes.icon}
-          onClick={() => {
-            setEmojiBox(true);
-            setCloseButton(true);
-            setGifButton(true);
-            ref.current.focus();
-          }}
-        >
-          <InsertEmoticonOutlinedIcon />
-        </IconButton>
+          {gifButton && (
+            <IconButton className={classes.icon}>
+              <GifBoxOutlinedIcon />
+            </IconButton>
+          )}
 
-        {gifButton && (
           <IconButton className={classes.icon}>
-            <GifBoxOutlinedIcon />
+            <AttachFileOutlinedIcon />
           </IconButton>
-        )}
 
-        <IconButton className={classes.icon}>
-          <AttachFileOutlinedIcon />
-        </IconButton>
+          <form>
+            <input
+              placeholder="Type a message"
+              type="text"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              ref={ref}
+            />
+            <button type="submit" onClick={sendMessage}>
+              Send Message
+            </button>
+          </form>
 
-        <form>
-          <input
-            placeholder="Type a message"
-            type="text"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            ref={ref}
-          />
-          <button type="submit" onClick={sendMessage}>
-            Send Message
-          </button>
-        </form>
-
-        <IconButton className={classes.icon}>
-          <MicOutlinedIcon />
-        </IconButton>
-      </div>
+          <IconButton className={classes.icon}>
+            <MicOutlinedIcon />
+          </IconButton>
+        </div>
+      )}
     </div>
   );
 }

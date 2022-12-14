@@ -74,6 +74,7 @@
   --chat-message-sent: #d9fdd2;
   --chat-message-received: #fff;
   --chat-footer: #eff2f5;
+  --chat-footer-blocked: #eff2f5;
   --chat-input: #fff;
   --emoji-picker-background: #eff2f5;
   --emoji-search: #e9edef;
@@ -151,6 +152,7 @@
   --chat-message-sent: #015c4b;
   --chat-message-received: #1f2c33;
   --chat-footer: #1f2c33;
+  --chat-footer-blocked: #1f2c33;
   --chat-input: #2a3942;
   --emoji-picker-background: #1f2c33;
   --emoji-search: #212e35;

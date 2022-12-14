@@ -81,7 +81,7 @@ function ContactInfo() {
 
     getUser();
     checkBlockedUser();
-  }, [chatUser]); // Run whenever chatUser changes
+  }, [chatUser, currentUser.email, emailId]); // Run whenever chatUser changes
 
   // Block user function
   const blockUser = () => {

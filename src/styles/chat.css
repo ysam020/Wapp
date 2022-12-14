@@ -161,6 +161,15 @@
   padding: 10px;
 }
 
+.chat-footer-blocked {
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--chat-footer-blocked);
+  color: var(--primary-strong);
+}
+
 .chat-footer form {
   flex: 1;
   display: flex;
@@ -208,23 +217,4 @@
 
 .chat-popover h4:hover {
   background-color: var(--popover-hover);
-}
-
-.block-notification {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-  width: 150px;
-  margin: 15px auto;
-  padding: 5px;
-  border-radius: 7.5px;
-  box-shadow: var(--block-notification-box-shadow);
-}
-
-.block-notification p {
-  font-size: 12.5px;
-  line-height: 21px;
-  color: #54656f;
-  font-weight: 500;
 }

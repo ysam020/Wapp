@@ -4,9 +4,9 @@ import { SearchMessageContext } from "../contexts/Context";
 import { IconButton } from "@material-ui/core";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     icon: {
       color: "#8696a0",
