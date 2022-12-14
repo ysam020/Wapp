@@ -1,4 +1,4 @@
-import { createContext, useReducer, useEffect } from "react";
+import { createContext, useReducer } from "react";
 import { reducer } from "../contexts/Reducer";
 
 export const LogoutContext = createContext();
