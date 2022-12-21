@@ -117,9 +117,13 @@
   );
 }
 
-.emoji-picker-react img.emoji-img {
-  height: 35px !important;
-  width: 35px !important;
+.message-text {
+  display: flex;
+}
+.message-text a,
+.message-text p {
+  flex: 1;
+  margin-right: 10px;
 }
 
 .chat-timestamp {
@@ -128,6 +132,11 @@
   text-align: right;
   margin-top: 5px;
   margin-left: 10px;
+}
+
+.emoji-picker-react img.emoji-img {
+  height: 35px !important;
+  width: 35px !important;
 }
 
 .emoji-picker-react {

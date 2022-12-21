@@ -62,8 +62,8 @@ function App() {
       .catch((error) => alert(error.message));
   };
 
-  // Loader
   useEffect(() => {
+    // Loader
     setLoading(true);
     setTimeout(() => {
       setLoading(false);

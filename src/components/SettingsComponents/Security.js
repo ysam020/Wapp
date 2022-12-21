@@ -98,7 +98,7 @@ function Security() {
               <p>Status updates</p>
             </div>
             <div className="security-list-item">
-              <a href="#">Learn more</a>
+              <a href="/#">Learn more</a>
             </div>
           </div>
         </div>
@@ -118,7 +118,7 @@ function Security() {
               Get notified when your security code changes for a contact’s
               phone. If you have multiple devices, this setting must be enabled
               on each device where you want to get notifications.
-              <a href="#">Learn more</a>
+              <a href="/#">Learn more</a>
             </p>
           </div>
         </div>

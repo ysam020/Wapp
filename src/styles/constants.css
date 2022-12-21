@@ -20,56 +20,71 @@
 }
 
 #light {
+  /* App */
   --app-background: repeating-linear-gradient(
     var(--app-background-color-1) 15%,
     var(--app-background-color-2) 1000%
   );
 
+  /* Home */
   --home-background: #eff2f5;
 
+  /* Sidebar */
   --sidebar-header-background: #eff2f5;
   --sidebar-background: #fff;
   --sidebar-search-background: #eff2f5;
   --sidebar-chat-background: #fff;
   --sidebar-chat-background-hover: #eff2f5;
 
+  /* Sidebar profile */
   --sidebar-profile-body: #eff2f5;
   --sidebar-profile-list: #fff;
 
+  /* Sidebar panel */
   --sidebar-panel-header-background: var(--teal);
   --sidebar-panel-background: #eff2f5;
   --sidebar-panel-header-text: #fff;
 
+  /* Settings */
   --settings-body: #fff;
   --settings-user-info: #eff2f5;
   --settings-user-info-hover: #eff2f5;
   --settings-list-hover: #eff2f5;
 
+  /* Notifications */
   --notifications-body: #eff2f5;
   --notifications-list: #fff;
 
+  /* Privacy */
   --privacy-body: #eff2f5;
   --privacy-list: #fff;
 
+  /* Security */
   --security-body: #fff;
 
+  /* Account info */
   --account-info-body: #eff2f5;
 
+  /* Help */
   --help-body: #eff2f5;
   --help-list: #fff;
   --help-list-hover: #f5f6f6;
 
+  /* Sidebar panel right */
   --sidebar-panel-right-header: #eff2f5;
   --contact-info-body: #fff;
 
+  /* Search messages */
   --search-messages-body: #fff;
   --search-message-search-input: #eff2f5;
   --searched-text: #667681;
 
+  /* Popover */
   --popover: #fff;
   --popover-hover: #f5f6f6;
   --popover-text: #3b4a54;
 
+  /* Chat */
   --chat-header: #eff2f5;
   --chat-message-sent: #d9fdd2;
   --chat-message-received: #fff;
@@ -79,75 +94,96 @@
   --emoji-picker-background: #eff2f5;
   --emoji-search: #e9edef;
 
+  /* Loader */
   --loader-background: #eff2f5;
 
+  /* Login */
   --login-background: #eff2f5;
   --login-box: #fff;
 
+  /* Border color */
   --border-bottom-color: #eff2f5;
   --border-right-color: #effef5;
   --border-left-color: #effef5;
 
+  /* Border */
+  --border-bottom: 1px solid var(--border-bottom-color);
+  --border-right: 1px solid var(--border-right-color);
+  --border-left: 1px solid var(--border-left-color);
+
+  /* Text */
   --primary-strong: #111b21;
   --secondary-strong: #384145;
   --text-secondary: #3b4a54;
   --text-muted: #3b4a54;
-
-  --border-bottom: 1px solid var(--border-bottom-color);
-  --border-right: 1px solid var(--border-right-color);
-  --border-left: 1px solid var(--border-left-color);
 }
 
 #dark {
+  /* App */
   --app-background: repeating-linear-gradient(
     var(--app-background-color) 15%,
     var(--app-background-color) 100%
   );
+
+  /* App */
   --home-background: #212e35;
 
+  /* Sidebar */
   --sidebar-header-background: #212e35;
   --sidebar-background: #111b21;
   --sidebar-search-background: #212e35;
   --sidebar-chat-background: #111b21;
   --sidebar-chat-background-hover: #1f2c33;
 
+  /* Sidebar profile */
   --sidebar-profile-body: #111b21;
   --sidebar-profile-list: #111b21;
 
+  /* Sidebar panel */
   --sidebar-panel-header-background: #212e35;
   --sidebar-panel-background: #111b21;
   --sidebar-panel-header-text: #fff;
 
+  /* Settings */
   --settings-body: #111b21;
   --settings-user-info: #111b21;
   --settings-user-info-hover: #212e35;
   --settings-list-hover: #212e35;
 
+  /* Notifications */
   --notifications-body: #111b21;
   --notifications-list: #111b21;
 
+  /* Privacy */
   --privacy-body: #0c1318;
   --privacy-list: #111b21;
 
+  /* Security */
   --security-body: #111b21;
 
+  /* Account info */
   --account-info-body: #111b21;
 
+  /* Help */
   --help-body: #111b21;
   --help-list: #111b21;
   --help-list-hover: #1f2c33;
 
+  /* Sidebar panel right */
   --sidebar-panel-right-header: #1f2c33;
   --contact-info-body: #111b21;
 
+  /* Search messages */
   --search-messages-body: #111b21;
   --search-message-search-input: #1f2c33;
   --searched-text: #8696a0;
 
+  /* Popover */
   --popover: #233138;
   --popover-hover: #182229;
   --popover-text: #fff;
 
+  /* Chat */
   --chat-header: #1f2c33;
   --chat-message-sent: #015c4b;
   --chat-message-received: #1f2c33;
@@ -157,22 +193,27 @@
   --emoji-picker-background: #1f2c33;
   --emoji-search: #212e35;
 
+  /* Loader */
   --loader-background: #111b21;
 
+  /* Login */
   --login-background: #111b21;
   --login-box: #212e35;
 
+  /* Border color */
   --border-bottom-color: #212e35;
   --border-right-color: #484d50;
   --border-left-color: #484d50;
 
+  /* Border */
+  --border-bottom: 1px solid var(--border-bottom-color);
+  --border-right: 1px solid var(--border-right-color);
+  --border-left: 1px solid var(--border-left-color);
+
+  /*Text  */
   --app-background-color: #111b21;
   --primary-strong: #fff;
   --secondary-strong: #fff;
   --text-secondary: #8696a0;
   --text-muted: #3b4a54;
-
-  --border-bottom: 1px solid var(--border-bottom-color);
-  --border-right: 1px solid var(--border-right-color);
-  --border-left: 1px solid var(--border-left-color);
 }

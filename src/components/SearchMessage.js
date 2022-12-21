@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import "../styles/search-messages.css";
 import { SearchMessageContext } from "../contexts/Context";
 import { IconButton } from "@material-ui/core";
@@ -31,6 +31,13 @@ function SearchMessage({ searchedMessage, searchInput, setSearchInput }) {
   // Contexts
   const searchMessageContext = useContext(SearchMessageContext);
 
+  // Ref
+  const searchMessagesRef = useRef();
+
+  useEffect(() => {
+    searchMessagesRef.current.focus();
+  });
+
   return (
     <div className="sidebar-panel-right">
       <div className="sidebar-panel-right-header">
@@ -46,13 +53,17 @@ function SearchMessage({ searchedMessage, searchInput, setSearchInput }) {
 
       <div className="search-messages-body">
         <div className="search-messages-input-container">
-          <IconButton className={classes.icon}>
+          <IconButton
+            className={classes.icon}
+            onClick={() => searchMessagesRef.current.focus()}
+          >
             <SearchOutlinedIcon />
           </IconButton>
           <input
             placeholder="Search messages"
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
+            ref={searchMessagesRef}
           />
         </div>
 

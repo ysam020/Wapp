@@ -92,7 +92,8 @@ a {
   color: var(--text-secondary);
 }
 
-.sidebar-chat-info-row-1 {
+.sidebar-chat-info-row-1,
+.sidebar-chat-info-row-2 {
   display: flex;
   overflow: hidden;
 }

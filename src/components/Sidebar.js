@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import "../styles/sidebar.css";
 import {
   UserContext,
@@ -20,7 +20,7 @@ import { IconButton } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     icon: {
       color: "#8696A0",
@@ -43,6 +43,9 @@ function Sidebar() {
   const toggleSidebarProfileContext = useContext(ToggleSidebarProfileContext);
   const toggleSettingsContext = useContext(ToggleSettingsContext);
   const toggleSidebarContext = useContext(ToggleSidebarContext);
+
+  // Sidebar search ref
+  const sidebarSearchRef = useRef();
 
   useEffect(() => {
     // Get all users from database
@@ -151,13 +154,17 @@ function Sidebar() {
 
       <div className="sidebar-search">
         <div className="sidebar-search-container">
-          <IconButton className={classes.icon}>
+          <IconButton
+            className={classes.icon}
+            onClick={() => sidebarSearchRef.current.focus()}
+          >
             <SearchOutlinedIcon />
           </IconButton>
           <input
             placeholder="Search or start a new chat"
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
+            ref={sidebarSearchRef}
           />
         </div>
         <IconButton className={classes.icon}>

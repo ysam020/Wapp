@@ -65,7 +65,7 @@ function AccountInfo() {
             Create a report of your WhatsApp account information and settings,
             which you can access or port to another app. This report does not
             include your messages.
-            <a href="#">Learn more</a>
+            <a href="/#">Learn more</a>
           </p>
         </div>
 
