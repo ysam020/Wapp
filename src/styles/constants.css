@@ -14,6 +14,7 @@
   --teal: #008069;
   --button: #0a8d48;
   --link-color: #53bdeb;
+  --highlights: #00a884;
 
   /* Width */
   --panel-width: 400px;
@@ -28,6 +29,7 @@
 
   /* Home */
   --home-background: #eff2f5;
+  --home-border-bottom: #23d366;
 
   /* Sidebar */
   --sidebar-header-background: #eff2f5;
@@ -35,6 +37,7 @@
   --sidebar-search-background: #eff2f5;
   --sidebar-chat-background: #fff;
   --sidebar-chat-background-hover: #eff2f5;
+  --sidebar-chat-timestamp: #23d366;
 
   /* Sidebar profile */
   --sidebar-profile-body: #eff2f5;
@@ -44,6 +47,16 @@
   --sidebar-panel-header-background: var(--teal);
   --sidebar-panel-background: #eff2f5;
   --sidebar-panel-header-text: #fff;
+
+  /* Communities */
+  --communities-body: #fff;
+  --communities-button-text: #fff;
+  --communities-button-background: #008069;
+  --communities-button-hover: #017561;
+
+  /* New chat */
+  --new-chat-body: #fff;
+  --new-chat-hover: #eff2f5;
 
   /* Settings */
   --settings-body: #fff;
@@ -62,6 +75,10 @@
   /* Security */
   --security-body: #fff;
 
+  /* ChatWallpaper */
+  --chat-wallpaper-body: #eff2f5;
+  --chat-wallpaper-list-item-hover: #ffffff;
+
   /* Account info */
   --account-info-body: #eff2f5;
 
@@ -79,6 +96,10 @@
   --search-message-search-input: #eff2f5;
   --searched-text: #667681;
 
+  /* Starred messages */
+  --starred-messages-body: #eff2f5;
+  --starred-message-hover: #e6e9ec;
+
   /* Popover */
   --popover: #fff;
   --popover-hover: #f5f6f6;
@@ -86,13 +107,29 @@
 
   /* Chat */
   --chat-header: #eff2f5;
+  --chat-message-row: rgba(0, 128, 105, 0.08);
   --chat-message-sent: #d9fdd2;
   --chat-message-received: #fff;
+  --chat-message-document: #eff2f5;
+  --chat-message-sent-document: #d1f4cc;
   --chat-footer: #eff2f5;
   --chat-footer-blocked: #eff2f5;
   --chat-input: #fff;
   --emoji-picker-background: #eff2f5;
   --emoji-search: #e9edef;
+
+  /* Encryption */
+  --encryption-body: #eff2f5;
+  --encryption-code: #3b4a54;
+  --encryption-btn-text: #fff;
+  --encryption-btn: #008069;
+  --encryption-btn-hover: #017561;
+
+  /* Disappearing messages */
+  --disappearing-messages-body: #fff;
+
+  /* Webcam */
+  --webcam-header: #008069;
 
   /* Loader */
   --loader-background: #eff2f5;
@@ -116,6 +153,7 @@
   --secondary-strong: #384145;
   --text-secondary: #3b4a54;
   --text-muted: #3b4a54;
+  --white: #fff;
 }
 
 #dark {
@@ -125,8 +163,9 @@
     var(--app-background-color) 100%
   );
 
-  /* App */
+  /* Home */
   --home-background: #212e35;
+  --home-border-bottom: #04a784;
 
   /* Sidebar */
   --sidebar-header-background: #212e35;
@@ -134,6 +173,7 @@
   --sidebar-search-background: #212e35;
   --sidebar-chat-background: #111b21;
   --sidebar-chat-background-hover: #1f2c33;
+  --sidebar-chat-timestamp: #04a784;
 
   /* Sidebar profile */
   --sidebar-profile-body: #111b21;
@@ -143,6 +183,16 @@
   --sidebar-panel-header-background: #212e35;
   --sidebar-panel-background: #111b21;
   --sidebar-panel-header-text: #fff;
+
+  /* Communities */
+  --communities-body: #111b21;
+  --communities-button-text: #111b21;
+  --communities-button-background: #00a884;
+  --communities-button-hover: #03cf9c;
+
+  /* New chat */
+  --new-chat-body: #111b21;
+  --new-chat-hover: #1f2c33;
 
   /* Settings */
   --settings-body: #111b21;
@@ -161,6 +211,10 @@
   /* Security */
   --security-body: #111b21;
 
+  /* ChatWallpaper */
+  --chat-wallpaper-body: #111b21;
+  --chat-wallpaper-list-item-hover: #3b4a54;
+
   /* Account info */
   --account-info-body: #111b21;
 
@@ -178,6 +232,10 @@
   --search-message-search-input: #1f2c33;
   --searched-text: #8696a0;
 
+  /* Starred messages */
+  --starred-messages-body: #111b21;
+  --starred-message-hover: rgba(134, 150, 160, 0.15);
+
   /* Popover */
   --popover: #233138;
   --popover-hover: #182229;
@@ -185,13 +243,29 @@
 
   /* Chat */
   --chat-header: #1f2c33;
+  --chat-message-row: rgba(233, 237, 239, 0.05);
   --chat-message-sent: #015c4b;
   --chat-message-received: #1f2c33;
+  --chat-message-document: #111b21;
+  --chat-message-sent-document: #025144;
   --chat-footer: #1f2c33;
   --chat-footer-blocked: #1f2c33;
   --chat-input: #2a3942;
   --emoji-picker-background: #1f2c33;
   --emoji-search: #212e35;
+
+  /* Encryption */
+  --encryption-body: #111b21;
+  --encryption-code: #d1d7db;
+  --encryption-btn-text: #111b21;
+  --encryption-btn: #00a884;
+  --encryption-btn-hover: #03cf9c;
+
+  /* Disappearing messagew */
+  --disappearing-messages-body: #111b21;
+
+  /* Webcam */
+  --webcam-header: #1f2c33;
 
   /* Loader */
   --loader-background: #111b21;
@@ -216,4 +290,5 @@
   --secondary-strong: #fff;
   --text-secondary: #8696a0;
   --text-muted: #3b4a54;
+  --white: #fff;
 }

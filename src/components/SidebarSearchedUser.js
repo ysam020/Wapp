@@ -1,27 +1,35 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { Avatar } from "@material-ui/core";
 
-function SidebarSearchedUser({ name, email, photoURL, lastMessage }) {
-  const navigate = useNavigate();
-
-  // Navigate to chat page
-  const goToUser = (emailId) => {
-    if (emailId) {
-      navigate(`/${emailId}`);
-    }
-  };
-
+function SidebarSearchedUser({
+  name,
+  email,
+  photoURL,
+  setSearchInput,
+  about,
+  setChat,
+  setEmailId,
+}) {
   return (
-    <div className="sidebar-chat-item" onClick={() => goToUser(email)}>
+    <div
+      className="sidebar-chat-item"
+      onClick={() => {
+        setChat(true);
+        setEmailId(email);
+        setSearchInput("");
+      }}
+    >
       <Avatar src={photoURL} />
       <div className="sidebar-chat-info">
         <div className="sidebar-chat-info-row-1">
           <h3>{name}</h3>
+        </div>
+        <div className="sidebar-chat-info-row-2">
+          <p>{about}</p>
         </div>
       </div>
     </div>
   );
 }
 
-export default SidebarSearchedUser;
+export default React.memo(SidebarSearchedUser);

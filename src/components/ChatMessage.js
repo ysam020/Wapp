@@ -2,6 +2,8 @@ import React from "react";
 import { auth } from "../firebase";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
+import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -13,10 +15,32 @@ const useStyles = makeStyles((theme) =>
       width: "20px !important",
       color: "#53bdeb",
     },
+    fileIcon: {
+      width: "50px !important",
+      height: "40px !important",
+      color: "#7A8F9B",
+    },
+    downloadIcon: {
+      width: "20px !important",
+      height: "20px !important",
+      color: "#7A8F9B",
+      border: "1px solid #7A8F9B",
+      borderRadius: "50%",
+      padding: "5px",
+    },
   })
 );
 
-function ChatMessage({ message, time, sender, read }) {
+function ChatMessage({
+  message,
+  time,
+  sender,
+  read,
+  imageURL,
+  videoURL,
+  fileURL,
+  fileName,
+}) {
   // MUI Styles
   const classes = useStyles();
 
@@ -32,7 +56,6 @@ function ChatMessage({ message, time, sender, read }) {
 
   return (
     <>
-      {/* Check if message is a link */}
       <div
         className={
           sender === auth?.currentUser?.email
@@ -46,41 +69,115 @@ function ChatMessage({ message, time, sender, read }) {
               <a href={message} target="blank">
                 {message}
               </a>
+            </div>
+            <span className="chat-timestamp">
+              <p>{new Date(time.toDate()).toLocaleTimeString()}</p>
               {sender === auth?.currentUser.email && (
                 <DoneAllIcon
                   className={
                     sender === auth?.currentUser.email && read === true
-                      ? classes.readIcon
+                      ? `${classes.readIcon}`
                       : sender === auth?.currentUser.email
-                      ? classes.unreadIcon
+                      ? `${classes.unreadIcon}`
                       : ""
                   }
                 />
               )}
+            </span>
+          </>
+        ) : imageURL ? (
+          <>
+            <div className="message-text">
+              <a href={imageURL} target="_blank" rel="noreferrer" download>
+                <img src={imageURL} width={300} alt="img" />
+              </a>
             </div>
             <span className="chat-timestamp">
-              {new Date(time.toDate()).toLocaleTimeString()}
+              <p>{new Date(time.toDate()).toLocaleTimeString()}</p>
+              {sender === auth?.currentUser.email && (
+                <DoneAllIcon
+                  className={
+                    sender === auth?.currentUser.email && read === true
+                      ? `${classes.readIcon} media-delivered-icon`
+                      : sender === auth?.currentUser.email
+                      ? `${classes.unreadIcon} media-delivered-icon`
+                      : ""
+                  }
+                />
+              )}
+            </span>
+          </>
+        ) : videoURL ? (
+          <>
+            <div className="message-text">
+              <video
+                src={videoURL}
+                controls={true}
+                width={300}
+                style={{ outline: "none" }}
+              ></video>
+            </div>
+            <span className="chat-timestamp">
+              <p>{new Date(time.toDate()).toLocaleTimeString()}</p>
+              {sender === auth?.currentUser.email && (
+                <DoneAllIcon
+                  className={
+                    sender === auth?.currentUser.email && read === true
+                      ? `${classes.readIcon} media-delivered-icon`
+                      : sender === auth?.currentUser.email
+                      ? `${classes.unreadIcon} media-delivered-icon`
+                      : ""
+                  }
+                />
+              )}
+            </span>
+          </>
+        ) : fileURL ? (
+          <>
+            <div className="message-text-document">
+              <div className="file-container">
+                <a href={fileURL} target="_blank" rel="noreferrer" download>
+                  <div className="file-inner-container">
+                    <InsertDriveFileIcon className={classes.fileIcon} />
+                    <p>{fileName}</p>
+                    <FileDownloadIcon className={classes.downloadIcon} />
+                  </div>
+                </a>
+              </div>
+            </div>
+            <span className="chat-timestamp">
+              <p>{new Date(time.toDate()).toLocaleTimeString()}</p>
+              {sender === auth?.currentUser.email && (
+                <DoneAllIcon
+                  className={
+                    sender === auth?.currentUser.email && read === true
+                      ? `${classes.readIcon} delivered-icon`
+                      : sender === auth?.currentUser.email
+                      ? `${classes.unreadIcon} delivered-icon`
+                      : ""
+                  }
+                />
+              )}
             </span>
           </>
         ) : (
           <>
             <div className="message-text">
               <p>{message}</p>
-              {/* <img src="./assets/images/wapp-help.png" width={300} /> */}
+            </div>
+            <span className="chat-timestamp">
+              <p>{new Date(time.toDate()).toLocaleTimeString()}</p>
               {sender === auth?.currentUser.email && (
                 <DoneAllIcon
                   className={
                     sender === auth?.currentUser.email && read === true
-                      ? classes.readIcon
+                      ? `${classes.readIcon} delivered-icon`
                       : sender === auth?.currentUser.email
-                      ? classes.unreadIcon
+                      ? `${classes.unreadIcon} delivered-icon`
                       : ""
                   }
                 />
               )}
-            </div>
-            <span className="chat-timestamp">
-              {new Date(time.toDate()).toLocaleTimeString()}
             </span>
           </>
         )}
@@ -89,4 +186,4 @@ function ChatMessage({ message, time, sender, read }) {
   );
 }
 
-export default ChatMessage;
+export default React.memo(ChatMessage);

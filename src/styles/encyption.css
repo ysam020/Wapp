@@ -1,0 +1,66 @@
+@import url("../styles/constants.css");
+
+.encryption-body {
+  background-color: var(--encryption-body);
+  flex: 1;
+}
+
+.qr-img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  background-color: var(--encryption-body);
+}
+
+.qr-img-container {
+  background-color: var(--white);
+  padding: 40px;
+  border-radius: 50%;
+}
+
+.encryption-code {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.encryption-code span {
+  line-height: 20px;
+  font-size: 1.25rem;
+  letter-spacing: 1.25px;
+  line-height: 1.5rem;
+  color: var(--encryption-code);
+  text-align: center;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.encryption-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 30px;
+}
+
+.encryption-info span {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 20px;
+}
+
+.encryption-info a {
+  font-size: 0.875rem;
+  color: var(--link-color);
+  text-decoration: none;
+  line-height: 20px;
+}
+
+.encryption-body button {
+  margin: 20px auto;
+  display: block;
+}

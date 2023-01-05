@@ -1,8 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import "../styles/contact-info.css";
 import db from "../firebase";
-import { UserContext, ToggleContactInfoContext } from "../contexts/Context";
-import { useParams } from "react-router-dom";
+import {
+  UserContext,
+  ToggleContactInfoContext,
+  EncryptionContext,
+  DisappearingMessagesContext,
+  StarredMessageContext,
+} from "../contexts/Context";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
@@ -12,10 +17,11 @@ import BlockIcon from "@mui/icons-material/Block";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
-import { Avatar, IconButton } from "@material-ui/core";
+import { Avatar, IconButton, Tooltip } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { styled } from "@mui/material/styles";
 import Switch from "@mui/material/Switch";
+import Report from "./Report";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -44,19 +50,21 @@ const ThemeSwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-function ContactInfo() {
+function ContactInfo({ deleteChat, emailId }) {
   // MUI Styles
   const classes = useStyles();
 
-  // Get email id from url
-  const { emailId } = useParams();
-
+  // UseState
   const [chatUser, setChatUser] = useState({});
   const [block, setBlock] = useState([]);
+  const [openModal, setOpenModal] = React.useState(false);
 
   // Contexts
   const currentUser = useContext(UserContext);
   const toggleContactInfoContext = useContext(ToggleContactInfoContext);
+  const encryptionContext = useContext(EncryptionContext);
+  const disappearingMessagesContext = useContext(DisappearingMessagesContext);
+  const starredMessageContext = useContext(StarredMessageContext);
 
   useEffect(() => {
     // Get users from database
@@ -103,120 +111,165 @@ function ContactInfo() {
       .delete();
   };
 
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
+
   return (
-    <div className="sidebar-panel-right">
-      <div className="sidebar-panel-right-header">
-        <IconButton
-          className={classes.icon}
-          onClick={() =>
-            toggleContactInfoContext.toggleContactInfoDispatch("toggle")
-          }
-        >
-          <CloseRoundedIcon />
-        </IconButton>
-        <h3>Contact info</h3>
-      </div>
-
-      <div className="contact-info-img">
-        <Avatar src={chatUser.photoURL} className={classes.avatarIcon} />
-        <h3>{chatUser.email}</h3>
-      </div>
-
-      <div className="contact-info-about">
-        <h5>About</h5>
-        <p>{chatUser.about}</p>
-      </div>
-
-      <div className="contact-info-media">
-        <h5>Media, links and documents</h5>
-        <div className="media-right-container">
-          <p>0</p>
-          <IconButton className={classes.icon}>
-            <KeyboardArrowRightRoundedIcon />
+    <>
+      <div className="sidebar-panel-right">
+        <div className="sidebar-panel-right-header">
+          <IconButton
+            className={classes.icon}
+            onClick={() =>
+              toggleContactInfoContext.toggleContactInfoDispatch("toggle")
+            }
+          >
+            <CloseRoundedIcon />
           </IconButton>
-        </div>
-      </div>
-
-      <div className="contact-info-body">
-        <div className="starred-messages">
-          <IconButton className={classes.icon}>
-            <StarRateRoundedIcon />
-          </IconButton>
-          <h5>Starred messages</h5>
-          <IconButton className={classes.icon}>
-            <KeyboardArrowRightRoundedIcon />
-          </IconButton>
+          <h3>Contact info</h3>
         </div>
 
-        <div className="mute-notification">
-          <IconButton className={classes.icon}>
-            <NotificationsRoundedIcon />
-          </IconButton>
-          <h5>Mute notifications</h5>
-          <ThemeSwitch />
+        <div className="contact-info-img">
+          <Avatar src={chatUser.photoURL} className={classes.avatarIcon} />
+          <h3>{chatUser.email}</h3>
         </div>
 
-        <div className="disappearing-messages">
-          <IconButton className={classes.icon}>
-            <HistoryIcon />
-          </IconButton>
-          <div className="disappearing-messages-text">
-            <h5>Disappearing messages</h5>
-            <p>Off</p>
-          </div>
-          <IconButton className={classes.icon}>
-            <KeyboardArrowRightRoundedIcon />
-          </IconButton>
+        <div className="contact-info-about">
+          <h5>About</h5>
+          <p>{chatUser.about}</p>
         </div>
 
-        <div className="encryption">
-          <IconButton className={classes.icon}>
-            <LockIcon />
-          </IconButton>
-          <div className="encryption-text">
-            <h5>Encryption</h5>
-            <p>Messages are end-to-end encrypted. Click to verify.</p>
+        <div className="contact-info-media">
+          <h5>Media, links and documents</h5>
+          <div className="media-right-container">
+            <p>0</p>
+            <IconButton className={classes.icon}>
+              <KeyboardArrowRightRoundedIcon />
+            </IconButton>
           </div>
         </div>
 
-        <div
-          className="block"
-          // Conditional rendering of classname
-          onClick={block.length === 0 ? blockUser : unblockUser}
-        >
-          <IconButton>
-            <BlockIcon className={classes.redIcon} />
-          </IconButton>
-          <div className="encryption-text">
-            <h5>
-              {/* Conditional rendering of block and unblock text */}
-              {block.length === 0
-                ? `Block ${chatUser.email}`
-                : `Unblock ${chatUser.email}`}
-            </h5>
+        <div className="contact-info-body">
+          <div
+            className="starred-messages"
+            onClick={() => {
+              toggleContactInfoContext.toggleContactInfoDispatch("toggle");
+              starredMessageContext.starredMessageDispatch("toggle");
+            }}
+          >
+            <IconButton className={classes.icon}>
+              <StarRateRoundedIcon />
+            </IconButton>
+            <h5>Starred messages</h5>
+            <IconButton className={classes.icon}>
+              <KeyboardArrowRightRoundedIcon />
+            </IconButton>
           </div>
-        </div>
 
-        <div className="report">
-          <IconButton>
-            <ThumbDownAltIcon className={classes.redIcon} />
-          </IconButton>
-          <div className="encryption-text">
-            <h5>Report {chatUser.email}</h5>
+          <div className="mute-notification">
+            <IconButton className={classes.icon}>
+              <NotificationsRoundedIcon />
+            </IconButton>
+            <h5>Mute notifications</h5>
+            <ThemeSwitch />
           </div>
-        </div>
 
-        <div className="delete-chat">
-          <IconButton>
-            <DeleteIcon className={classes.redIcon} />
-          </IconButton>
-          <div className="encryption-text">
-            <h5>Delete chat</h5>
+          <div
+            className="disappearing-messages"
+            onClick={() => {
+              toggleContactInfoContext.toggleContactInfoDispatch("toggle");
+              disappearingMessagesContext.disappearingMessagesDispatch(
+                "toggle"
+              );
+            }}
+          >
+            <IconButton className={classes.icon}>
+              <HistoryIcon />
+            </IconButton>
+            <div className="disappearing-messages-text">
+              <h5>Disappearing messages</h5>
+              <p>Off</p>
+            </div>
+            <IconButton className={classes.icon}>
+              <KeyboardArrowRightRoundedIcon />
+            </IconButton>
           </div>
+
+          <div
+            className="encryption"
+            onClick={() => {
+              toggleContactInfoContext.toggleContactInfoDispatch("toggle");
+              encryptionContext.encryptionDispatch("toggle");
+            }}
+          >
+            <IconButton className={classes.icon}>
+              <LockIcon />
+            </IconButton>
+            <div className="encryption-text">
+              <h5>Encryption</h5>
+              <p>Messages are end-to-end encrypted. Click to verify.</p>
+            </div>
+          </div>
+
+          <Tooltip title="Block" enterDelay={1000} enterNextDelay={1000}>
+            <div
+              className="block"
+              // Conditional rendering of classname
+              onClick={block.length === 0 ? blockUser : unblockUser}
+            >
+              <IconButton>
+                <BlockIcon className={classes.redIcon} />
+              </IconButton>
+              <div className="block-text">
+                <h5>
+                  {/* Conditional rendering of block and unblock text */}
+                  {block.length === 0
+                    ? `Block ${chatUser.email}`
+                    : `Unblock ${chatUser.email}`}
+                </h5>
+              </div>
+            </div>
+          </Tooltip>
+
+          <Tooltip title="Report" enterDelay={1000} enterNextDelay={1000}>
+            <div
+              className="report"
+              onClick={() => {
+                handleOpenModal();
+              }}
+            >
+              <IconButton>
+                <ThumbDownAltIcon className={classes.redIcon} />
+              </IconButton>
+              <div className="report-text">
+                <h5>Report {chatUser.email}</h5>
+              </div>
+            </div>
+          </Tooltip>
+
+          <Tooltip title="Delete chat" enterDelay={1000} enterNextDelay={1000}>
+            <div className="delete-chat" onClick={() => deleteChat()}>
+              <IconButton>
+                <DeleteIcon className={classes.redIcon} />
+              </IconButton>
+              <div className="delete-text">
+                <h5>Delete chat</h5>
+              </div>
+            </div>
+          </Tooltip>
         </div>
       </div>
-    </div>
+
+      <Report
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        handleOpenModal={handleOpenModal}
+        handleCloseModal={handleCloseModal}
+        deleteChat={deleteChat}
+        blockUser={blockUser}
+      />
+    </>
   );
 }
 
-export default ContactInfo;
+export default React.memo(ContactInfo);

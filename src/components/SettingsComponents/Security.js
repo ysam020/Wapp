@@ -127,4 +127,4 @@ function Security() {
   );
 }
 
-export default Security;
+export default React.memo(Security);

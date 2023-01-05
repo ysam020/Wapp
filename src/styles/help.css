@@ -28,14 +28,27 @@
   color: var(--primary-strong);
 }
 
+.help-img-container {
+  margin-top: 50px;
+}
+
 .help-img {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 0;
+  padding: 30px 0;
   width: 300px;
   height: 300px;
   margin: auto;
+  animation-name: helpImgAnimation;
+  animation-iteration-count: infinite;
+  animation-duration: 1s;
+  animation-timing-function: steps(15);
+  background-repeat: no-repeat;
+  height: 258px;
+  overflow: hidden;
+  background-size: 1600% auto;
+  /* background-image: url("../../public/assets/images/wapp-help.png"); */
 }
 
 .help-list {
@@ -57,4 +70,10 @@
 
 .help-list-item:hover {
   background-color: var(--help-list-hover);
+}
+
+@keyframes helpImgAnimation {
+  100% {
+    background-position-x: 100%;
+  }
 }

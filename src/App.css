@@ -68,3 +68,28 @@
   color: var(--primary-strong);
   font-weight: 400;
 }
+
+.sidebar-panel-right-header p {
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 400;
+}
+
+.btn-primary {
+  text-transform: uppercase;
+  color: var(--communities-button-text);
+  font-weight: 600;
+  letter-spacing: 1.25px;
+  background-color: var(--communities-button-background);
+  padding: 12px 24px;
+  transition: all 0.18s ease-in-out;
+  border: none;
+  outline: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: var(--communities-button-hover);
+}

@@ -86,4 +86,4 @@ function Notifications() {
   );
 }
 
-export default Notifications;
+export default React.memo(Notifications);

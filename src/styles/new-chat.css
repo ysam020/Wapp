@@ -1,0 +1,64 @@
+@import url("./constants.css");
+
+.new-chat-body {
+  background-color: var(--new-chat-body);
+  flex: 1;
+}
+
+.new-chat-search {
+  display: flex;
+  padding: 10px;
+  border-bottom: var(--border-bottom);
+  background-color: var(--sidebar-background);
+}
+
+.new-chat-search-container {
+  display: flex;
+  align-items: center;
+  background-color: var(--sidebar-search-background);
+  border-radius: 10px;
+  flex: 1;
+}
+
+.new-chat-search-container input {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  width: 100%;
+  color: var(--primary-strong);
+}
+
+.new-group,
+.new-community {
+  display: flex;
+  align-items: center;
+  border-bottom: var(--border-bottom);
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.new-group:hover,
+.new-community:hover {
+  background-color: var(--new-chat-hover);
+}
+
+.new-group h3,
+.new-community h3 {
+  color: var(--primary-strong);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.contacts h2 {
+  padding: 20px 30px;
+  text-transform: uppercase;
+  color: #008069;
+  letter-spacing: 1px;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.contact-list {
+  display: flex;
+  align-items: center;
+}

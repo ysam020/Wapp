@@ -1,0 +1,146 @@
+/* Modal */
+.modal-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 30px 40px;
+  outline: none !important;
+  width: 65%;
+  box-shadow: 17px 50px 0 rgba(11, 20, 26, 0.19),
+    0 12px 15px 0 rgba(11, 20, 26, 0.24);
+  box-sizing: border-box;
+}
+
+.modal-container h3 {
+  font-weight: 500;
+  margin-bottom: 40px;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+.modal-container .cmd-list-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: row wrap;
+  height: 400px;
+  overflow-y: scroll;
+}
+
+.cmd-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 20px;
+  margin-bottom: 20px;
+  flex: 0 1 50%;
+}
+
+.modal-container h4 {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-right: 10px;
+  flex-grow: 1;
+}
+
+.cmd-btn-container {
+  display: block;
+  flex-direction: row;
+  flex-grow: 1;
+  text-align: right;
+}
+
+.modal-container .cmd-btn {
+  margin-right: 5px;
+  padding: 4px 7px;
+  border-radius: 5px;
+}
+
+.modal-container .cmd-btn {
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.modal-container button {
+  transition: all 0.18s ease-in-out;
+  padding: 10px 24px;
+  margin-top: 25px;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1.25px;
+  outline: none;
+  border: none;
+  float: right;
+}
+
+/* Modal light */
+.modal-container-light {
+  background-color: #f7f8fa;
+}
+
+.modal-container-light h3 {
+  color: #3b4a54;
+}
+
+.modal-container-light h4 {
+  color: #3b4a54;
+}
+
+.modal-container-light .cmd-btn {
+  background-color: rgba(59, 74, 84, 0.12);
+  border: 1px solid rgba(59, 74, 84, 0.24);
+}
+
+.modal-container-light button {
+  background-color: #008069;
+  color: #fff;
+}
+
+.modal-container-light button:hover {
+  background-color: #017561;
+}
+
+/* Modal dark */
+.modal-container-dark {
+  background-color: #101a20;
+}
+
+.modal-container-dark h3 {
+  color: #d1d7db;
+}
+
+.modal-container-dark h4 {
+  color: #d1d7db;
+}
+
+.modal-container-dark .cmd-btn {
+  background-color: #283136;
+  border: 1px solid rgba(209, 215, 219, 0.24);
+}
+
+.modal-container-dark .cmd-btn {
+  color: #d1d7db;
+}
+
+.modal-container-dark button {
+  background-color: #00a884;
+  color: #111b11;
+}
+
+.modal-container-dark button:hover {
+  background-color: #03cf9c;
+}
+
+@media (min-width: 1100px) {
+  .cmd-list-item {
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 1100px) {
+  .cmd-list-item {
+    flex: 0 1 100%;
+  }
+}

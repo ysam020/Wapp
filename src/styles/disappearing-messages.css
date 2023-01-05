@@ -1,0 +1,35 @@
+@import url("../styles/constants.css");
+
+.disappearing-messages-body {
+  flex: 1;
+  background-color: var(--disappearing-messages-body);
+  padding: 30px;
+}
+
+.disappearing-messages-body h4 {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--highlights);
+  margin: 30px 0;
+}
+
+.disappearing-messages-body p {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  line-height: 1.15rem;
+}
+
+.disappearing-messages-body a {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--link-color);
+}
+
+.disappearing-messages-options {
+  padding: 20px 0;
+}
+
+.MuiFormControlLabel-root {
+  color: var(--primary-strong);
+}

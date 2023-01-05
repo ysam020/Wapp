@@ -10,6 +10,7 @@ import {
   SettingsAccountInfoContext,
   SettingsHelpContext,
   ThemeContext,
+  ToggleChatWallpaperContext,
 } from "../../contexts/Context";
 import { IconButton } from "@material-ui/core";
 import { Avatar } from "@material-ui/core";
@@ -25,6 +26,7 @@ import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { styled } from "@mui/material/styles";
 import Switch from "@mui/material/Switch";
+import KeyboardShortcutsModal from "./KeyboardShortcutsModal";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -58,6 +60,9 @@ function Settings() {
   // MUI Styles
   const classes = useStyles();
 
+  // UseState
+  const [openModal, setOpenModal] = React.useState(false);
+
   // Contexts
   const currentUser = useContext(UserContext);
   const toggleSettingsContext = useContext(ToggleSettingsContext);
@@ -68,6 +73,7 @@ function Settings() {
   const settingsAccountInfoContext = useContext(SettingsAccountInfoContext);
   const settingsHelpContext = useContext(SettingsHelpContext);
   const themeContext = useContext(ThemeContext);
+  const toggleChatWallpaperContext = useContext(ToggleChatWallpaperContext);
 
   const settingsList = [
     {
@@ -112,7 +118,10 @@ function Settings() {
       name: "Chat Wallpaper",
       icon: <WallpaperRoundedIcon />,
       style: "settings-list-item settings-list-item-chat-wallpaper",
-      onClick: () => {},
+      onClick: () => {
+        toggleChatWallpaperContext.toggleChatWallpaperDispatch("toggle");
+        toggleSettingsContext.toggleSettingsDispatch("toggle");
+      },
     },
     {
       id: 6,
@@ -129,7 +138,9 @@ function Settings() {
       name: "Keyboard Shortcuts",
       icon: <BrightnessAutoRoundedIcon />,
       style: "settings-list-item settings-list-item-keyboard-shortcuts",
-      onClick: () => {},
+      onClick: () => {
+        handleOpenModal();
+      },
     },
     {
       id: 8,
@@ -143,65 +154,76 @@ function Settings() {
     },
   ];
 
-  return (
-    <div className="sidebar-panel">
-      <div className="sidebar-panel-header">
-        <div className="sidebar-panel-header-container">
-          <IconButton
-            className={classes.backIcon}
-            onClick={() => {
-              toggleSettingsContext.toggleSettingsDispatch("toggle");
-              toggleSidebarContext.toggleSidebarDispatch("toggle");
-            }}
-          >
-            <ArrowBackIcon />
-          </IconButton>
-          <h3>Settings</h3>
-        </div>
-      </div>
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
 
-      <div className="settings-body">
-        <div className="settings-user-info">
-          <div className="settings-user-info-image"></div>
-          <Avatar src={currentUser.photoURL} className={classes.avatarIcon} />
-          <div className="settings-user-info-text">
-            <h3>{currentUser.fullname}</h3>
-            <p>{currentUser.about}</p>
+  return (
+    <>
+      <KeyboardShortcutsModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        handleOpenModal={handleOpenModal}
+        handleCloseModal={handleCloseModal}
+      />
+      <div className="sidebar-panel">
+        <div className="sidebar-panel-header">
+          <div className="sidebar-panel-header-container">
+            <IconButton
+              className={classes.backIcon}
+              onClick={() => {
+                toggleSettingsContext.toggleSettingsDispatch("toggle");
+                toggleSidebarContext.toggleSidebarDispatch("toggle");
+              }}
+            >
+              <ArrowBackIcon />
+            </IconButton>
+            <h3>Settings</h3>
           </div>
         </div>
 
-        <div className="settings-list">
-          {settingsList.map((values) => {
-            const { id, name, icon, style, onClick } = values;
+        <div className="settings-body">
+          <div className="settings-user-info">
+            <div className="settings-user-info-image"></div>
+            <Avatar src={currentUser.photoURL} className={classes.avatarIcon} />
+            <div className="settings-user-info-text">
+              <h3>{currentUser.fullname}</h3>
+              <p>{currentUser.about}</p>
+            </div>
+          </div>
 
-            return (
-              <div key={id} className={style} onClick={onClick}>
-                <IconButton className={classes.settingsListIcon}>
-                  {icon}
-                </IconButton>
-                <h5>{name}</h5>
+          <div className="settings-list">
+            {settingsList.map((values) => {
+              const { id, name, icon, style, onClick } = values;
 
-                {/* Show theme switch button only for dark theme */}
-                {name === "Dark theme" && (
-                  <ThemeSwitch
-                    onChange={themeContext.toggleTheme}
-                    checked={themeContext.theme === "dark"}
-                    inputProps={{ "aria-label": "controlled" }}
-                    sx={{
-                      color: "#8696A0",
-                      "&.Mui-checked": {
-                        color: "#04A784",
-                      },
-                    }}
-                  />
-                )}
-              </div>
-            );
-          })}
+              return (
+                <div key={id} className={style} onClick={onClick}>
+                  <IconButton className={classes.settingsListIcon}>
+                    {icon}
+                  </IconButton>
+                  <h5>{name}</h5>
+
+                  {/* Show theme switch button only for dark theme */}
+                  {name === "Dark theme" && (
+                    <ThemeSwitch
+                      onChange={themeContext.toggleTheme}
+                      checked={themeContext.theme === "dark"}
+                      inputProps={{ "aria-label": "controlled" }}
+                      sx={{
+                        color: "#8696A0",
+                        "&.Mui-checked": {
+                          color: "#04A784",
+                        },
+                      }}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
-export default Settings;
+export default React.memo(Settings);

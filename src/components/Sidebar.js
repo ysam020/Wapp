@@ -6,6 +6,8 @@ import {
   ToggleSidebarProfileContext,
   ToggleSettingsContext,
   ToggleSidebarContext,
+  NewChatContext,
+  CommunitiesContext,
 } from "../contexts/Context";
 import { Avatar } from "@material-ui/core";
 import db from "../firebase";
@@ -16,6 +18,7 @@ import ChatRoundedIcon from "@mui/icons-material/ChatRounded";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import FilterListRoundedIcon from "@mui/icons-material/FilterListRounded";
+import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
 import { IconButton } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
@@ -28,7 +31,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-function Sidebar() {
+function Sidebar({ setChat, setEmailId }) {
   // MUI Styles
   const classes = useStyles();
 
@@ -43,6 +46,8 @@ function Sidebar() {
   const toggleSidebarProfileContext = useContext(ToggleSidebarProfileContext);
   const toggleSettingsContext = useContext(ToggleSettingsContext);
   const toggleSidebarContext = useContext(ToggleSidebarContext);
+  const newChatContext = useContext(NewChatContext);
+  const communitiesContext = useContext(CommunitiesContext);
 
   // Sidebar search ref
   const sidebarSearchRef = useRef();
@@ -92,6 +97,10 @@ function Sidebar() {
         name={user.data().fullname}
         email={user.data().email}
         photoURL={user.data().photoURL}
+        about={user.data().about}
+        setSearchInput={setSearchInput}
+        setChat={setChat}
+        setEmailId={setEmailId}
       />
     );
   });
@@ -106,6 +115,8 @@ function Sidebar() {
     setSidebarPopover(false);
   };
 
+  // useEffect(()=>{db.collection("FriendList").doc(currentUser.email).collection("list").doc()})
+
   return (
     <div className="sidebar">
       <div className="sidebar-header">
@@ -117,13 +128,26 @@ function Sidebar() {
         >
           <Avatar src={currentUser.photoURL} />
         </IconButton>
-
         <div className="sidebar-header-right">
+          <IconButton
+            onClick={() => {
+              toggleSidebarContext.toggleSidebarDispatch("toggle");
+              communitiesContext.communitiesDispatch("toggle");
+            }}
+          >
+            <GroupsRoundedIcon className={classes.icon} />
+          </IconButton>
           <IconButton className={classes.icon}>
             <DonutLargeSharpIcon />
           </IconButton>
 
-          <IconButton className={classes.icon}>
+          <IconButton
+            className={classes.icon}
+            onClick={() => {
+              toggleSidebarContext.toggleSidebarDispatch("toggle");
+              newChatContext.newChatDispatch("toggle");
+            }}
+          >
             <ChatRoundedIcon />
           </IconButton>
 
@@ -183,6 +207,11 @@ function Sidebar() {
                 lastMessage={friend.data().lastMessage}
                 email={friend.data().email}
                 time={friend.data().timestamp}
+                messageType={friend.data().messageType}
+                messageSent={friend.data().messageSent}
+                messageRead={friend.data().messageRead}
+                setChat={setChat}
+                setEmailId={setEmailId}
               />
             ))}
       </div>
@@ -190,4 +219,4 @@ function Sidebar() {
   );
 }
 
-export default Sidebar;
+export default React.memo(Sidebar);

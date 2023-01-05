@@ -7,6 +7,7 @@ export const UserContext = createContext();
 export const ToggleSidebarContext = createContext();
 export const ToggleSidebarProfileContext = createContext();
 export const ToggleContactInfoContext = createContext();
+export const ToggleChatWallpaperContext = createContext();
 export const ToggleSettingsContext = createContext();
 export const SettingsNotificationContext = createContext();
 export const SettingsPrivacyContext = createContext();
@@ -15,6 +16,12 @@ export const SettingsAccountInfoContext = createContext();
 export const SettingsHelpContext = createContext();
 export const ThemeContext = createContext();
 export const SearchMessageContext = createContext();
+export const ChatBackgroundContext = createContext();
+export const NewChatContext = createContext();
+export const CommunitiesContext = createContext();
+export const EncryptionContext = createContext();
+export const DisappearingMessagesContext = createContext();
+export const StarredMessageContext = createContext();
 
 const Context = ({ children }) => {
   const initialState = false;
@@ -56,85 +63,161 @@ const Context = ({ children }) => {
     initialState
   );
 
+  const [toggleChatWallpaper, dispatchChatWallpaper] = useReducer(
+    reducer,
+    initialState
+  );
+
   const [searchMessageContext, dispatchSearchMessage] = useReducer(
+    reducer,
+    initialState
+  );
+
+  const [newChatContext, dispatchNewChat] = useReducer(reducer, initialState);
+
+  const [communitiesContext, dispatchCommunities] = useReducer(
+    reducer,
+    initialState
+  );
+
+  const [encryptionContext, dispatchEncryption] = useReducer(
+    reducer,
+    initialState
+  );
+
+  const [disappearingMessagesContext, dispatchDisapparingMessages] = useReducer(
+    reducer,
+    initialState
+  );
+
+  const [starredMessageContext, dispatchStarredMessage] = useReducer(
     reducer,
     initialState
   );
 
   return (
     <>
-      <SettingsPrivacyContext.Provider
+      <StarredMessageContext.Provider
         value={{
-          settingsPrivacyState: settingsPrivacyContext,
-          settingsPrivacyDispatch: dispatchSettingsPrivacy,
+          starredMessageState: starredMessageContext,
+          starredMessageDispatch: dispatchStarredMessage,
         }}
       >
-        <SearchMessageContext.Provider
+        <DisappearingMessagesContext.Provider
           value={{
-            searchMessageState: searchMessageContext,
-            searchMessageDispatch: dispatchSearchMessage,
+            disappearingMessagesState: disappearingMessagesContext,
+            disappearingMessagesDispatch: dispatchDisapparingMessages,
           }}
         >
-          <SettingsSecurityContext.Provider
+          <EncryptionContext.Provider
             value={{
-              settingsSecurityState: settingsSecurityContext,
-              settingsSecurityDispatch: dispatchSettingsSecurity,
+              encryptionState: encryptionContext,
+              encryptionDispatch: dispatchEncryption,
             }}
           >
-            <SettingsAccountInfoContext.Provider
+            <CommunitiesContext.Provider
               value={{
-                settingsAccountInfoState: settingsAccountInfoContext,
-                settingsAccountInfoDispatch: dispatchSettingsAccountInfo,
+                communitiesState: communitiesContext,
+                communitiesDispatch: dispatchCommunities,
               }}
             >
-              <SettingsHelpContext.Provider
+              <NewChatContext.Provider
                 value={{
-                  settingsHelpState: settingsHelpContext,
-                  settingsHelpDispatch: dispatchSettingsHelp,
+                  newChatState: newChatContext,
+                  newChatDispatch: dispatchNewChat,
                 }}
               >
-                <SettingsNotificationContext.Provider
+                <ToggleChatWallpaperContext.Provider
                   value={{
-                    settingsNotificationState: settingsNotificationContext,
-                    settingsNotificationDispatch: dispatchSettingsNotification,
+                    toggleChatWallpaperState: toggleChatWallpaper,
+                    toggleChatWallpaperDispatch: dispatchChatWallpaper,
                   }}
                 >
-                  <ToggleSidebarContext.Provider
+                  <SettingsPrivacyContext.Provider
                     value={{
-                      toggleSidebarState: toggleSidebarContext,
-                      toggleSidebarDispatch: dispatchToggleSidebar,
+                      settingsPrivacyState: settingsPrivacyContext,
+                      settingsPrivacyDispatch: dispatchSettingsPrivacy,
                     }}
                   >
-                    <ToggleSettingsContext.Provider
+                    <SearchMessageContext.Provider
                       value={{
-                        toggleSettingsState: toggleSettings,
-                        toggleSettingsDispatch: dispatchToggleSettings,
+                        searchMessageState: searchMessageContext,
+                        searchMessageDispatch: dispatchSearchMessage,
                       }}
                     >
-                      <ToggleContactInfoContext.Provider
+                      <SettingsSecurityContext.Provider
                         value={{
-                          toggleContactInfoState: toggleContactInfo,
-                          toggleContactInfoDispatch: dispatchToggleContactInfo,
+                          settingsSecurityState: settingsSecurityContext,
+                          settingsSecurityDispatch: dispatchSettingsSecurity,
                         }}
                       >
-                        <ToggleSidebarProfileContext.Provider
+                        <SettingsAccountInfoContext.Provider
                           value={{
-                            toggleSidebarProfileState: toggleSidebarProfile,
-                            toggleSidebarProfileDispatch:
-                              dispatchToggleSidebarProfile,
+                            settingsAccountInfoState:
+                              settingsAccountInfoContext,
+                            settingsAccountInfoDispatch:
+                              dispatchSettingsAccountInfo,
                           }}
                         >
-                          {children}
-                        </ToggleSidebarProfileContext.Provider>
-                      </ToggleContactInfoContext.Provider>
-                    </ToggleSettingsContext.Provider>
-                  </ToggleSidebarContext.Provider>
-                </SettingsNotificationContext.Provider>
-              </SettingsHelpContext.Provider>
-            </SettingsAccountInfoContext.Provider>
-          </SettingsSecurityContext.Provider>
-        </SearchMessageContext.Provider>
-      </SettingsPrivacyContext.Provider>
+                          <SettingsHelpContext.Provider
+                            value={{
+                              settingsHelpState: settingsHelpContext,
+                              settingsHelpDispatch: dispatchSettingsHelp,
+                            }}
+                          >
+                            <SettingsNotificationContext.Provider
+                              value={{
+                                settingsNotificationState:
+                                  settingsNotificationContext,
+                                settingsNotificationDispatch:
+                                  dispatchSettingsNotification,
+                              }}
+                            >
+                              <ToggleSidebarContext.Provider
+                                value={{
+                                  toggleSidebarState: toggleSidebarContext,
+                                  toggleSidebarDispatch: dispatchToggleSidebar,
+                                }}
+                              >
+                                <ToggleSettingsContext.Provider
+                                  value={{
+                                    toggleSettingsState: toggleSettings,
+                                    toggleSettingsDispatch:
+                                      dispatchToggleSettings,
+                                  }}
+                                >
+                                  <ToggleContactInfoContext.Provider
+                                    value={{
+                                      toggleContactInfoState: toggleContactInfo,
+                                      toggleContactInfoDispatch:
+                                        dispatchToggleContactInfo,
+                                    }}
+                                  >
+                                    <ToggleSidebarProfileContext.Provider
+                                      value={{
+                                        toggleSidebarProfileState:
+                                          toggleSidebarProfile,
+                                        toggleSidebarProfileDispatch:
+                                          dispatchToggleSidebarProfile,
+                                      }}
+                                    >
+                                      {children}
+                                    </ToggleSidebarProfileContext.Provider>
+                                  </ToggleContactInfoContext.Provider>
+                                </ToggleSettingsContext.Provider>
+                              </ToggleSidebarContext.Provider>
+                            </SettingsNotificationContext.Provider>
+                          </SettingsHelpContext.Provider>
+                        </SettingsAccountInfoContext.Provider>
+                      </SettingsSecurityContext.Provider>
+                    </SearchMessageContext.Provider>
+                  </SettingsPrivacyContext.Provider>
+                </ToggleChatWallpaperContext.Provider>
+              </NewChatContext.Provider>
+            </CommunitiesContext.Provider>
+          </EncryptionContext.Provider>
+        </DisappearingMessagesContext.Provider>
+      </StarredMessageContext.Provider>
     </>
   );
 };

@@ -1,0 +1,37 @@
+@import url("../styles/constants.css");
+
+.starred-messages-body {
+  flex: 1;
+  overflow-y: scroll;
+  background-color: var(--starred-messages-body);
+  width: var(--panel-width);
+  max-width: var(--panel-width);
+}
+
+.starred-message {
+  padding: 10px 0;
+  padding-left: 10px;
+}
+
+.starred-message:hover {
+  background-color: var(--starred-message-hover);
+}
+
+.starred-message-row-1 {
+  display: flex;
+  align-items: center;
+}
+
+.starred-message-row-1 p {
+  color: var(--primary-strong);
+  padding-left: 10px;
+}
+
+.starred-message-row-2 {
+  padding-left: 10%;
+}
+
+.starred-message-row-2 .chat-message {
+  margin-left: 0;
+  max-width: 100%;
+}

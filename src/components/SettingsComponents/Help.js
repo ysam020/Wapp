@@ -3,7 +3,6 @@ import "../../styles/help.css";
 import {
   ToggleSettingsContext,
   SettingsHelpContext,
-  ThemeContext,
 } from "../../contexts/Context";
 import { IconButton } from "@material-ui/core";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -48,7 +47,6 @@ function Help() {
   // Contexts
   const toggleSettingsContext = useContext(ToggleSettingsContext);
   const settingsHelpContext = useContext(SettingsHelpContext);
-  const themeContext = useContext(ThemeContext);
 
   return (
     <div className="sidebar-panel">
@@ -69,20 +67,15 @@ function Help() {
 
       <div className="help-body">
         <div>
-          {/* Conditional rendering help component image */}
-          {themeContext.theme === "light" ? (
-            <img
-              src="./assets/images/wapp-help.png"
+          <div className="help-img-container">
+            <div
               className="help-img"
-              alt="wapp-light"
-            ></img>
-          ) : (
-            <img
-              src="./assets/images/wapp-help-dark.png"
-              className="help-img"
-              alt="wapp-dark"
-            ></img>
-          )}
+              style={{
+                backgroundImage:
+                  "url(https://firebasestorage.googleapis.com/v0/b/wapp-c2920.appspot.com/o/assets%2Fimages%2Fwapp-help.png?alt=media&token=2a07ed37-0e9a-442f-becf-bf9c4ba0992e)",
+              }}
+            ></div>
+          </div>
 
           <p>Version 2.2245.9</p>
         </div>
@@ -103,4 +96,4 @@ function Help() {
   );
 }
 
-export default Help;
+export default React.memo(Help);

@@ -78,6 +78,13 @@ a {
   overflow: hidden;
 }
 
+.sidebar-chat-info p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--text-secondary);
+}
+
 .sidebar-chat-info-row-1 h3 {
   font-size: 16px;
   font-weight: 500;
@@ -85,11 +92,11 @@ a {
   color: var(--primary-strong);
 }
 
-.sidebar-chat-info p {
+.sidebar-chat-info-row-1 p {
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 20px;
-  color: var(--text-secondary);
+  color: var(--sidebar-chat-timestamp);
 }
 
 .sidebar-chat-info-row-1,
@@ -102,7 +109,12 @@ a {
   flex: 1;
 }
 
+.sidebar-chat-info-row-2 {
+  width: 100%;
+}
+
 .sidebar-chat-info-row-2 p {
+  flex: 1;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 1;

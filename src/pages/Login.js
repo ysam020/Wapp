@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import Button from "@mui/material/Button";
 import "../styles/login.css";
 import { LoginContext } from "../contexts/Context";
+import Button from "@mui/material/Button";
 
-function Login({ setUser }) {
+function Login() {
   const signIn = useContext(LoginContext);
 
   return (
@@ -20,4 +20,4 @@ function Login({ setUser }) {
   );
 }
 
-export default Login;
+export default React.memo(Login);

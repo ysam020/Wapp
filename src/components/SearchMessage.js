@@ -87,4 +87,4 @@ function SearchMessage({ searchedMessage, searchInput, setSearchInput }) {
   );
 }
 
-export default SearchMessage;
+export default React.memo(SearchMessage);

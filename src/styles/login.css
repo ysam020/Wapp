@@ -24,6 +24,7 @@
 
 .login h1 {
   color: var(--primary-strong);
+  margin-bottom: 15px;
 }
 
 .login-container button {

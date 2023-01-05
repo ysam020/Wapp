@@ -6,12 +6,12 @@ import {
   ToggleSidebarProfileContext,
 } from "../contexts/Context";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { IconButton } from "@material-ui/core";
+import { IconButton, Tooltip } from "@material-ui/core";
 import { Avatar } from "@material-ui/core";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     backIcon: {
       color: "white",
@@ -64,9 +64,11 @@ function SidebarProfile() {
           <h3>Your name</h3>
           <div className="sidebar-profile-name-container">
             <h3>{currentUser.fullname}</h3>
-            <IconButton>
-              <ModeEditOutlineIcon className={classes.editIcon} />
-            </IconButton>
+            <Tooltip title="Click to edit" enterDelay={1000}>
+              <IconButton>
+                <ModeEditOutlineIcon className={classes.editIcon} />
+              </IconButton>
+            </Tooltip>
           </div>
         </div>
 
@@ -81,9 +83,11 @@ function SidebarProfile() {
           <h3>About</h3>
           <div className="sidebar-profile-about-container">
             <h3>{currentUser.about}</h3>
-            <IconButton>
-              <ModeEditOutlineIcon className={classes.editIcon} />
-            </IconButton>
+            <Tooltip title="Click to edit" enterDelay={1000}>
+              <IconButton>
+                <ModeEditOutlineIcon className={classes.editIcon} />
+              </IconButton>
+            </Tooltip>
           </div>
         </div>
       </div>
@@ -91,4 +95,4 @@ function SidebarProfile() {
   );
 }
 
-export default SidebarProfile;
+export default React.memo(SidebarProfile);

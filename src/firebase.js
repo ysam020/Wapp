@@ -1,10 +1,13 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/storage";
+import "firebase/messaging";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDTDvGXNnUuzR3cqjVc5ZLyHfNqhrA_q5w",
   authDomain: "wapp-c2920.firebaseapp.com",
+  databaseURL: "https://wapp-c2920-default-rtdb.firebaseio.com",
   projectId: "wapp-c2920",
   storageBucket: "wapp-c2920.appspot.com",
   messagingSenderId: "173956484948",
@@ -16,6 +19,8 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
 const auth = firebase.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
+const storage = firebase.storage();
+const messaging = firebase.messaging();
 
-export { auth, provider };
+export { auth, provider, storage, messaging };
 export default db;

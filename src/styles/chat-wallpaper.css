@@ -1,0 +1,47 @@
+@import url("./constants.css");
+
+.chat-wallpaper-header-container h3 {
+  color: var(--white);
+  margin-left: 25px;
+  font-size: 19px;
+  line-height: 23px;
+  font-weight: 500;
+}
+
+.chat-wallpaper-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: var(--chat-wallpaper-body);
+  overflow-y: scroll;
+}
+
+.chat-wallpaper-doodle {
+  padding: 20px 0;
+  text-align: center;
+}
+
+.chat-wallpaper-list {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  justify-content: space-evenly;
+  width: 85%;
+  margin: auto;
+}
+
+.chat-wallpaper-list-item {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+  text-align: center;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.chat-wallpaper-list-item:hover {
+  border: 5px solid var(--chat-wallpaper-list-item-hover);
+}
+
+.chat-wallpaper-list-item:focus {
+  border: 5px solid red;
+}

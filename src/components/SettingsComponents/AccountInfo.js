@@ -93,4 +93,4 @@ function AccountInfo() {
   );
 }
 
-export default AccountInfo;
+export default React.memo(AccountInfo);
