@@ -4,11 +4,11 @@ import {
   ToggleSettingsContext,
   SettingsPrivacyContext,
 } from "../../contexts/Context";
+import Checkbox from "@mui/material/Checkbox";
 import { IconButton } from "@material-ui/core";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-import Checkbox from "@mui/material/Checkbox";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) =>
   createStyles({

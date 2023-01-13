@@ -12,8 +12,17 @@ import {
   ThemeContext,
   ToggleChatWallpaperContext,
 } from "../../contexts/Context";
+
+// MUI components
 import { IconButton } from "@material-ui/core";
 import { Avatar } from "@material-ui/core";
+import Switch from "@mui/material/Switch";
+
+// MUI styles
+import { createStyles, makeStyles } from "@material-ui/core/styles";
+import { styled } from "@mui/material/styles";
+
+// Material icons
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import LockRoundedIcon from "@mui/icons-material/LockRounded";
@@ -23,9 +32,7 @@ import WallpaperRoundedIcon from "@mui/icons-material/WallpaperRounded";
 import FeedRoundedIcon from "@mui/icons-material/FeedRounded";
 import BrightnessAutoRoundedIcon from "@mui/icons-material/BrightnessAutoRounded";
 import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
-import { styled } from "@mui/material/styles";
-import Switch from "@mui/material/Switch";
+
 import KeyboardShortcutsModal from "./KeyboardShortcutsModal";
 
 const useStyles = makeStyles((theme) =>
@@ -202,7 +209,7 @@ function Settings() {
                   </IconButton>
                   <h5>{name}</h5>
 
-                  {/* Show theme switch button only for dark theme */}
+                  {/* Show theme switch button only if name = dark theme when mapping */}
                   {name === "Dark theme" && (
                     <ThemeSwitch
                       onChange={themeContext.toggleTheme}

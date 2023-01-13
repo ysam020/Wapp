@@ -8,6 +8,16 @@ import {
   DisappearingMessagesContext,
   StarredMessageContext,
 } from "../contexts/Context";
+
+// MUI components
+import { Avatar, IconButton, Tooltip } from "@material-ui/core";
+import { styled } from "@mui/material/styles";
+import Switch from "@mui/material/Switch";
+
+// MUI styles
+import { createStyles, makeStyles } from "@material-ui/core/styles";
+
+// Material icons
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
@@ -17,10 +27,7 @@ import BlockIcon from "@mui/icons-material/Block";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
-import { Avatar, IconButton, Tooltip } from "@material-ui/core";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
-import { styled } from "@mui/material/styles";
-import Switch from "@mui/material/Switch";
+
 import Report from "./Report";
 
 const useStyles = makeStyles((theme) =>

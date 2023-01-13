@@ -115,8 +115,6 @@ function Sidebar({ setChat, setEmailId }) {
     setSidebarPopover(false);
   };
 
-  // useEffect(()=>{db.collection("FriendList").doc(currentUser.email).collection("list").doc()})
-
   return (
     <div className="sidebar">
       <div className="sidebar-header">

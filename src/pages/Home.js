@@ -79,8 +79,10 @@ function Home() {
   const starredMessageContext = useContext(StarredMessageContext);
 
   // useState
-  const [chat, setChat] = useState([]);
-  const [emailId, setEmailId] = useState("");
+  const [emailId, setEmailId] = useState(
+    JSON.parse(localStorage.getItem("chat"))
+  );
+  const [chat, setChat] = useState(emailId ? true : false);
   const [chatPopover, setChatPopover] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [message, setMessage] = useState("");
@@ -90,6 +92,7 @@ function Home() {
   const [searchedMessage, setSearchedMessage] = useState([]);
   const [selectedMessages, setSelectedMessages] = useState([]);
   const [starredMessages, setStarredMessages] = useState([]);
+  const [selectMessagesUI, setSelectMessagesUI] = useState(false);
 
   useEffect(() => {
     // Update last online in user collection
@@ -302,6 +305,8 @@ function Home() {
       .delete();
 
     setChat(false);
+
+    localStorage.removeItem("chat");
   };
 
   // Delete selected messages
@@ -372,6 +377,7 @@ function Home() {
           )
         );
 
+      setSelectMessagesUI(false);
       setSelectedMessages([]);
       return "";
     });
@@ -466,6 +472,8 @@ function Home() {
                 starMessages={starMessages}
                 emailId={emailId}
                 setChat={setChat}
+                selectMessagesUI={selectMessagesUI}
+                setSelectMessagesUI={setSelectMessagesUI}
               />
 
               {toggleContactInfoContext.toggleContactInfoState && (

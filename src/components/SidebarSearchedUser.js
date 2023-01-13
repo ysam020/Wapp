@@ -16,6 +16,7 @@ function SidebarSearchedUser({
       onClick={() => {
         setChat(true);
         setEmailId(email);
+        localStorage.setItem("chat", JSON.stringify(email));
         setSearchInput("");
       }}
     >

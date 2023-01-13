@@ -23,8 +23,11 @@
 }
 
 .starred-message-row-1 p {
+  display: flex;
+  align-items: center;
   color: var(--primary-strong);
   padding-left: 10px;
+  font-size: 13px;
 }
 
 .starred-message-row-2 {

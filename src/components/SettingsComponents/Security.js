@@ -4,16 +4,12 @@ import {
   ToggleSettingsContext,
   SettingsSecurityContext,
 } from "../../contexts/Context";
+import securityList from "../../data/SecurityList";
+import Checkbox from "@mui/material/Checkbox";
 import { IconButton } from "@material-ui/core";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LockIcon from "@mui/icons-material/Lock";
-import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
-import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
-import AttachFileOutlinedIcon from "@mui/icons-material/AttachFileOutlined";
-import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
-import DataSaverOffOutlinedIcon from "@mui/icons-material/DataSaverOffOutlined";
-import Checkbox from "@mui/material/Checkbox";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -28,7 +24,12 @@ const useStyles = makeStyles((theme) =>
       borderRadius: "1000px",
       padding: "20px",
     },
-    securityListIcon: { color: "#8696a0", paddingRight: "20px" },
+    securityListIcon: {
+      color: "#8696a0",
+      paddingRight: "20px",
+      cursor: "default",
+      padding: "5px",
+    },
   })
 );
 
@@ -71,32 +72,22 @@ function Security() {
             to them. This includes your:
           </p>
           <div className="security-list">
-            <div className="security-list-item">
-              <ChatBubbleOutlineOutlinedIcon
-                className={classes.securityListIcon}
-              />
-              <p>Text and voice messages</p>
-            </div>
+            {securityList.map((val) => {
+              const { id, text, icon } = val;
 
-            <div className="security-list-item">
-              <LocalPhoneOutlinedIcon className={classes.securityListIcon} />
-              <p>Audio and video calls</p>
-            </div>
+              return (
+                <div key={id} className="security-list-item">
+                  <IconButton
+                    className={classes.securityListIcon}
+                    disableRipple={true}
+                  >
+                    {icon}
+                  </IconButton>
+                  <p>{text}</p>
+                </div>
+              );
+            })}
 
-            <div className="security-list-item">
-              <AttachFileOutlinedIcon className={classes.securityListIcon} />
-              <p>Photos, videos and documents</p>
-            </div>
-
-            <div className="security-list-item">
-              <LocationOnOutlinedIcon className={classes.securityListIcon} />
-              <p>Location sharing</p>
-            </div>
-
-            <div className="security-list-item">
-              <DataSaverOffOutlinedIcon className={classes.securityListIcon} />
-              <p>Status updates</p>
-            </div>
             <div className="security-list-item">
               <a href="/#">Learn more</a>
             </div>

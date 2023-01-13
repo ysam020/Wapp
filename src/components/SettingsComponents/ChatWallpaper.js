@@ -6,12 +6,12 @@ import {
   ChatBackgroundContext,
   ThemeContext,
 } from "../../contexts/Context";
-import { IconButton } from "@material-ui/core";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import chatWallpaperData from "../../data/ChatWallpaperData";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import { IconButton } from "@material-ui/core";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const useStyles = makeStyles((theme) =>
   createStyles({

@@ -9,7 +9,14 @@ import {
   DisappearingMessagesContext,
 } from "../contexts/Context";
 import ChatMessage from "../components/ChatMessage";
+
+// MUI components
 import { Avatar, IconButton, Tooltip } from "@material-ui/core";
+import Checkbox from "@mui/material/Checkbox";
+import CircularProgress from "@mui/material/CircularProgress";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+
+// Material icons
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import InsertEmoticonOutlinedIcon from "@mui/icons-material/InsertEmoticonOutlined";
@@ -17,24 +24,24 @@ import AttachFileOutlinedIcon from "@mui/icons-material/AttachFileOutlined";
 import MicOutlinedIcon from "@mui/icons-material/MicOutlined";
 import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
-import ClickAwayListener from "@mui/material/ClickAwayListener";
-import moment from "moment";
-import EmojiPicker from "emoji-picker-react";
-import firebase from "firebase/app";
+import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
+import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
+import ShortcutIcon from "@mui/icons-material/Shortcut";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import VideoCameraBackIcon from "@mui/icons-material/VideoCameraBack";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import CameraAltRoundedIcon from "@mui/icons-material/CameraAltRounded";
-import cryptoRandomString from "crypto-random-string";
-import Webcam from "react-webcam";
-import CircularProgress from "@mui/material/CircularProgress";
+
+// MUI styles
+import { createStyles, makeStyles } from "@material-ui/core/styles";
+
+import moment from "moment";
+import EmojiPicker from "emoji-picker-react";
 import Tenor from "react-tenor";
 import "react-tenor/dist/styles.css";
-import Checkbox from "@mui/material/Checkbox";
-import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
-import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
-import ShortcutIcon from "@mui/icons-material/Shortcut";
+import Webcam from "react-webcam";
+import firebase from "firebase/app";
+import cryptoRandomString from "crypto-random-string";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -80,6 +87,8 @@ function Chat({
   starMessages,
   emailId,
   setChat,
+  selectMessagesUI,
+  setSelectMessagesUI,
 }) {
   // MUI Styles
   const classes = useStyles();
@@ -102,7 +111,6 @@ function Chat({
   const [showWebcam, setShowWebcam] = useState(false);
   const [circularProgress, setCircularProgress] = useState(true);
   const [gifBox, setGifBox] = useState(false);
-  const [selectMessagesUI, setSelectMessagesUI] = useState(false);
 
   // Contexts
   const toggleContactInfoContext = useContext(ToggleContactInfoContext);
@@ -111,9 +119,6 @@ function Chat({
   const currentUser = useContext(UserContext);
   const { chatBackground } = useContext(ChatBackgroundContext);
   const { doodle } = useContext(ChatBackgroundContext);
-
-  // Get email id from url
-  // const { emailId } = useParams();
 
   useEffect(() => {
     // Get users from database
@@ -151,7 +156,7 @@ function Chat({
     setBlock,
     setChatUser,
     getMessages,
-  ]); // Run each time chatMessages is update
+  ]);
 
   useEffect(() => {
     // Hide emoji box on escape button
@@ -188,6 +193,7 @@ function Chat({
     toggleContactInfoContext.toggleContactInfoDispatch("hide");
     setChat(false);
     handleChatPopover();
+    localStorage.removeItem("chat");
   };
 
   // Upload media and send message
@@ -411,7 +417,6 @@ function Chat({
       </div>
 
       <div
-        // Conditional classname for chat body
         className="chat-body"
         ref={chatBox}
         style={{
@@ -525,7 +530,6 @@ function Chat({
 
       {gifBox && (
         <Tenor
-          // token="AIzaSyDTDvGXNnUuzR3cqjVc5ZLyHfNqhrA_q5w"
           defaultResults={true}
           limit={1000}
           searchPlaceholder="Search GIFs via Tenor"

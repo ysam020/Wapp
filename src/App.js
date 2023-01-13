@@ -89,7 +89,6 @@ function App() {
   };
 
   // Chat wallpaper
-  // Wallpaper doodle
   const [doodle, setDoodle] = useState(true);
   const [chatBackground, setChatBackground] = useState(
     theme === "light" ? "#EFEAE2" : "#0C141A"
@@ -107,9 +106,7 @@ function App() {
             if (currentToken) {
               console.log(currentToken);
             } else {
-              // Show permission request UI
               console.log("Permission denied");
-              // ...
             }
           })
           .catch((err) => {

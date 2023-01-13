@@ -5,12 +5,12 @@ import {
   ToggleContactInfoContext,
   EncryptionContext,
 } from "../contexts/Context";
+import ButtonPrimary from "./ButtonPrimary";
 import { IconButton } from "@mui/material";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import cryptoRandomString from "crypto-random-string";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
 import QRCode from "react-qr-code";
-import ButtonPrimary from "./ButtonPrimary";
 
 const useStyles = makeStyles(() =>
   createStyles({

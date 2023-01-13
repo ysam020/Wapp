@@ -5,8 +5,8 @@ import {
   SettingsAccountInfoContext,
 } from "../../contexts/Context";
 import { IconButton } from "@material-ui/core";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import FeedRoundedIcon from "@mui/icons-material/FeedRounded";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 

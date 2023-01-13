@@ -4,12 +4,10 @@ import {
   ToggleSettingsContext,
   SettingsHelpContext,
 } from "../../contexts/Context";
+import helpList from "../../data/Helplist";
 import { IconButton } from "@material-ui/core";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import HelpIcon from "@mui/icons-material/Help";
-import GroupsIcon from "@mui/icons-material/Groups";
-import FeedIcon from "@mui/icons-material/Feed";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -21,24 +19,6 @@ const useStyles = makeStyles((theme) =>
     },
   })
 );
-
-const helpList = [
-  {
-    id: 1,
-    name: "Help Center",
-    icon: <HelpIcon />,
-  },
-  {
-    id: 2,
-    name: "Contact us",
-    icon: <GroupsIcon />,
-  },
-  {
-    id: 3,
-    name: "Terms and Privacy Policy",
-    icon: <FeedIcon />,
-  },
-];
 
 function Help() {
   // MUI Styles

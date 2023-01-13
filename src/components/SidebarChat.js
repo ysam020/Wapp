@@ -59,6 +59,7 @@ function SidebarChat({
           onClick={() => {
             setChat(true);
             setEmailId(email);
+            localStorage.setItem("chat", JSON.stringify(email));
           }}
         >
           <Avatar src={photoURL} />

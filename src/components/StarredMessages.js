@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import "../styles/starred-messages.css";
 import { StarredMessageContext, UserContext } from "../contexts/Context";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import ArrowRightRoundedIcon from "@mui/icons-material/ArrowRightRounded";
 import { Avatar, IconButton } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { auth } from "../firebase";
@@ -89,7 +90,10 @@ function StarredMessages({ starredMessages, emailId }) {
                     }
                     className={classes.avatarIcon}
                   />
-                  <p>{message.data().senderEmail}</p>
+                  <p>
+                    {message.data().senderEmail} <ArrowRightRoundedIcon />
+                    {message.data().receiverEmail}
+                  </p>
                 </div>
                 <div className="starred-message-row-2">
                   {" "}

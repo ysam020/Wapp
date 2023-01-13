@@ -1,13 +1,19 @@
 import React, { useContext } from "react";
 import "../styles/disappearing-messages.css";
 import { DisappearingMessagesContext, ThemeContext } from "../contexts/Context";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import { IconButton } from "@material-ui/core";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
+
+// MUI components
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
+import RadioGroup from "@mui/material/RadioGroup";
+import Radio from "@mui/material/Radio";
+import { IconButton } from "@material-ui/core";
+
+// MUI styles
+import { createStyles, makeStyles } from "@material-ui/core/styles";
+
+// Material icons
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const useStyles = makeStyles(() =>
   createStyles({
