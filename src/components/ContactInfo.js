@@ -64,7 +64,7 @@ function ContactInfo({ deleteChat, emailId }) {
   // UseState
   const [chatUser, setChatUser] = useState({});
   const [block, setBlock] = useState([]);
-  const [openModal, setOpenModal] = React.useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   // Contexts
   const currentUser = useContext(UserContext);

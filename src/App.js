@@ -58,6 +58,7 @@ function App() {
         setUser(null);
         // Remove user from local storage
         localStorage.removeItem("user");
+        localStorage.removeItem("chat");
       })
       .catch((error) => alert(error.message));
   };
@@ -78,8 +79,8 @@ function App() {
   }
 
   const toggleTheme = () => {
-    setTheme((currentTheme) => (currentTheme === "light" ? "dark" : "light"));
-    setChatBackground(theme === "light" ? "#0C141A" : "#EFEAE2 ");
+    setTheme(theme === "light" ? "dark" : "light");
+    setChatBackground(theme === "light" ? "#0C141A" : "#EFEAE2");
 
     if (theme === "light") {
       localStorage.setItem("theme", JSON.stringify("dark"));
@@ -91,7 +92,7 @@ function App() {
   // Chat wallpaper
   const [doodle, setDoodle] = useState(true);
   const [chatBackground, setChatBackground] = useState(
-    theme === "light" ? "#EFEAE2" : "#0C141A"
+    theme === "light" ? "#EFEAE2" : theme === null ? "#EFEAE2" : "#0C141A"
   );
 
   async function requestPermission() {

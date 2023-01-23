@@ -1,4 +1,10 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+  useCallback,
+} from "react";
 import "../styles/chat.css";
 import db, { storage } from "../firebase";
 import {
@@ -9,6 +15,7 @@ import {
   DisappearingMessagesContext,
 } from "../contexts/Context";
 import ChatMessage from "../components/ChatMessage";
+import ForwardMessageModal from "./ForwardMessageModal";
 
 // MUI components
 import { Avatar, IconButton, Tooltip } from "@material-ui/core";
@@ -111,43 +118,48 @@ function Chat({
   const [showWebcam, setShowWebcam] = useState(false);
   const [circularProgress, setCircularProgress] = useState(true);
   const [gifBox, setGifBox] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState([]);
 
   // Contexts
   const toggleContactInfoContext = useContext(ToggleContactInfoContext);
   const disappearingMessagesContext = useContext(DisappearingMessagesContext);
   const searchMessageContext = useContext(SearchMessageContext);
   const currentUser = useContext(UserContext);
-  const { chatBackground } = useContext(ChatBackgroundContext);
-  const { doodle } = useContext(ChatBackgroundContext);
+  const { chatBackground, doodle } = useContext(ChatBackgroundContext);
+
+  // Get users from database
+  const getUser = useCallback(() => {
+    db.collection("users")
+      .doc(emailId)
+      .onSnapshot((snapshot) => setChatUser(snapshot.data()));
+    // eslint-disable-next-line
+  }, [chatUser]);
+
+  // Check blocked user
+  const checkBlockedUser = useCallback(() => {
+    db.collection("blockedUser")
+      .doc(currentUser.email)
+      .collection("list")
+      .onSnapshot((snapshot) => {
+        setBlock(
+          snapshot.docs.filter((doc) => doc.data().email === chatUser.email)
+        );
+      });
+    // eslint-disable-next-line
+  }, [block]);
 
   useEffect(() => {
-    // Get users from database
-    const getUser = async () => {
-      db.collection("users")
-        .doc(emailId)
-        .onSnapshot((snapshot) => setChatUser(snapshot.data()));
-    };
-
-    // Check blocked user
-    const checkBlockedUser = () => {
-      db.collection("blockedUser")
-        .doc(currentUser.email)
-        .collection("list")
-        .onSnapshot((snapshot) => {
-          setBlock(
-            snapshot.docs.filter((doc) => doc.data().email === chatUser?.email)
-          );
-        });
-    };
+    getUser();
+    getMessages();
+    checkBlockedUser();
 
     // Get last online time
     db.collection("users")
       .doc(emailId)
       .onSnapshot((snapshot) => setLastSeen(snapshot.data().lastOnline));
 
-    getUser();
-    getMessages();
-    checkBlockedUser();
+    // eslint-disable-next-line
   }, [
     chatMessages,
     chatUser.email,
@@ -335,6 +347,12 @@ function Chat({
     setCircularProgress(true);
   };
 
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    setSelectedUser([]);
+  };
+
   return (
     <div className="chat">
       <div className="chat-header">
@@ -490,6 +508,7 @@ function Chat({
 
                 <ChatMessage
                   message={message.text}
+                  starredMessage={message.starred}
                   time={message.timestamp}
                   sender={message.senderEmail}
                   read={message.read}
@@ -559,13 +578,24 @@ function Chat({
             <CloseOutlinedIcon className={classes.icon} />
           </IconButton>
           <p>{`${selectedMessages.length} selected`}</p>
-          <IconButton onClick={starMessages}>
+          <IconButton
+            onClick={starMessages}
+            disabled={selectedMessages.length === 0 ? true : false}
+          >
             <StarRateRoundedIcon className={classes.icon} />
           </IconButton>
-          <IconButton onClick={deleteSelectedMessages}>
+
+          <IconButton
+            onClick={deleteSelectedMessages}
+            disabled={selectedMessages.length === 0 ? true : false}
+          >
             <DeleteRoundedIcon className={classes.icon} />
           </IconButton>
-          <IconButton>
+
+          <IconButton
+            disabled={selectedMessages.length === 0 ? true : false}
+            onClick={() => handleOpenModal()}
+          >
             <ShortcutIcon className={classes.icon} />
           </IconButton>
         </div>
@@ -724,6 +754,16 @@ function Chat({
           </IconButton>
         </div>
       )}
+
+      <ForwardMessageModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        handleOpenModal={handleOpenModal}
+        handleCloseModal={handleCloseModal}
+        selectedUser={selectedUser}
+        setSelectedUser={setSelectedUser}
+        selectedMessages={selectedMessages}
+      />
     </div>
   );
 }

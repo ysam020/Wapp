@@ -1,9 +1,10 @@
-import React from "react";
-import { auth } from "../firebase";
+import React, { useContext } from "react";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
+import { UserContext } from "../contexts/Context";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -15,6 +16,7 @@ const useStyles = makeStyles((theme) =>
       width: "20px !important",
       color: "#53bdeb",
     },
+    starIcon: { width: "20px !important", color: "#8696A0" },
     fileIcon: {
       width: "50px !important",
       height: "40px !important",
@@ -40,9 +42,13 @@ function ChatMessage({
   videoURL,
   fileURL,
   fileName,
+  starredMessage,
 }) {
   // MUI Styles
   const classes = useStyles();
+
+  // Context
+  const currentUser = useContext(UserContext);
 
   const urlPattern = new RegExp(
     "^(https?:\\/\\/)?" + // validate protocol
@@ -58,7 +64,7 @@ function ChatMessage({
     <>
       <div
         className={
-          sender === auth?.currentUser?.email
+          sender === currentUser.email
             ? "chat-message chat-message-sent"
             : "chat-message chat-message-received"
         }
@@ -71,13 +77,14 @@ function ChatMessage({
               </a>
             </div>
             <span className="chat-timestamp">
+              <StarRateRoundedIcon className={classes.starIcon} />
               <p>{new Date(time.toDate()).toLocaleTimeString()}</p>
-              {sender === auth?.currentUser.email && (
+              {sender === currentUser.email && (
                 <DoneAllIcon
                   className={
-                    sender === auth?.currentUser.email && read === true
+                    sender === currentUser.email && read === true
                       ? `${classes.readIcon}`
-                      : sender === auth?.currentUser.email
+                      : sender === currentUser.email
                       ? `${classes.unreadIcon}`
                       : ""
                   }
@@ -93,13 +100,17 @@ function ChatMessage({
               </a>
             </div>
             <span className="chat-timestamp">
+              {starredMessage === true && (
+                <StarRateRoundedIcon className={classes.starIcon} />
+              )}
+
               <p>{new Date(time.toDate()).toLocaleTimeString()}</p>
-              {sender === auth?.currentUser.email && (
+              {sender === currentUser.email && (
                 <DoneAllIcon
                   className={
-                    sender === auth?.currentUser.email && read === true
+                    sender === currentUser.email && read === true
                       ? `${classes.readIcon} media-delivered-icon`
-                      : sender === auth?.currentUser.email
+                      : sender === currentUser.email
                       ? `${classes.unreadIcon} media-delivered-icon`
                       : ""
                   }
@@ -118,13 +129,16 @@ function ChatMessage({
               ></video>
             </div>
             <span className="chat-timestamp">
+              {starredMessage === true && (
+                <StarRateRoundedIcon className={classes.starIcon} />
+              )}
               <p>{new Date(time.toDate()).toLocaleTimeString()}</p>
-              {sender === auth?.currentUser.email && (
+              {sender === currentUser.email && (
                 <DoneAllIcon
                   className={
-                    sender === auth?.currentUser.email && read === true
+                    sender === currentUser.email && read === true
                       ? `${classes.readIcon} media-delivered-icon`
-                      : sender === auth?.currentUser.email
+                      : sender === currentUser.email
                       ? `${classes.unreadIcon} media-delivered-icon`
                       : ""
                   }
@@ -146,13 +160,16 @@ function ChatMessage({
               </div>
             </div>
             <span className="chat-timestamp">
+              {starredMessage === true && (
+                <StarRateRoundedIcon className={classes.starIcon} />
+              )}
               <p>{new Date(time.toDate()).toLocaleTimeString()}</p>
-              {sender === auth?.currentUser.email && (
+              {sender === currentUser.email && (
                 <DoneAllIcon
                   className={
-                    sender === auth?.currentUser.email && read === true
+                    sender === currentUser.email && read === true
                       ? `${classes.readIcon} delivered-icon`
-                      : sender === auth?.currentUser.email
+                      : sender === currentUser.email
                       ? `${classes.unreadIcon} delivered-icon`
                       : ""
                   }
@@ -166,13 +183,16 @@ function ChatMessage({
               <p>{message}</p>
             </div>
             <span className="chat-timestamp">
+              {starredMessage === true && (
+                <StarRateRoundedIcon className={classes.starIcon} />
+              )}
               <p>{new Date(time.toDate()).toLocaleTimeString()}</p>
-              {sender === auth?.currentUser.email && (
+              {sender === currentUser.email && (
                 <DoneAllIcon
                   className={
-                    sender === auth?.currentUser.email && read === true
+                    sender === currentUser.email && read === true
                       ? `${classes.readIcon} delivered-icon`
-                      : sender === auth?.currentUser.email
+                      : sender === currentUser.email
                       ? `${classes.unreadIcon} delivered-icon`
                       : ""
                   }

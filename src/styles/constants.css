@@ -38,6 +38,7 @@
   --sidebar-chat-background: #fff;
   --sidebar-chat-background-hover: #eff2f5;
   --sidebar-chat-timestamp: #23d366;
+  --sidebar-check-network: #ffd279;
 
   /* Sidebar profile */
   --sidebar-profile-body: #eff2f5;
@@ -174,6 +175,7 @@
   --sidebar-chat-background: #111b21;
   --sidebar-chat-background-hover: #1f2c33;
   --sidebar-chat-timestamp: #04a784;
+  --sidebar-check-network: #182229;
 
   /* Sidebar profile */
   --sidebar-profile-body: #111b21;

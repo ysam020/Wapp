@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import "../styles/home.css";
 import "../styles/chatpage.css";
 import Sidebar from "../components/Sidebar";
@@ -102,26 +102,30 @@ function Home() {
   }, [currentUser.email]);
 
   // Send Message
-  const sendMessage = (e) => {
-    e.preventDefault();
-    let randomString = cryptoRandomString({ length: 10 });
+  const sendMessage = useCallback(
+    (e) => {
+      e.preventDefault();
+      let randomString = cryptoRandomString({ length: 10 });
 
-    if (block.length === 0 && message.length !== 0 && emailId) {
-      let payload = {
-        text: message,
-        messageId: randomString,
-        messageInfo: "string",
-        senderEmail: currentUser.email,
-        receiverEmail: emailId,
-        timestamp: firebase.firestore.Timestamp.now(),
-        read: false,
-      };
+      if (block.length === 0 && message.length !== 0 && emailId) {
+        let payload = {
+          text: message,
+          messageId: randomString,
+          messageInfo: "string",
+          senderEmail: currentUser.email,
+          receiverEmail: emailId,
+          timestamp: firebase.firestore.Timestamp.now(),
+          read: false,
+        };
 
-      sendMessageToDatabase(payload);
-    }
+        sendMessageToDatabase(payload);
+      }
 
-    setMessage("");
-  };
+      setMessage("");
+    },
+    // eslint-disable-next-line
+    [message]
+  );
 
   const sendMessageToDatabase = (payload) => {
     //Add message to chat collection for sender
@@ -185,19 +189,18 @@ function Home() {
   };
 
   // Get chats from database
-  const getMessages = async () => {
+  const getMessages = useCallback(() => {
     db.collection("chats")
-      .doc(emailId)
+      .doc(currentUser.email)
       .collection("messages")
       .orderBy("timestamp", "asc")
       .onSnapshot((snapshot) => {
         let messages = snapshot.docs.map((doc) => doc.data());
 
-        // Filter chats where either sender email or receiver email matches the sender or receiver email in chat database
         let newMessage = messages.filter(
           (message) =>
-            message.senderEmail === (currentUser.email || emailId) ||
-            message.receiverEmail === (currentUser.email || emailId)
+            message.senderEmail === (currentUser.email && emailId) ||
+            message.receiverEmail === (currentUser.email && emailId)
         );
 
         setSearchedMessage(
@@ -223,7 +226,8 @@ function Home() {
 
         setChatMessages(newMessage);
       });
-  };
+    // eslint-disable-next-line
+  }, [searchedMessage, chatMessages]);
 
   // Delete chat
   const deleteChat = () => {
@@ -310,7 +314,7 @@ function Home() {
   };
 
   // Delete selected messages
-  const deleteSelectedMessages = () => {
+  const deleteSelectedMessages = useCallback(() => {
     selectedMessages.map((message) => {
       db.collection("chats")
         .doc(currentUser.email)
@@ -381,7 +385,9 @@ function Home() {
       setSelectedMessages([]);
       return "";
     });
-  };
+
+    // eslint-disable-next-line
+  }, [selectMessagesUI, selectedMessages]);
 
   const starMessages = () => {
     selectedMessages.map((message) => {

@@ -19,15 +19,20 @@ import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import FilterListRoundedIcon from "@mui/icons-material/FilterListRounded";
 import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
+import WifiOffIcon from "@mui/icons-material/WifiOff";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { IconButton } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
+import { Offline } from "react-detect-offline";
 
 const useStyles = makeStyles(() =>
   createStyles({
     icon: {
       color: "#8696A0",
     },
+    rightArrowIcon: { width: "12px !important" },
+    wifiIcon: { color: "#FFD279" },
   })
 );
 
@@ -173,6 +178,34 @@ function Sidebar({ setChat, setEmailId }) {
           </div>
         </div>
       </div>
+
+      <Offline>
+        <div className="sidebar-check-network">
+          <div
+            className="sidebar-network-container"
+            style={{ display: "flex", alignItems: "center" }}
+          >
+            <div className="sidebar-network-icon">
+              <div className="sidebar-network-wifi-icon-container">
+                <IconButton>
+                  <WifiOffIcon className={classes.wifiIcon} />
+                </IconButton>
+              </div>
+            </div>
+            <div className="sidebar-network-text">
+              <h4>Computer not connected</h4>
+              <p>Make sure your computer has an active internet connection</p>
+              <div
+                className="sidebar-network-link"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <a href="/#">Reconnect</a>
+                <ArrowForwardIosIcon className={classes.rightArrowIcon} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </Offline>
 
       <div className="sidebar-search">
         <div className="sidebar-search-container">
