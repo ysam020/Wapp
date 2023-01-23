@@ -151,7 +151,6 @@ function Chat({
 
   useEffect(() => {
     getUser();
-    getMessages();
     checkBlockedUser();
 
     // Get last online time
@@ -167,8 +166,11 @@ function Chat({
     emailId,
     setBlock,
     setChatUser,
-    getMessages,
   ]);
+
+  useEffect(() => {
+    getMessages();
+  }, [emailId]);
 
   useEffect(() => {
     // Hide emoji box on escape button

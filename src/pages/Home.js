@@ -189,7 +189,7 @@ function Home() {
   };
 
   // Get chats from database
-  const getMessages = useCallback(() => {
+  const getMessages = () => {
     db.collection("chats")
       .doc(currentUser.email)
       .collection("messages")
@@ -227,7 +227,7 @@ function Home() {
         setChatMessages(newMessage);
       });
     // eslint-disable-next-line
-  }, [searchedMessage, chatMessages]);
+  };
 
   // Delete chat
   const deleteChat = () => {
