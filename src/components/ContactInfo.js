@@ -57,10 +57,7 @@ const ThemeSwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-function ContactInfo(
-  // { deleteChat, emailId }
-  props
-) {
+function ContactInfo(props) {
   // MUI Styles
   const classes = useStyles();
 
@@ -99,7 +96,8 @@ function ContactInfo(
 
     getUser();
     checkBlockedUser();
-  }, [chatUser, currentUser.email, props.emailId]); // Run whenever chatUser changes
+    // eslint-disable-next-line
+  }, [chatUser.email, props.emailId]); // Run whenever chatUser changes
 
   // Block user function
   const blockUser = () => {

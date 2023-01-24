@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  useCallback,
+} from "react";
 import "../styles/sidebar.css";
 import {
   UserContext,
@@ -57,30 +63,33 @@ function Sidebar(props) {
   // Sidebar search ref
   const sidebarSearchRef = useRef();
 
-  useEffect(() => {
-    // Get all users from database
-    const getAllUsers = async () => {
-      db.collection("users").onSnapshot((snapshot) => {
-        setAllUsers(
-          snapshot.docs.filter((doc) => doc.data().email !== currentUser?.email) // Get all users whose email id is not same as the email of current user
-        );
+  // Get all users from database
+  const getAllUsers = useCallback(() => {
+    db.collection("users").onSnapshot((snapshot) => {
+      setAllUsers(
+        snapshot.docs.filter((doc) => doc.data().email !== currentUser?.email) // Get all users whose email id is not same as the email of current user
+      );
+    });
+    // eslint-disable-next-line
+  }, [allUsers]);
+
+  // Get friends from FriendList databse
+  const getFriends = useCallback(() => {
+    db.collection("FriendList")
+      .doc(currentUser.email)
+      .collection("list")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((snapshot) => {
+        setFriendList(snapshot.docs);
       });
-    };
+    // eslint-disable-next-line
+  }, [friendList]);
 
-    // Get friends from FriendList databse
-    const getFriends = async () => {
-      db.collection("FriendList")
-        .doc(currentUser.email)
-        .collection("list")
-        .orderBy("timestamp", "desc")
-        .onSnapshot((snapshot) => {
-          setFriendList(snapshot.docs);
-        });
-    };
-
+  useEffect(() => {
     getAllUsers();
     getFriends();
-  });
+    // eslint-disable-next-line
+  }, []);
 
   // Return matching users from all users
   const searchedUser = allUsers.filter((user) => {

@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import "../styles/search-messages.css";
 import { SearchMessageContext } from "../contexts/Context";
 import { IconButton } from "@material-ui/core";
@@ -41,40 +47,42 @@ function SearchMessage(props) {
   // Ref
   const searchMessagesRef = useRef();
 
+  // Get chats from database
+  const getMessages = useCallback(() => {
+    db.collection("chats")
+      .doc(currentUser.email)
+      .collection("messages")
+      .orderBy("timestamp", "asc")
+      .onSnapshot((snapshot) => {
+        let messages = snapshot.docs.map((doc) => doc.data());
+
+        let newMessage = messages.filter(
+          (message) =>
+            message.senderEmail === (currentUser.email && props.emailId) ||
+            message.receiverEmail === (currentUser.email && props.emailId)
+        );
+
+        setSearchedMessage(
+          newMessage.filter((searchTerm) => {
+            if (searchedMessageInput) {
+              if (searchTerm.text.includes(searchedMessageInput)) {
+                return searchTerm;
+              }
+            }
+            return false;
+          })
+        );
+      });
+    // eslint-disable-next-line
+  }, [searchedMessageInput]);
+
   useEffect(() => {
     searchMessagesRef.current.focus();
 
-    // Get chats from database
-    const getMessages = () => {
-      db.collection("chats")
-        .doc(currentUser.email)
-        .collection("messages")
-        .orderBy("timestamp", "asc")
-        .onSnapshot((snapshot) => {
-          let messages = snapshot.docs.map((doc) => doc.data());
-
-          let newMessage = messages.filter(
-            (message) =>
-              message.senderEmail === (currentUser.email && props.emailId) ||
-              message.receiverEmail === (currentUser.email && props.emailId)
-          );
-
-          setSearchedMessage(
-            newMessage.filter((searchTerm) => {
-              if (searchedMessageInput) {
-                if (searchTerm.text.includes(searchedMessageInput)) {
-                  return searchTerm;
-                }
-              }
-              return false;
-            })
-          );
-        });
-    };
-
     getMessages();
+
     // eslint-disable-next-line
-  }, [searchedMessageInput, emailId]);
+  }, [searchedMessageInput, props.emailId]);
 
   return (
     <div className="sidebar-panel-right">

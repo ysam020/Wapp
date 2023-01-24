@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import "../styles/starred-messages.css";
 import { StarredMessageContext, UserContext } from "../contexts/Context";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
@@ -40,17 +40,19 @@ function StarredMessages(props) {
   //   useState
   const [chatUser, setChatUser] = useState({});
 
-  useEffect(() => {
-    const getUser = async () => {
-      db.collection("users")
-        .doc(props.emailId)
-        .onSnapshot((snapshot) => {
-          setChatUser(snapshot.data());
-        });
-    };
+  const getUser = useCallback(() => {
+    db.collection("users")
+      .doc(props.emailId)
+      .onSnapshot((snapshot) => {
+        setChatUser(snapshot.data());
+      });
+    // eslint-disable-next-line
+  }, [chatUser]);
 
+  useEffect(() => {
     getUser();
-  });
+    // eslint-disable-next-line
+  }, []);
 
   const urlPattern = new RegExp(
     "^(https?:\\/\\/)?" + // validate protocol

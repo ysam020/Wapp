@@ -142,10 +142,10 @@ function Chat(props) {
   }, [
     props.chatMessages,
     props.chatUser.email,
-    currentUser.email,
     props.emailId,
     props.setBlock,
-    props.setChatUser,
+
+    // props.setChatUser,
   ]);
 
   useEffect(() => {

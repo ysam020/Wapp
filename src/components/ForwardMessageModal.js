@@ -39,7 +39,8 @@ function ForwardMessageModal(props) {
     db.collection("users").onSnapshot((snapshot) => {
       setusers(snapshot.docs);
     });
-  });
+    // eslint-disable-next-line
+  }, []);
 
   const handleForwardMessage = () => {
     db.collection("chats")

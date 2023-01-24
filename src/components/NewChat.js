@@ -43,6 +43,7 @@ function NewChat(props) {
   const newChatSearchRef = useRef();
 
   useEffect(() => {
+    console.log("loaded");
     // Get all users
     const getAllUsers = () => {
       db.collection("users").onSnapshot((snapshot) => {
@@ -51,7 +52,8 @@ function NewChat(props) {
     };
 
     getAllUsers();
-  });
+    // eslint-disable-next-line
+  }, []);
 
   // Return matching users from all users
   const searchedUser = allUsers.filter((user) => {
