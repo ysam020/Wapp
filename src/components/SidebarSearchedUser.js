@@ -1,32 +1,24 @@
 import React from "react";
 import { Avatar } from "@material-ui/core";
 
-function SidebarSearchedUser({
-  name,
-  email,
-  photoURL,
-  setSearchInput,
-  about,
-  setChat,
-  setEmailId,
-}) {
+function SidebarSearchedUser(props) {
   return (
     <div
       className="sidebar-chat-item"
       onClick={() => {
-        setChat(true);
-        setEmailId(email);
-        localStorage.setItem("chat", JSON.stringify(email));
-        setSearchInput("");
+        props.setChat(true);
+        props.setEmailId(props.email);
+        localStorage.setItem("chat", JSON.stringify(props.email));
+        props.setSearchInput("");
       }}
     >
-      <Avatar src={photoURL} />
+      <Avatar src={props.photoURL} />
       <div className="sidebar-chat-info">
         <div className="sidebar-chat-info-row-1">
-          <h3>{name}</h3>
+          <h3>{props.name}</h3>
         </div>
         <div className="sidebar-chat-info-row-2">
-          <p>{about}</p>
+          <p>{props.about}</p>
         </div>
       </div>
     </div>

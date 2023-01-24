@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-function StarredMessages({ starredMessages, emailId }) {
+function StarredMessages(props) {
   // MUI Styles
   const classes = useStyles();
 
@@ -43,7 +43,7 @@ function StarredMessages({ starredMessages, emailId }) {
   useEffect(() => {
     const getUser = async () => {
       db.collection("users")
-        .doc(emailId)
+        .doc(props.emailId)
         .onSnapshot((snapshot) => {
           setChatUser(snapshot.data());
         });
@@ -78,7 +78,7 @@ function StarredMessages({ starredMessages, emailId }) {
         </div>
 
         <div className="starred-messages-body">
-          {starredMessages.map((message, id) => {
+          {props.starredMessages.map((message, id) => {
             return (
               <div key={id} className="starred-message">
                 <div className="starred-message-row-1">

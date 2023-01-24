@@ -57,7 +57,10 @@ const ThemeSwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-function ContactInfo({ deleteChat, emailId }) {
+function ContactInfo(
+  // { deleteChat, emailId }
+  props
+) {
   // MUI Styles
   const classes = useStyles();
 
@@ -77,7 +80,7 @@ function ContactInfo({ deleteChat, emailId }) {
     // Get users from database
     const getUser = async () => {
       db.collection("users")
-        .doc(emailId)
+        .doc(props.emailId)
         .onSnapshot((snapshot) => {
           setChatUser(snapshot.data());
         });
@@ -96,7 +99,7 @@ function ContactInfo({ deleteChat, emailId }) {
 
     getUser();
     checkBlockedUser();
-  }, [chatUser, currentUser.email, emailId]); // Run whenever chatUser changes
+  }, [chatUser, currentUser.email, props.emailId]); // Run whenever chatUser changes
 
   // Block user function
   const blockUser = () => {
@@ -114,7 +117,7 @@ function ContactInfo({ deleteChat, emailId }) {
     db.collection("blockedUser")
       .doc(currentUser.email)
       .collection("list")
-      .doc(emailId)
+      .doc(props.emailId)
       .delete();
   };
 
@@ -255,7 +258,7 @@ function ContactInfo({ deleteChat, emailId }) {
           </Tooltip>
 
           <Tooltip title="Delete chat" enterDelay={1000} enterNextDelay={1000}>
-            <div className="delete-chat" onClick={() => deleteChat()}>
+            <div className="delete-chat" onClick={() => props.deleteChat()}>
               <IconButton>
                 <DeleteIcon className={classes.redIcon} />
               </IconButton>
@@ -272,7 +275,7 @@ function ContactInfo({ deleteChat, emailId }) {
         setOpenModal={setOpenModal}
         handleOpenModal={handleOpenModal}
         handleCloseModal={handleCloseModal}
-        deleteChat={deleteChat}
+        deleteChat={props.deleteChat}
         blockUser={blockUser}
       />
     </>

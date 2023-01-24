@@ -30,25 +30,14 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-function SidebarChat({
-  name,
-  email,
-  photoURL,
-  lastMessage,
-  time,
-  messageType,
-  messageSent,
-  messageRead,
-  setChat,
-  setEmailId,
-}) {
+function SidebarChat(props) {
   // MUI Styles
   const classes = useStyles();
 
   return (
     <>
       <Tooltip
-        title={lastMessage || messageType}
+        title={props.lastMessage || props.messageType}
         placement="right"
         enterDelay={500}
         enterNextDelay={500}
@@ -57,19 +46,21 @@ function SidebarChat({
         <div
           className="sidebar-chat-item"
           onClick={() => {
-            setChat(true);
-            setEmailId(email);
-            localStorage.setItem("chat", JSON.stringify(email));
+            props.setChat(true);
+            props.setEmailId(props.email);
+            localStorage.setItem("chat", JSON.stringify(props.email));
           }}
         >
-          <Avatar src={photoURL} />
+          <Avatar src={props.photoURL} />
           <div className="sidebar-chat-info">
             <div className="sidebar-chat-info-row-1">
-              <h3>{name}</h3>
-              <p>{moment(time.toDate().toGMTString("en-US")).fromNow()}</p>
+              <h3>{props.name}</h3>
+              <p>
+                {moment(props.time.toDate().toGMTString("en-US")).fromNow()}
+              </p>
             </div>
             <div className="sidebar-chat-info-row-2">
-              {messageType === "Photo" ? (
+              {props.messageType === "Photo" ? (
                 <div
                   style={{
                     display: "flex",
@@ -77,10 +68,10 @@ function SidebarChat({
                     width: "100%",
                   }}
                 >
-                  {messageSent === true ? (
+                  {props.messageSent === true ? (
                     <DoneAllIcon
                       className={
-                        messageRead === false
+                        props.messageRead === false
                           ? classes.unreadIcon
                           : classes.readIcon
                       }
@@ -91,7 +82,7 @@ function SidebarChat({
                   <PhotoCameraIcon className={classes.sidebarChatIcon} />
                   <p>Photo</p>
                 </div>
-              ) : messageType === "Gif" ? (
+              ) : props.messageType === "Gif" ? (
                 <div
                   style={{
                     display: "flex",
@@ -99,10 +90,10 @@ function SidebarChat({
                     width: "100%",
                   }}
                 >
-                  {messageSent === true ? (
+                  {props.messageSent === true ? (
                     <DoneAllIcon
                       className={
-                        messageRead === false
+                        props.messageRead === false
                           ? classes.unreadIcon
                           : classes.readIcon
                       }
@@ -113,7 +104,7 @@ function SidebarChat({
                   <GifBoxIcon className={classes.sidebarChatIcon} />
                   <p>Gif</p>
                 </div>
-              ) : messageType === "Video" ? (
+              ) : props.messageType === "Video" ? (
                 <div
                   style={{
                     display: "flex",
@@ -121,10 +112,10 @@ function SidebarChat({
                     width: "100%",
                   }}
                 >
-                  {messageSent === true ? (
+                  {props.messageSent === true ? (
                     <DoneAllIcon
                       className={
-                        messageRead === false
+                        props.messageRead === false
                           ? classes.unreadIcon
                           : classes.readIcon
                       }
@@ -135,7 +126,7 @@ function SidebarChat({
                   <VideoCameraBackIcon className={classes.sidebarChatIcon} />
                   <p>Video</p>
                 </div>
-              ) : messageType === "Document" ? (
+              ) : props.messageType === "Document" ? (
                 <div
                   style={{
                     display: "flex",
@@ -143,10 +134,10 @@ function SidebarChat({
                     width: "100%",
                   }}
                 >
-                  {messageSent === true ? (
+                  {props.messageSent === true ? (
                     <DoneAllIcon
                       className={
-                        messageRead === false
+                        props.messageRead === false
                           ? classes.unreadIcon
                           : classes.readIcon
                       }
@@ -157,7 +148,7 @@ function SidebarChat({
                   <InsertDriveFileIcon className={classes.sidebarChatIcon} />
                   <p>Document</p>
                 </div>
-              ) : lastMessage ? (
+              ) : props.lastMessage ? (
                 <div
                   style={{
                     display: "flex",
@@ -165,10 +156,10 @@ function SidebarChat({
                     width: "100%",
                   }}
                 >
-                  {messageSent === true ? (
+                  {props.messageSent === true ? (
                     <DoneAllIcon
                       className={
-                        messageRead === false
+                        props.messageRead === false
                           ? classes.unreadIcon
                           : classes.readIcon
                       }
@@ -176,7 +167,7 @@ function SidebarChat({
                   ) : (
                     ""
                   )}
-                  <p>{lastMessage}</p>
+                  <p>{props.lastMessage}</p>
                 </div>
               ) : (
                 ""

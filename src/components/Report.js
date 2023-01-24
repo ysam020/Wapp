@@ -4,13 +4,7 @@ import Modal from "@mui/material/Modal";
 import { ThemeContext, ToggleContactInfoContext } from "../contexts/Context";
 import Checkbox from "@mui/material/Checkbox";
 
-function KeyboardShortcutsModal({
-  openModal,
-  handleCloseModal,
-  setOpenModal,
-  deleteChat,
-  blockUser,
-}) {
+function KeyboardShortcutsModal(props) {
   // Context
   const themeContext = useContext(ThemeContext);
   const toggleContactInfoContext = useContext(ToggleContactInfoContext);
@@ -19,7 +13,7 @@ function KeyboardShortcutsModal({
   const [checked, setChecked] = useState(true);
 
   return (
-    <Modal open={openModal} onClose={handleCloseModal}>
+    <Modal open={props.openModal} onClose={props.handleCloseModal}>
       <div
         className={
           themeContext.theme === "light"
@@ -70,17 +64,17 @@ function KeyboardShortcutsModal({
         >
           <button
             className="report-modal-cancel"
-            onClick={() => setOpenModal(false)}
+            onClick={() => props.setOpenModal(false)}
           >
             Cancel
           </button>
           <button
             className="report-modal-report"
             onClick={() => {
-              setOpenModal(false);
+              props.setOpenModal(false);
               if (checked === true) {
-                blockUser();
-                deleteChat();
+                props.blockUser();
+                props.deleteChat();
                 toggleContactInfoContext.toggleContactInfoDispatch("toggle");
               }
             }}
@@ -93,4 +87,4 @@ function KeyboardShortcutsModal({
   );
 }
 
-export default KeyboardShortcutsModal;
+export default React.memo(KeyboardShortcutsModal);

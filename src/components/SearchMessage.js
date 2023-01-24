@@ -16,7 +16,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-function SearchMessage({ emailId }) {
+function SearchMessage(props) {
   const urlPattern = new RegExp(
     "^(https?:\\/\\/)?" + // validate protocol
       "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // validate domain name
@@ -55,8 +55,8 @@ function SearchMessage({ emailId }) {
 
           let newMessage = messages.filter(
             (message) =>
-              message.senderEmail === (currentUser.email && emailId) ||
-              message.receiverEmail === (currentUser.email && emailId)
+              message.senderEmail === (currentUser.email && props.emailId) ||
+              message.receiverEmail === (currentUser.email && props.emailId)
           );
 
           setSearchedMessage(

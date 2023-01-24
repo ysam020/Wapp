@@ -33,17 +33,7 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-function ChatMessage({
-  message,
-  time,
-  sender,
-  read,
-  imageURL,
-  videoURL,
-  fileURL,
-  fileName,
-  starredMessage,
-}) {
+function ChatMessage(props) {
   // MUI Styles
   const classes = useStyles();
 
@@ -64,27 +54,27 @@ function ChatMessage({
     <>
       <div
         className={
-          sender === currentUser.email
+          props.sender === currentUser.email
             ? "chat-message chat-message-sent"
             : "chat-message chat-message-received"
         }
       >
-        {message.match(urlPattern) ? (
+        {props.message.match(urlPattern) ? (
           <>
             <div className="message-text">
-              <a href={message} target="blank">
-                {message}
+              <a href={props.message} target="blank">
+                {props.message}
               </a>
             </div>
             <span className="chat-timestamp">
               <StarRateRoundedIcon className={classes.starIcon} />
-              <p>{new Date(time.toDate()).toLocaleTimeString()}</p>
-              {sender === currentUser.email && (
+              <p>{new Date(props.time.toDate()).toLocaleTimeString()}</p>
+              {props.sender === currentUser.email && (
                 <DoneAllIcon
                   className={
-                    sender === currentUser.email && read === true
+                    props.sender === currentUser.email && props.read === true
                       ? `${classes.readIcon}`
-                      : sender === currentUser.email
+                      : props.sender === currentUser.email
                       ? `${classes.unreadIcon}`
                       : ""
                   }
@@ -92,25 +82,30 @@ function ChatMessage({
               )}
             </span>
           </>
-        ) : imageURL ? (
+        ) : props.imageURL ? (
           <>
             <div className="message-text">
-              <a href={imageURL} target="_blank" rel="noreferrer" download>
-                <img src={imageURL} width={300} alt="img" />
+              <a
+                href={props.imageURL}
+                target="_blank"
+                rel="noreferrer"
+                download
+              >
+                <img src={props.imageURL} width={300} alt="img" />
               </a>
             </div>
             <span className="chat-timestamp">
-              {starredMessage === true && (
+              {props.starredMessage === true && (
                 <StarRateRoundedIcon className={classes.starIcon} />
               )}
 
-              <p>{new Date(time.toDate()).toLocaleTimeString()}</p>
-              {sender === currentUser.email && (
+              <p>{new Date(props.time.toDate()).toLocaleTimeString()}</p>
+              {props.sender === currentUser.email && (
                 <DoneAllIcon
                   className={
-                    sender === currentUser.email && read === true
+                    props.sender === currentUser.email && props.read === true
                       ? `${classes.readIcon} media-delivered-icon`
-                      : sender === currentUser.email
+                      : props.sender === currentUser.email
                       ? `${classes.unreadIcon} media-delivered-icon`
                       : ""
                   }
@@ -118,27 +113,27 @@ function ChatMessage({
               )}
             </span>
           </>
-        ) : videoURL ? (
+        ) : props.videoURL ? (
           <>
             <div className="message-text">
               <video
-                src={videoURL}
+                src={props.videoURL}
                 controls={true}
                 width={300}
                 style={{ outline: "none" }}
               ></video>
             </div>
             <span className="chat-timestamp">
-              {starredMessage === true && (
+              {props.starredMessage === true && (
                 <StarRateRoundedIcon className={classes.starIcon} />
               )}
-              <p>{new Date(time.toDate()).toLocaleTimeString()}</p>
-              {sender === currentUser.email && (
+              <p>{new Date(props.time.toDate()).toLocaleTimeString()}</p>
+              {props.sender === currentUser.email && (
                 <DoneAllIcon
                   className={
-                    sender === currentUser.email && read === true
+                    props.sender === currentUser.email && props.read === true
                       ? `${classes.readIcon} media-delivered-icon`
-                      : sender === currentUser.email
+                      : props.sender === currentUser.email
                       ? `${classes.unreadIcon} media-delivered-icon`
                       : ""
                   }
@@ -146,30 +141,35 @@ function ChatMessage({
               )}
             </span>
           </>
-        ) : fileURL ? (
+        ) : props.fileURL ? (
           <>
             <div className="message-text-document">
               <div className="file-container">
-                <a href={fileURL} target="_blank" rel="noreferrer" download>
+                <a
+                  href={props.fileURL}
+                  target="_blank"
+                  rel="noreferrer"
+                  download
+                >
                   <div className="file-inner-container">
                     <InsertDriveFileIcon className={classes.fileIcon} />
-                    <p>{fileName}</p>
+                    <p>{props.fileName}</p>
                     <FileDownloadIcon className={classes.downloadIcon} />
                   </div>
                 </a>
               </div>
             </div>
             <span className="chat-timestamp">
-              {starredMessage === true && (
+              {props.starredMessage === true && (
                 <StarRateRoundedIcon className={classes.starIcon} />
               )}
-              <p>{new Date(time.toDate()).toLocaleTimeString()}</p>
-              {sender === currentUser.email && (
+              <p>{new Date(props.time.toDate()).toLocaleTimeString()}</p>
+              {props.sender === currentUser.email && (
                 <DoneAllIcon
                   className={
-                    sender === currentUser.email && read === true
+                    props.sender === currentUser.email && props.read === true
                       ? `${classes.readIcon} delivered-icon`
-                      : sender === currentUser.email
+                      : props.sender === currentUser.email
                       ? `${classes.unreadIcon} delivered-icon`
                       : ""
                   }
@@ -180,19 +180,19 @@ function ChatMessage({
         ) : (
           <>
             <div className="message-text">
-              <p>{message}</p>
+              <p>{props.message}</p>
             </div>
             <span className="chat-timestamp">
-              {starredMessage === true && (
+              {props.starredMessage === true && (
                 <StarRateRoundedIcon className={classes.starIcon} />
               )}
-              <p>{new Date(time.toDate()).toLocaleTimeString()}</p>
-              {sender === currentUser.email && (
+              <p>{new Date(props.time.toDate()).toLocaleTimeString()}</p>
+              {props.sender === currentUser.email && (
                 <DoneAllIcon
                   className={
-                    sender === currentUser.email && read === true
+                    props.sender === currentUser.email && props.read === true
                       ? `${classes.readIcon} delivered-icon`
-                      : sender === currentUser.email
+                      : props.sender === currentUser.email
                       ? `${classes.unreadIcon} delivered-icon`
                       : ""
                   }

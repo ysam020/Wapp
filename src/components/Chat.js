@@ -73,30 +73,7 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-function Chat({
-  chatPopover,
-  handleChatPopover,
-  handleClickAway,
-  message,
-  setMessage,
-  sendMessage,
-  sendMessageToDatabase,
-  getMessages,
-  chatMessages,
-  chatUser,
-  setChatUser,
-  block,
-  setBlock,
-  deleteChat,
-  selectedMessages,
-  setSelectedMessages,
-  deleteSelectedMessages,
-  starMessages,
-  emailId,
-  setChat,
-  selectMessagesUI,
-  setSelectMessagesUI,
-}) {
+function Chat(props) {
   // MUI Styles
   const classes = useStyles();
 
@@ -131,10 +108,10 @@ function Chat({
   // Get users from database
   const getUser = useCallback(() => {
     db.collection("users")
-      .doc(emailId)
-      .onSnapshot((snapshot) => setChatUser(snapshot.data()));
+      .doc(props.emailId)
+      .onSnapshot((snapshot) => props.setChatUser(snapshot.data()));
     // eslint-disable-next-line
-  }, [chatUser]);
+  }, [props.chatUser]);
 
   // Check blocked user
   const checkBlockedUser = useCallback(() => {
@@ -142,35 +119,39 @@ function Chat({
       .doc(currentUser.email)
       .collection("list")
       .onSnapshot((snapshot) => {
-        setBlock(
-          snapshot.docs.filter((doc) => doc.data().email === chatUser.email)
+        props.setBlock(
+          snapshot.docs.filter(
+            (doc) => doc.data().email === props.chatUser.email
+          )
         );
       });
     // eslint-disable-next-line
-  }, [block]);
+  }, [props.block]);
 
   useEffect(() => {
     getUser();
     checkBlockedUser();
 
     // Get last online time
+
     db.collection("users")
-      .doc(emailId)
+      .doc(props.emailId)
       .onSnapshot((snapshot) => setLastSeen(snapshot.data().lastOnline));
 
     // eslint-disable-next-line
   }, [
-    chatMessages,
-    chatUser.email,
+    props.chatMessages,
+    props.chatUser.email,
     currentUser.email,
-    emailId,
-    setBlock,
-    setChatUser,
+    props.emailId,
+    props.setBlock,
+    props.setChatUser,
   ]);
 
   useEffect(() => {
-    getMessages();
-  }, [emailId]);
+    props.getMessages();
+    // eslint-disable-next-line
+  }, [props.emailId]);
 
   useEffect(() => {
     // Hide emoji box on escape button
@@ -187,8 +168,8 @@ function Chat({
     // Focus send message input
     if (
       showWebcam === false &&
-      selectMessagesUI === false &&
-      block.length === 0
+      props.selectMessagesUI === false &&
+      props.block.length === 0
     ) {
       sendMessageRef.current.focus();
     }
@@ -200,13 +181,13 @@ function Chat({
       const { currentTarget: target } = event;
       target.scroll({ top: target.scrollHeight, behavior: "smooth" });
     });
-  }, [chatMessages]); // Run each time chatMessages is update
+  }, [props.chatMessages]); // Run each time chatMessages is update
 
   // Close chat function
   const closeChat = () => {
     toggleContactInfoContext.toggleContactInfoDispatch("hide");
-    setChat(false);
-    handleChatPopover();
+    props.setChat(false);
+    props.handleChatPopover();
     localStorage.removeItem("chat");
   };
 
@@ -234,13 +215,13 @@ function Chat({
                 messageId: randomString,
                 messageInfo: "Photo",
                 senderEmail: currentUser.email,
-                receiverEmail: emailId,
+                receiverEmail: props.emailId,
                 timestamp: firebase.firestore.Timestamp.now(),
                 read: false,
                 imageURL: url,
               };
 
-              sendMessageToDatabase(payload);
+              props.sendMessageToDatabase(payload);
             }
             // If videos
             else if (
@@ -252,13 +233,13 @@ function Chat({
                 messageId: randomString,
                 messageInfo: "Video",
                 senderEmail: currentUser.email,
-                receiverEmail: emailId,
+                receiverEmail: props.emailId,
                 timestamp: firebase.firestore.Timestamp.now(),
                 read: false,
                 videoURL: url,
               };
 
-              sendMessageToDatabase(payload);
+              props.sendMessageToDatabase(payload);
             }
             // If documents
             else if (e.target.getAttribute("accept") === "*") {
@@ -267,14 +248,14 @@ function Chat({
                 messageId: randomString,
                 messageInfo: "Document",
                 senderEmail: currentUser.email,
-                receiverEmail: emailId,
+                receiverEmail: props.emailId,
                 timestamp: firebase.firestore.Timestamp.now(),
                 read: false,
                 fileURL: url,
                 fileName: e.target.files[0].name,
               };
 
-              sendMessageToDatabase(payload);
+              props.sendMessageToDatabase(payload);
             }
           });
       }
@@ -291,13 +272,13 @@ function Chat({
       messageId: randomString,
       messageInfo: "Gif",
       senderEmail: currentUser.email,
-      receiverEmail: emailId,
+      receiverEmail: props.emailId,
       timestamp: firebase.firestore.Timestamp.now(),
       read: false,
       imageURL: result.media[0].gif.url,
     };
 
-    sendMessageToDatabase(payload);
+    props.sendMessageToDatabase(payload);
   };
 
   // Wallpaper doodles
@@ -334,13 +315,13 @@ function Chat({
               messageId: randomString,
               messageInfo: "Photo",
               senderEmail: currentUser.email,
-              receiverEmail: emailId,
+              receiverEmail: props.emailId,
               timestamp: firebase.firestore.Timestamp.now(),
               read: false,
               imageURL: url,
             };
 
-            sendMessageToDatabase(payload);
+            props.sendMessageToDatabase(payload);
           });
       }
     );
@@ -363,11 +344,11 @@ function Chat({
             toggleContactInfoContext.toggleContactInfoDispatch("toggle");
           }}
         >
-          <Avatar src={chatUser?.photoURL} />
+          <Avatar src={props.chatUser.photoURL} />
         </IconButton>
 
         <div className="chat-header-info">
-          <h3>{chatUser?.fullname}</h3>
+          <h3>{props.chatUser?.fullname}</h3>
           {lastSeen && (
             <p>{`Last seen ${moment(lastSeen.toDate()).fromNow()}`}</p>
           )}
@@ -384,26 +365,29 @@ function Chat({
           </IconButton>
 
           <div className="chat-popover-container">
-            <IconButton onClick={handleChatPopover} className={classes.icon}>
+            <IconButton
+              onClick={props.handleChatPopover}
+              className={classes.icon}
+            >
               <MoreVertRoundedIcon />
             </IconButton>
-            {chatPopover && (
-              <ClickAwayListener onClickAway={handleClickAway}>
+            {props.chatPopover && (
+              <ClickAwayListener onClickAway={props.handleClickAway}>
                 <div className="chat-popover">
                   <h4
                     onClick={() => {
                       toggleContactInfoContext.toggleContactInfoDispatch(
                         "toggle"
                       );
-                      handleChatPopover();
+                      props.handleChatPopover();
                     }}
                   >
                     Contact info
                   </h4>
                   <h4
                     onClick={() => {
-                      setSelectMessagesUI(!selectMessagesUI);
-                      handleChatPopover();
+                      props.setSelectMessagesUI(!props.selectMessagesUI);
+                      props.handleChatPopover();
                     }}
                   >
                     Select messages
@@ -415,7 +399,7 @@ function Chat({
                       disappearingMessagesContext.disappearingMessagesDispatch(
                         "toggle"
                       );
-                      handleChatPopover();
+                      props.handleChatPopover();
                     }}
                   >
                     Disappearing messages
@@ -423,8 +407,8 @@ function Chat({
                   <h4>Clear messages</h4>
                   <h4
                     onClick={() => {
-                      deleteChat();
-                      handleChatPopover();
+                      props.deleteChat();
+                      props.handleChatPopover();
                     }}
                   >
                     Delete chat
@@ -473,16 +457,16 @@ function Chat({
           </div>
         ) : (
           <div className="chat-body-inner-container">
-            {chatMessages.map((message, id) => (
+            {props.chatMessages.map((message, id) => (
               <div
                 className={
-                  selectMessagesUI
+                  props.selectMessagesUI
                     ? "message-row select-messages"
                     : "message-row"
                 }
                 key={id}
               >
-                {selectMessagesUI && (
+                {props.selectMessagesUI && (
                   <Checkbox
                     sx={{
                       color: "#8696A0",
@@ -493,13 +477,13 @@ function Chat({
                     disableRipple={true}
                     onChange={(event) => {
                       if (event.target.checked) {
-                        setSelectedMessages([
-                          ...selectedMessages,
+                        props.setSelectedMessages([
+                          ...props.selectedMessages,
                           message.messageId,
                         ]);
                       } else {
-                        setSelectedMessages(
-                          selectedMessages.filter(
+                        props.setSelectedMessages(
+                          props.selectedMessages.filter(
                             (item) => item !== message.messageId
                           )
                         );
@@ -530,7 +514,7 @@ function Chat({
       {emojiBox && (
         <EmojiPicker
           onEmojiClick={(event, emojiObject) => {
-            setMessage(message + emojiObject.emoji);
+            props.setMessage(props.message + emojiObject.emoji);
             sendMessageRef.current.focus();
           }}
           groupNames={{
@@ -558,44 +542,44 @@ function Chat({
         />
       )}
 
-      {showWebcam === false && block.length !== 0 ? (
+      {showWebcam === false && props.block.length !== 0 ? (
         <div className="chat-footer-blocked">
-          <p>Cant send message to a blocked contact {chatUser.email}</p>
+          <p>Cant send message to a blocked contact {props.chatUser.email}</p>
         </div>
       ) : showWebcam === true ? (
         ""
       ) : showWebcam === false &&
-        block.length === 0 &&
-        selectMessagesUI === true ? (
+        props.block.length === 0 &&
+        props.selectMessagesUI === true ? (
         <div
           style={{ display: "flex", alignItems: "center" }}
           className="chat-footer"
         >
           <IconButton
             onClick={() => {
-              setSelectMessagesUI(false);
-              setSelectedMessages([]);
+              props.setSelectMessagesUI(false);
+              props.setSelectedMessages([]);
             }}
           >
             <CloseOutlinedIcon className={classes.icon} />
           </IconButton>
-          <p>{`${selectedMessages.length} selected`}</p>
+          <p>{`${props.selectedMessages.length} selected`}</p>
           <IconButton
-            onClick={starMessages}
-            disabled={selectedMessages.length === 0 ? true : false}
+            onClick={props.starMessages}
+            disabled={props.selectedMessages.length === 0 ? true : false}
           >
             <StarRateRoundedIcon className={classes.icon} />
           </IconButton>
 
           <IconButton
-            onClick={deleteSelectedMessages}
-            disabled={selectedMessages.length === 0 ? true : false}
+            onClick={props.deleteSelectedMessages}
+            disabled={props.selectedMessages.length === 0 ? true : false}
           >
             <DeleteRoundedIcon className={classes.icon} />
           </IconButton>
 
           <IconButton
-            disabled={selectedMessages.length === 0 ? true : false}
+            disabled={props.selectedMessages.length === 0 ? true : false}
             onClick={() => handleOpenModal()}
           >
             <ShortcutIcon className={classes.icon} />
@@ -740,12 +724,12 @@ function Chat({
             </IconButton>
           </div>
 
-          <form onSubmit={sendMessage}>
+          <form onSubmit={props.sendMessage}>
             <input
               placeholder="Type a message"
               type="text"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              value={props.message}
+              onChange={(e) => props.setMessage(e.target.value)}
               ref={sendMessageRef}
             />
             <button type="submit">Send Message</button>
@@ -764,7 +748,7 @@ function Chat({
         handleCloseModal={handleCloseModal}
         selectedUser={selectedUser}
         setSelectedUser={setSelectedUser}
-        selectedMessages={selectedMessages}
+        selectedMessages={props.selectedMessages}
       />
     </div>
   );

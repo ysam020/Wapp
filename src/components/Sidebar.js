@@ -36,7 +36,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-function Sidebar({ setChat, setEmailId }) {
+function Sidebar(props) {
   // MUI Styles
   const classes = useStyles();
 
@@ -104,8 +104,8 @@ function Sidebar({ setChat, setEmailId }) {
         photoURL={user.data().photoURL}
         about={user.data().about}
         setSearchInput={setSearchInput}
-        setChat={setChat}
-        setEmailId={setEmailId}
+        setChat={props.setChat}
+        setEmailId={props.setEmailId}
       />
     );
   });
@@ -241,8 +241,8 @@ function Sidebar({ setChat, setEmailId }) {
                 messageType={friend.data().messageType}
                 messageSent={friend.data().messageSent}
                 messageRead={friend.data().messageRead}
-                setChat={setChat}
-                setEmailId={setEmailId}
+                setChat={props.setChat}
+                setEmailId={props.setEmailId}
               />
             ))}
       </div>

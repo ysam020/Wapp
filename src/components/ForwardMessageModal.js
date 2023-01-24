@@ -20,13 +20,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-function ForwardMessageModal({
-  openModal,
-  handleCloseModal,
-  selectedUser,
-  setSelectedUser,
-  selectedMessages,
-}) {
+function ForwardMessageModal(props) {
   // MUI Styles
   const classes = useStyles();
 
@@ -51,14 +45,14 @@ function ForwardMessageModal({
     db.collection("chats")
       .doc(currentUser.email)
       .collection("messages")
-      .where("messageId", "==", selectedMessages)
+      .where("messageId", "==", props.selectedMessages)
       .get()
       .then((querySnapshot) => {});
-    handleCloseModal();
+    props.handleCloseModal();
   };
 
   return (
-    <Modal open={openModal} onClose={handleCloseModal}>
+    <Modal open={props.openModal} onClose={props.handleCloseModal}>
       <div
         className={
           themeContext.theme === "light"
@@ -70,7 +64,7 @@ function ForwardMessageModal({
           <IconButton
             className={classes.icon}
             onClick={() => {
-              handleCloseModal();
+              props.handleCloseModal();
             }}
           >
             <CloseIcon />
@@ -110,10 +104,13 @@ function ForwardMessageModal({
                   }}
                   onChange={(event) => {
                     if (event.target.checked) {
-                      setSelectedUser([...selectedUser, user.data().email]);
+                      props.setSelectedUser([
+                        ...props.selectedUser,
+                        user.data().email,
+                      ]);
                     } else {
-                      setSelectedUser(
-                        selectedUser.filter(
+                      props.setSelectedUser(
+                        props.selectedUser.filter(
                           (item) => item !== user.data().email
                         )
                       );
@@ -132,10 +129,10 @@ function ForwardMessageModal({
           })}
         </div>
 
-        {selectedUser.length !== 0 && (
+        {props.selectedUser.length !== 0 && (
           <div className="forward-message-footer">
             <div className="forward-message-footer-user-info">
-              {selectedUser.map((user, id) => {
+              {props.selectedUser.map((user, id) => {
                 return <p key={id}>{`${user},`}&nbsp;</p>;
               })}
             </div>
@@ -152,4 +149,4 @@ function ForwardMessageModal({
   );
 }
 
-export default ForwardMessageModal;
+export default React.memo(ForwardMessageModal);

@@ -27,7 +27,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-function NewChat({ setChat, setEmailId }) {
+function NewChat(props) {
   // MUI Styles
   const classes = useStyles();
 
@@ -147,8 +147,8 @@ function NewChat({ setChat, setEmailId }) {
                       photoURL={user.data().photoURL}
                       about={user.data().about}
                       email={user.data().email}
-                      setChat={setChat}
-                      setEmailId={setEmailId}
+                      setChat={props.setChat}
+                      setEmailId={props.setEmailId}
                       setSearchInput={setSearchInput}
                     />
                   </div>

@@ -2,7 +2,7 @@ import React from "react";
 import "../styles/loader.css";
 import BarLoader from "react-spinners/BarLoader";
 
-function Loader(loading) {
+function Loader(props) {
   return (
     <div className="loader">
       <img
@@ -13,7 +13,7 @@ function Loader(loading) {
       <BarLoader
         className="bar-loader"
         color="#008069"
-        loading={loading}
+        loading={props.loading}
         aria-label="Loading Spinner"
         data-testid="loader"
         speedMultiplier={0.7}

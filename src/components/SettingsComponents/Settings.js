@@ -13,6 +13,8 @@ import {
   ToggleChatWallpaperContext,
 } from "../../contexts/Context";
 
+import KeyboardShortcutsModal from "./KeyboardShortcutsModal";
+
 // MUI components
 import { IconButton } from "@material-ui/core";
 import { Avatar } from "@material-ui/core";
@@ -32,8 +34,6 @@ import WallpaperRoundedIcon from "@mui/icons-material/WallpaperRounded";
 import FeedRoundedIcon from "@mui/icons-material/FeedRounded";
 import BrightnessAutoRoundedIcon from "@mui/icons-material/BrightnessAutoRounded";
 import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
-
-import KeyboardShortcutsModal from "./KeyboardShortcutsModal";
 
 const useStyles = makeStyles((theme) =>
   createStyles({

@@ -4,10 +4,10 @@ import Modal from "@mui/material/Modal";
 import keyboardShortcuts from "../../data/KeyboardShortcuts";
 import { ThemeContext } from "../../contexts/Context";
 
-function KeyboardShortcutsModal({ openModal, handleCloseModal, setOpenModal }) {
+function KeyboardShortcutsModal(props) {
   const themeContext = useContext(ThemeContext);
   return (
-    <Modal open={openModal} onClose={handleCloseModal}>
+    <Modal open={props.openModal} onClose={props.handleCloseModal}>
       <div
         className={
           themeContext.theme === "light"
@@ -38,10 +38,10 @@ function KeyboardShortcutsModal({ openModal, handleCloseModal, setOpenModal }) {
             })}
           </div>
         </div>
-        <button onClick={() => setOpenModal(false)}>OK</button>
+        <button onClick={() => props.setOpenModal(false)}>OK</button>
       </div>
     </Modal>
   );
 }
 
-export default KeyboardShortcutsModal;
+export default React.memo(KeyboardShortcutsModal);
