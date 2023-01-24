@@ -35,20 +35,26 @@ function ForwardMessageModal(props) {
   // Forward message search ref
   const forwardMessageSearchRef = useRef();
 
+  var usersCollectionRef = db.collection("users");
+
+  var senderMessageCollectionRef = db
+    .collection("chats")
+    .doc(currentUser.email)
+    .collection("messages");
+
   useEffect(() => {
-    db.collection("users").onSnapshot((snapshot) => {
+    usersCollectionRef.onSnapshot((snapshot) => {
       setusers(snapshot.docs);
     });
     // eslint-disable-next-line
   }, []);
 
   const handleForwardMessage = () => {
-    db.collection("chats")
-      .doc(currentUser.email)
-      .collection("messages")
+    senderMessageCollectionRef
       .where("messageId", "==", props.selectedMessages)
       .get()
       .then((querySnapshot) => {});
+
     props.handleCloseModal();
   };
 

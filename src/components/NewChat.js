@@ -42,11 +42,13 @@ function NewChat(props) {
   //  Ref
   const newChatSearchRef = useRef();
 
+  var usersCollectionRef = db.collection("users");
+
   useEffect(() => {
     console.log("loaded");
     // Get all users
     const getAllUsers = () => {
-      db.collection("users").onSnapshot((snapshot) => {
+      usersCollectionRef.onSnapshot((snapshot) => {
         setAllUsers(snapshot.docs);
       });
     };

@@ -105,26 +105,26 @@ function Chat(props) {
   const currentUser = useContext(UserContext);
   const { chatBackground, doodle } = useContext(ChatBackgroundContext);
 
+  var chatUserRef = db.collection("users").doc(props.emailId);
+
+  var blockedUserCollectionRef = db
+    .collection("blockedUser")
+    .doc(currentUser.email)
+    .collection("list");
+
   // Get users from database
   const getUser = useCallback(() => {
-    db.collection("users")
-      .doc(props.emailId)
-      .onSnapshot((snapshot) => props.setChatUser(snapshot.data()));
+    chatUserRef.onSnapshot((snapshot) => props.setChatUser(snapshot.data()));
     // eslint-disable-next-line
   }, [props.chatUser]);
 
   // Check blocked user
   const checkBlockedUser = useCallback(() => {
-    db.collection("blockedUser")
-      .doc(currentUser.email)
-      .collection("list")
-      .onSnapshot((snapshot) => {
-        props.setBlock(
-          snapshot.docs.filter(
-            (doc) => doc.data().email === props.chatUser.email
-          )
-        );
-      });
+    blockedUserCollectionRef.onSnapshot((snapshot) => {
+      props.setBlock(
+        snapshot.docs.filter((doc) => doc.data().email === props.chatUser.email)
+      );
+    });
     // eslint-disable-next-line
   }, [props.block]);
 
@@ -133,10 +133,9 @@ function Chat(props) {
     checkBlockedUser();
 
     // Get last online time
-
-    db.collection("users")
-      .doc(props.emailId)
-      .onSnapshot((snapshot) => setLastSeen(snapshot.data().lastOnline));
+    chatUserRef.onSnapshot((snapshot) =>
+      setLastSeen(snapshot.data().lastOnline)
+    );
 
     // eslint-disable-next-line
   }, [

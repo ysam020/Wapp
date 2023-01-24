@@ -92,6 +92,28 @@ function Home() {
   const [starredMessages, setStarredMessages] = useState([]);
   const [selectMessagesUI, setSelectMessagesUI] = useState(false);
 
+  var senderMessageCollectionRef = db
+    .collection("chats")
+    .doc(currentUser.email)
+    .collection("messages");
+
+  var receiverMessageCollectionRef = db
+    .collection("chats")
+    .doc(emailId)
+    .collection("messages");
+
+  var senderFriendListRef = db
+    .collection("FriendList")
+    .doc(currentUser.email)
+    .collection("list")
+    .doc(emailId);
+
+  var receiverFriendListRef = db
+    .collection("FriendList")
+    .doc(emailId)
+    .collection("list")
+    .doc(currentUser.email);
+
   useEffect(() => {
     // Update last online in user collection
     db.collection("users")
@@ -127,47 +149,35 @@ function Home() {
 
   const sendMessageToDatabase = (payload) => {
     //Add message to chat collection for sender
-    db.collection("chats")
-      .doc(currentUser.email)
-      .collection("messages")
-      .add(payload);
+    senderMessageCollectionRef.add(payload);
+
     //Add message to chat collection for receiver
-    db.collection("chats").doc(emailId).collection("messages").add(payload);
+    receiverMessageCollectionRef.add(payload);
 
     // Add friend in FriendList collection for sender
-    db.collection("FriendList")
-      .doc(currentUser.email)
-      .collection("list")
-      .doc(emailId)
-      .set({
-        email: chatUser.email,
-        fullname: chatUser.fullname,
-        photoURL: chatUser.photoURL,
-        lastMessage: message,
-        messageType: payload.messageInfo,
-        messageSent: true,
-        messageRead: false,
-        timestamp: firebase.firestore.Timestamp.now(),
-      });
+    senderFriendListRef.set({
+      email: chatUser.email,
+      fullname: chatUser.fullname,
+      photoURL: chatUser.photoURL,
+      lastMessage: message,
+      messageType: payload.messageInfo,
+      messageSent: true,
+      messageRead: false,
+      timestamp: firebase.firestore.Timestamp.now(),
+    });
 
     // Add friend in FriendList collection for receiver
-    db.collection("FriendList")
-      .doc(emailId)
-      .collection("list")
-      .doc(currentUser.email)
-      .set({
-        email: currentUser.email,
-        fullname: currentUser.fullname,
-        photoURL: currentUser.photoURL,
-        lastMessage: message,
-        messageType: payload.messageInfo,
-        timestamp: firebase.firestore.Timestamp.now(),
-      });
+    receiverFriendListRef.set({
+      email: currentUser.email,
+      fullname: currentUser.fullname,
+      photoURL: currentUser.photoURL,
+      lastMessage: message,
+      messageType: payload.messageInfo,
+      timestamp: firebase.firestore.Timestamp.now(),
+    });
 
     // Mark messages as read when user replies
-    db.collection("chats")
-      .doc(currentUser.email)
-      .collection("messages")
+    senderMessageCollectionRef
       .doc(emailId)
       .collection("messages")
       .get()
@@ -179,18 +189,12 @@ function Home() {
         });
       });
 
-    db.collection("FriendList")
-      .doc(emailId)
-      .collection("list")
-      .doc(currentUser.email)
-      .update({ messageRead: true });
+    receiverFriendListRef.update({ messageRead: true });
   };
 
   // Get chats from database
   const getMessages = () => {
-    db.collection("chats")
-      .doc(currentUser.email)
-      .collection("messages")
+    senderMessageCollectionRef
       .orderBy("timestamp", "asc")
       .onSnapshot((snapshot) => {
         let messages = snapshot.docs.map((doc) => doc.data());
@@ -202,9 +206,7 @@ function Home() {
         );
 
         // Get starred messages
-        db.collection("chats")
-          .doc(currentUser.email)
-          .collection("messages")
+        senderMessageCollectionRef
           .where("starred", "==", true)
           .orderBy("timestamp", "asc")
           .onSnapshot((snapshot) => {
@@ -217,82 +219,46 @@ function Home() {
 
   // Delete chat
   const deleteChat = () => {
-    db.collection("chats")
-      .doc(currentUser.email)
-      .collection("messages")
+    senderMessageCollectionRef
       .where("receiverEmail", "==", emailId, "||", currentUser.email)
       .get()
       .then((querySnapshot) =>
         querySnapshot.forEach((doc) =>
-          db
-            .collection("chats")
-            .doc(currentUser.email)
-            .collection("messages")
-            .doc(doc.id)
-            .delete()
+          senderMessageCollectionRef.doc(doc.id).delete()
         )
       );
 
-    db.collection("chats")
-      .doc(currentUser.email)
-      .collection("messages")
+    senderMessageCollectionRef
       .where("senderEmail", "==", emailId, "||", currentUser.email)
       .get()
       .then((querySnapshot) =>
         querySnapshot.forEach((doc) =>
-          db
-            .collection("chats")
-            .doc(currentUser.email)
-            .collection("messages")
-            .doc(doc.id)
-            .delete()
+          senderMessageCollectionRef.doc(doc.id).delete()
         )
       );
 
-    db.collection("chats")
-      .doc(emailId)
-      .collection("messages")
+    receiverMessageCollectionRef
       .where("receiverEmail", "==", emailId, "||", currentUser.email)
       .get()
       .then((querySnapshot) =>
         querySnapshot.forEach((doc) =>
-          db
-            .collection("chats")
-            .doc(emailId)
-            .collection("messages")
-            .doc(doc.id)
-            .delete()
+          receiverMessageCollectionRef.doc(doc.id).delete()
         )
       );
 
-    db.collection("chats")
-      .doc(emailId)
-      .collection("messages")
+    receiverMessageCollectionRef
       .where("senderEmail", "==", emailId, "||", currentUser.email)
       .get()
       .then((querySnapshot) =>
         querySnapshot.forEach((doc) =>
-          db
-            .collection("chats")
-            .doc(emailId)
-            .collection("messages")
-            .doc(doc.id)
-            .delete()
+          receiverMessageCollectionRef.doc(doc.id).delete()
         )
       );
 
     // Delete from friend list
-    db.collection("FriendList")
-      .doc(currentUser.email)
-      .collection("list")
-      .doc(emailId)
-      .delete();
+    senderFriendListRef.delete();
 
-    db.collection("FriendList")
-      .doc(emailId)
-      .collection("list")
-      .doc(currentUser.email)
-      .delete();
+    receiverFriendListRef.delete();
 
     setChat(false);
 
@@ -302,24 +268,17 @@ function Home() {
   // Delete selected messages
   const deleteSelectedMessages = useCallback(() => {
     selectedMessages.map((message) => {
-      db.collection("chats")
-        .doc(currentUser.email)
-        .collection("messages")
+      senderMessageCollectionRef
         .where("messageId", "==", message)
         .get()
         .then((querySnapshot) =>
           querySnapshot.forEach((doc) =>
-            db
-              .collection("chats")
-              .doc(currentUser.email)
-              .collection("messages")
+            senderMessageCollectionRef
               .doc(doc.id)
               .delete()
               .then(() => {
                 // Update last message in sidebar
-                db.collection("chats")
-                  .doc(currentUser.email)
-                  .collection("messages")
+                senderMessageCollectionRef
                   .where(
                     "senderEmail",
                     "==",
@@ -336,34 +295,23 @@ function Home() {
                   .orderBy("timestamp", "desc")
                   .limit(1)
                   .onSnapshot((snapshot) => {
-                    db.collection("FriendList")
-                      .doc(currentUser.email)
-                      .collection("list")
-                      .doc(emailId)
-                      .update({
-                        lastMessage: snapshot.docs[0].data().text,
-                        messageRead: snapshot.docs[0].data().read,
-                        messageType: snapshot.docs[0].data().messageInfo,
-                        timestamp: snapshot.docs[0].data().timestamp,
-                      });
+                    senderFriendListRef.update({
+                      lastMessage: snapshot.docs[0].data().text,
+                      messageRead: snapshot.docs[0].data().read,
+                      messageType: snapshot.docs[0].data().messageInfo,
+                      timestamp: snapshot.docs[0].data().timestamp,
+                    });
                   });
               })
           )
         );
 
-      db.collection("chats")
-        .doc(emailId)
-        .collection("messages")
+      receiverMessageCollectionRef
         .where("messageId", "==", message)
         .get()
         .then((querySnapshot) =>
           querySnapshot.forEach((doc) =>
-            db
-              .collection("chats")
-              .doc(emailId)
-              .collection("messages")
-              .doc(doc.id)
-              .delete()
+            receiverMessageCollectionRef.doc(doc.id).delete()
           )
         );
 
@@ -377,19 +325,12 @@ function Home() {
 
   const starMessages = () => {
     selectedMessages.map((message) => {
-      db.collection("chats")
-        .doc(currentUser.email)
-        .collection("messages")
+      senderMessageCollectionRef
         .where("messageId", "==", message)
         .get()
         .then((querySnapshot) =>
           querySnapshot.forEach((doc) =>
-            db
-              .collection("chats")
-              .doc(currentUser.email)
-              .collection("messages")
-              .doc(doc.id)
-              .update({ starred: true })
+            senderMessageCollectionRef.doc(doc.id).update({ starred: true })
           )
         );
 
@@ -468,7 +409,12 @@ function Home() {
               />
 
               {toggleContactInfoContext.toggleContactInfoState && (
-                <ContactInfo deleteChat={deleteChat} emailId={emailId} />
+                <ContactInfo
+                  deleteChat={deleteChat}
+                  emailId={emailId}
+                  block={block}
+                  setBlock={setBlock}
+                />
               )}
               {encryptionContext.encryptionState && <Encryption />}
               {disappearingMessagesContext.disappearingMessagesState && (

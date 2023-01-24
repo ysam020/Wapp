@@ -63,7 +63,6 @@ function ContactInfo(props) {
 
   // UseState
   const [chatUser, setChatUser] = useState({});
-  const [block, setBlock] = useState([]);
   const [openModal, setOpenModal] = useState(false);
 
   // Contexts
@@ -73,25 +72,27 @@ function ContactInfo(props) {
   const disappearingMessagesContext = useContext(DisappearingMessagesContext);
   const starredMessageContext = useContext(StarredMessageContext);
 
+  var chatUserRef = db.collection("users").doc(props.emailId);
+
+  var blockedUserCollectionRef = db
+    .collection("blockedUser")
+    .doc(currentUser.email)
+    .collection("list");
+
   useEffect(() => {
     // Get users from database
     const getUser = async () => {
-      db.collection("users")
-        .doc(props.emailId)
-        .onSnapshot((snapshot) => {
-          setChatUser(snapshot.data());
-        });
+      chatUserRef.onSnapshot((snapshot) => {
+        setChatUser(snapshot.data());
+      });
     };
 
     const checkBlockedUser = () => {
-      db.collection("blockedUser")
-        .doc(currentUser.email)
-        .collection("list")
-        .onSnapshot((snapshot) => {
-          setBlock(
-            snapshot.docs.filter((doc) => doc.data().email === chatUser?.email)
-          );
-        });
+      blockedUserCollectionRef.onSnapshot((snapshot) => {
+        props.setBlock(
+          snapshot.docs.filter((doc) => doc.data().email === chatUser?.email)
+        );
+      });
     };
 
     getUser();
@@ -101,22 +102,14 @@ function ContactInfo(props) {
 
   // Block user function
   const blockUser = () => {
-    db.collection("blockedUser")
-      .doc(currentUser.email)
-      .collection("list")
-      .doc(chatUser.email)
-      .set({
-        email: chatUser.email,
-      });
+    blockedUserCollectionRef.doc(chatUser.email).set({
+      email: chatUser.email,
+    });
   };
 
   // Unblock user function
   const unblockUser = () => {
-    db.collection("blockedUser")
-      .doc(currentUser.email)
-      .collection("list")
-      .doc(props.emailId)
-      .delete();
+    blockedUserCollectionRef.doc(props.emailId).delete();
   };
 
   const handleOpenModal = () => setOpenModal(true);
@@ -223,7 +216,7 @@ function ContactInfo(props) {
             <div
               className="block"
               // Conditional rendering of classname
-              onClick={block.length === 0 ? blockUser : unblockUser}
+              onClick={props.block.length === 0 ? blockUser : unblockUser}
             >
               <IconButton>
                 <BlockIcon className={classes.redIcon} />
@@ -231,7 +224,7 @@ function ContactInfo(props) {
               <div className="block-text">
                 <h5>
                   {/* Conditional rendering of block and unblock text */}
-                  {block.length === 0
+                  {props.block.length === 0
                     ? `Block ${chatUser.email}`
                     : `Unblock ${chatUser.email}`}
                 </h5>

@@ -63,9 +63,16 @@ function Sidebar(props) {
   // Sidebar search ref
   const sidebarSearchRef = useRef();
 
+  var userCollectionRef = db.collection("users");
+
+  var senderFriendListRef = db
+    .collection("FriendList")
+    .doc(currentUser.email)
+    .collection("list");
+
   // Get all users from database
   const getAllUsers = useCallback(() => {
-    db.collection("users").onSnapshot((snapshot) => {
+    userCollectionRef.onSnapshot((snapshot) => {
       setAllUsers(
         snapshot.docs.filter((doc) => doc.data().email !== currentUser?.email) // Get all users whose email id is not same as the email of current user
       );
@@ -75,13 +82,9 @@ function Sidebar(props) {
 
   // Get friends from FriendList databse
   const getFriends = useCallback(() => {
-    db.collection("FriendList")
-      .doc(currentUser.email)
-      .collection("list")
-      .orderBy("timestamp", "desc")
-      .onSnapshot((snapshot) => {
-        setFriendList(snapshot.docs);
-      });
+    senderFriendListRef.orderBy("timestamp", "desc").onSnapshot((snapshot) => {
+      setFriendList(snapshot.docs);
+    });
     // eslint-disable-next-line
   }, [friendList]);
 

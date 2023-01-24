@@ -40,12 +40,12 @@ function StarredMessages(props) {
   //   useState
   const [chatUser, setChatUser] = useState({});
 
+  var userCollectionref = db.collection("users");
+
   const getUser = useCallback(() => {
-    db.collection("users")
-      .doc(props.emailId)
-      .onSnapshot((snapshot) => {
-        setChatUser(snapshot.data());
-      });
+    userCollectionref.doc(props.emailId).onSnapshot((snapshot) => {
+      setChatUser(snapshot.data());
+    });
     // eslint-disable-next-line
   }, [chatUser]);
 

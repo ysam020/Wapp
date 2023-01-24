@@ -47,11 +47,14 @@ function SearchMessage(props) {
   // Ref
   const searchMessagesRef = useRef();
 
+  var senderMessageCollectionRef = db
+    .collection("chats")
+    .doc(currentUser.email)
+    .collection("messages");
+
   // Get chats from database
   const getMessages = useCallback(() => {
-    db.collection("chats")
-      .doc(currentUser.email)
-      .collection("messages")
+    senderMessageCollectionRef
       .orderBy("timestamp", "asc")
       .onSnapshot((snapshot) => {
         let messages = snapshot.docs.map((doc) => doc.data());
