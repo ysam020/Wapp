@@ -76,6 +76,11 @@
   font-weight: 400;
 }
 
+.typing-indicator {
+  color: var(--teal) !important;
+  font-weight: 600 !important;
+}
+
 .btn-primary {
   text-transform: uppercase;
   color: var(--communities-button-text);

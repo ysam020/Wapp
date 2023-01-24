@@ -253,6 +253,7 @@ function Sidebar(props) {
                 messageType={friend.data().messageType}
                 messageSent={friend.data().messageSent}
                 messageRead={friend.data().messageRead}
+                typingIndicator={friend.data().typing}
                 setChat={props.setChat}
                 setEmailId={props.setEmailId}
               />

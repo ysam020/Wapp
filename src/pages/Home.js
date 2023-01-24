@@ -92,27 +92,29 @@ function Home() {
   const [starredMessages, setStarredMessages] = useState([]);
   const [selectMessagesUI, setSelectMessagesUI] = useState(false);
 
-  var senderMessageCollectionRef = db
-    .collection("chats")
-    .doc(currentUser.email)
-    .collection("messages");
+  if (emailId) {
+    var senderMessageCollectionRef = db
+      .collection("chats")
+      .doc(currentUser.email)
+      .collection("messages");
 
-  var receiverMessageCollectionRef = db
-    .collection("chats")
-    .doc(emailId)
-    .collection("messages");
+    var receiverMessageCollectionRef = db
+      .collection("chats")
+      .doc(emailId)
+      .collection("messages");
 
-  var senderFriendListRef = db
-    .collection("FriendList")
-    .doc(currentUser.email)
-    .collection("list")
-    .doc(emailId);
+    var senderFriendListRef = db
+      .collection("FriendList")
+      .doc(currentUser.email)
+      .collection("list")
+      .doc(emailId);
 
-  var receiverFriendListRef = db
-    .collection("FriendList")
-    .doc(emailId)
-    .collection("list")
-    .doc(currentUser.email);
+    var receiverFriendListRef = db
+      .collection("FriendList")
+      .doc(emailId)
+      .collection("list")
+      .doc(currentUser.email);
+  }
 
   useEffect(() => {
     // Update last online in user collection

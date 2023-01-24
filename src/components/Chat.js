@@ -97,6 +97,8 @@ function Chat(props) {
   const [gifBox, setGifBox] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState([]);
+  const [typing, setTyping] = useState(false);
+  const [typingIndicator, setTypingIndicator] = useState();
 
   // Contexts
   const toggleContactInfoContext = useContext(ToggleContactInfoContext);
@@ -111,6 +113,18 @@ function Chat(props) {
     .collection("blockedUser")
     .doc(currentUser.email)
     .collection("list");
+
+  var senderFriendListRef = db
+    .collection("FriendList")
+    .doc(currentUser.email)
+    .collection("list")
+    .doc(props.emailId);
+
+  var receiverFriendListRef = db
+    .collection("FriendList")
+    .doc(props.emailId)
+    .collection("list")
+    .doc(currentUser.email);
 
   // Get users from database
   const getUser = useCallback(() => {
@@ -329,6 +343,30 @@ function Chat(props) {
     setCircularProgress(true);
   };
 
+  // Update typing to database
+  const handleTyping = useCallback(() => {
+    if (typing === true) {
+      receiverFriendListRef.update({ typing: true });
+    } else {
+      receiverFriendListRef.update({ typing: false });
+    }
+  }, [typing]);
+
+  useEffect(() => {
+    handleTyping();
+  }, [typing]);
+
+  // Get typing indicator from database
+  const handleTypingIndicator = useCallback(() => {
+    senderFriendListRef.onSnapshot((snapshot) => {
+      setTypingIndicator(snapshot.data().typing);
+    });
+  }, [typingIndicator]);
+
+  useEffect(() => {
+    handleTypingIndicator();
+  }, [typingIndicator]);
+
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => {
     setOpenModal(false);
@@ -348,8 +386,12 @@ function Chat(props) {
 
         <div className="chat-header-info">
           <h3>{props.chatUser?.fullname}</h3>
-          {lastSeen && (
-            <p>{`Last seen ${moment(lastSeen.toDate()).fromNow()}`}</p>
+          {typingIndicator && typingIndicator === true ? (
+            <p className="typing-indicator">typing...</p>
+          ) : (
+            lastSeen && (
+              <p>{`Last seen ${moment(lastSeen.toDate()).fromNow()}`}</p>
+            )
           )}
         </div>
 
@@ -728,7 +770,10 @@ function Chat(props) {
               placeholder="Type a message"
               type="text"
               value={props.message}
-              onChange={(e) => props.setMessage(e.target.value)}
+              onChange={(e) => {
+                props.setMessage(e.target.value);
+                e.target.value === "" ? setTyping(false) : setTyping(true);
+              }}
               ref={sendMessageRef}
             />
             <button type="submit">Send Message</button>

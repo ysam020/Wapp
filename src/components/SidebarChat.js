@@ -60,7 +60,17 @@ function SidebarChat(props) {
               </p>
             </div>
             <div className="sidebar-chat-info-row-2">
-              {props.messageType === "Photo" ? (
+              {props.typingIndicator && props.typingIndicator === true ? (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    width: "100%",
+                  }}
+                >
+                  <p className="typing-indicator">typing...</p>
+                </div>
+              ) : props.messageType === "Photo" ? (
                 <div
                   style={{
                     display: "flex",

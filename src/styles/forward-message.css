@@ -29,6 +29,12 @@
   padding: 20px 0;
   max-height: 70vh;
   overflow-y: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.forward-message-body::-webkit-scrollbar {
+  display: none;
 }
 
 .forward-message-body h4 {
