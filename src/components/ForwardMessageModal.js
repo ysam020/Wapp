@@ -54,7 +54,6 @@ function ForwardMessageModal({
       .where("messageId", "==", selectedMessages)
       .get()
       .then((querySnapshot) => {});
-
     handleCloseModal();
   };
 

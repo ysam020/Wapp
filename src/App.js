@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import Login from "./pages/Login";
 import { Routes, Route } from "react-router-dom";
@@ -105,7 +105,7 @@ function App() {
           })
           .then((currentToken) => {
             if (currentToken) {
-              console.log(currentToken);
+              console.log("Generated token:", currentToken);
             } else {
               console.log("Permission denied");
             }

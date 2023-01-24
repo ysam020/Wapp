@@ -84,12 +84,10 @@ function Home() {
   );
   const [chat, setChat] = useState(emailId ? true : false);
   const [chatPopover, setChatPopover] = useState(false);
-  const [searchInput, setSearchInput] = useState("");
   const [message, setMessage] = useState("");
   const [block, setBlock] = useState([]);
   const [chatUser, setChatUser] = useState({});
   const [chatMessages, setChatMessages] = useState([]);
-  const [searchedMessage, setSearchedMessage] = useState([]);
   const [selectedMessages, setSelectedMessages] = useState([]);
   const [starredMessages, setStarredMessages] = useState([]);
   const [selectMessagesUI, setSelectMessagesUI] = useState(false);
@@ -203,17 +201,6 @@ function Home() {
             message.receiverEmail === (currentUser.email && emailId)
         );
 
-        setSearchedMessage(
-          newMessage.filter((searchTerm) => {
-            if (searchInput) {
-              if (searchTerm.text.includes(searchInput)) {
-                return searchTerm;
-              }
-            }
-            return false;
-          })
-        );
-
         // Get starred messages
         db.collection("chats")
           .doc(currentUser.email)
@@ -226,7 +213,6 @@ function Home() {
 
         setChatMessages(newMessage);
       });
-    // eslint-disable-next-line
   };
 
   // Delete chat
@@ -460,7 +446,6 @@ function Home() {
                 chatPopover={chatPopover}
                 handleChatPopover={handleChatPopover}
                 handleClickAway={handleClickAway}
-                searchInput={searchInput}
                 message={message}
                 setMessage={setMessage}
                 chatMessages={chatMessages}
@@ -490,11 +475,7 @@ function Home() {
                 <DisappearingMessages />
               )}
               {searchMessageContext.searchMessageState && (
-                <SearchMessage
-                  searchMessage={searchInput}
-                  setSearchInput={setSearchInput}
-                  searchedMessage={searchedMessage}
-                />
+                <SearchMessage emailId={emailId} />
               )}
               {starredMessageContext.starredMessageState && (
                 <StarredMessages

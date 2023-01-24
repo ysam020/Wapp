@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "wapp-c2920",
+    "site": "react-wapp",
     "public": "build",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
