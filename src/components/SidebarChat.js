@@ -34,7 +34,7 @@ function SidebarChat(props) {
   const classes = useStyles();
 
   // Classify timestamp based on time ago
-  const getTimeAgo = (index) => {
+  const getTimeAgo = () => {
     const currentDate = new Date();
     const messageDate = props.time.toDate();
 
@@ -86,7 +86,7 @@ function SidebarChat(props) {
           <div className="sidebar-chat-info">
             <div className="sidebar-chat-info-row-1">
               <h3>{props.name}</h3>
-              {getTimeAgo(props.index) && <p>{getTimeAgo(props.index)}</p>}
+              {getTimeAgo() && <p>{getTimeAgo()}</p>}
             </div>
             <div className="sidebar-chat-info-row-2">
               {props.typingIndicator && props.typingIndicator === true ? (
