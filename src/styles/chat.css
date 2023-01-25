@@ -43,6 +43,12 @@
   background-size: 412.5px 749.25px !important;
   background-repeat: repeat !important;
   background-blend-mode: overlay;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.chat-body::-webkit-scrollbar {
+  display: none;
 }
 
 .chat-message-box {

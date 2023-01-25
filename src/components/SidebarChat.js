@@ -1,6 +1,5 @@
 import React from "react";
 import { Avatar } from "@material-ui/core";
-import moment from "moment";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import VideoCameraBackIcon from "@mui/icons-material/VideoCameraBack";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
@@ -34,6 +33,38 @@ function SidebarChat(props) {
   // MUI Styles
   const classes = useStyles();
 
+  // Classify timestamp based on time ago
+  const getTimeAgo = (index) => {
+    const currentDate = new Date();
+    const messageDate = props.time.toDate();
+
+    const midNightTime = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate(),
+      0,
+      0,
+      0
+    );
+
+    const diffTime = currentDate - messageDate;
+    const elapsedTime = (messageDate - midNightTime) / (1000 * 60 * 60);
+    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+
+    if (elapsedTime > 0 && elapsedTime < 24) {
+      return messageDate.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    } else if (diffDays < 2) {
+      return "Yesterday";
+    } else if (diffDays < 7) {
+      return messageDate.toLocaleString("default", { weekday: "long" });
+    } else {
+      return messageDate.toLocaleDateString();
+    }
+  };
+
   return (
     <>
       <Tooltip
@@ -55,9 +86,7 @@ function SidebarChat(props) {
           <div className="sidebar-chat-info">
             <div className="sidebar-chat-info-row-1">
               <h3>{props.name}</h3>
-              <p>
-                {moment(props.time.toDate().toGMTString("en-US")).fromNow()}
-              </p>
+              {getTimeAgo(props.index) && <p>{getTimeAgo(props.index)}</p>}
             </div>
             <div className="sidebar-chat-info-row-2">
               {props.typingIndicator && props.typingIndicator === true ? (

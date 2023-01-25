@@ -350,10 +350,12 @@ function Chat(props) {
     } else {
       receiverFriendListRef.update({ typing: false });
     }
+    // eslint-disable-next-line
   }, [typing]);
 
   useEffect(() => {
     handleTyping();
+    // eslint-disable-next-line
   }, [typing]);
 
   // Get typing indicator from database
@@ -361,10 +363,12 @@ function Chat(props) {
     senderFriendListRef.onSnapshot((snapshot) => {
       setTypingIndicator(snapshot.data().typing);
     });
+    // eslint-disable-next-line
   }, [typingIndicator]);
 
   useEffect(() => {
     handleTypingIndicator();
+    // eslint-disable-next-line
   }, [typingIndicator]);
 
   const handleOpenModal = () => setOpenModal(true);
@@ -376,14 +380,38 @@ function Chat(props) {
   // Check if message timestamp is same as that of previous message timestamp
   const getPreviousMessageDate = (index) => {
     return index === 0
-      ? getDate(props.chatMessages[0].timestamp)
-      : getDate(props.chatMessages[index].timestamp) ===
-        getDate(props.chatMessages[index - 1].timestamp)
+      ? props.chatMessages[0].timestamp.toDate().toLocaleDateString()
+      : props.chatMessages[index].timestamp.toDate().toLocaleDateString() ===
+        props.chatMessages[index - 1].timestamp.toDate().toLocaleDateString()
       ? null
-      : getDate(props.chatMessages[index].timestamp);
+      : props.chatMessages[index].timestamp.toDate().toLocaleDateString();
   };
 
-  const getDate = (timestamp) => timestamp.toDate().toLocaleDateString();
+  // Classify timestamp based on time ago
+  const getTimeAgo = (index) => {
+    const currentDate = new Date();
+
+    if (getPreviousMessageDate(index) !== null) {
+      var messageDate = getPreviousMessageDate(index);
+
+      var dateArray = messageDate.split("/");
+      dateArray.reverse();
+
+      var newMessageDate = new Date(dateArray.join("/"));
+    }
+
+    var diffTime = currentDate - newMessageDate;
+    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+    if (diffDays < 1) {
+      return "Today";
+    } else if (diffDays < 2) {
+      return "Yesterday";
+    } else if (diffDays < 7) {
+      return newMessageDate.toLocaleString("default", { weekday: "long" });
+    } else {
+      return newMessageDate.toLocaleDateString();
+    }
+  };
 
   return (
     <div className="chat">
@@ -511,6 +539,8 @@ function Chat(props) {
         ) : (
           <div className="chat-body-inner-container">
             {props.chatMessages.map((message, index) => {
+              // console.log(getPreviousMessageDate(index));
+              // console.log(getTimeAgo(index));
               return (
                 <div
                   className={
@@ -549,7 +579,7 @@ function Chat(props) {
                   <div className="chat-message-box">
                     <div className="chat-date">
                       {getPreviousMessageDate(index) && (
-                        <p>{getPreviousMessageDate(index)}</p>
+                        <p>{getTimeAgo(index)}</p>
                       )}
                     </div>
 

@@ -245,6 +245,7 @@ function Sidebar(props) {
           : friendList.map((friend, id) => (
               <SidebarChat
                 key={id}
+                index={id}
                 name={friend.data().fullname}
                 photoURL={friend.data().photoURL}
                 lastMessage={friend.data().lastMessage}
