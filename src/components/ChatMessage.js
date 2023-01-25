@@ -68,7 +68,12 @@ function ChatMessage(props) {
             </div>
             <span className="chat-timestamp">
               <StarRateRoundedIcon className={classes.starIcon} />
-              <p>{new Date(props.time.toDate()).toLocaleString()}</p>
+              <p>
+                {new Date(props.time.toDate()).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })()}
+              </p>
               {props.sender === currentUser.email && (
                 <DoneAllIcon
                   className={
@@ -99,7 +104,12 @@ function ChatMessage(props) {
                 <StarRateRoundedIcon className={classes.starIcon} />
               )}
 
-              <p>{new Date(props.time.toDate()).toLocaleString()}</p>
+              <p>
+                {new Date(props.time.toDate()).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </p>
               {props.sender === currentUser.email && (
                 <DoneAllIcon
                   className={
@@ -127,7 +137,12 @@ function ChatMessage(props) {
               {props.starredMessage === true && (
                 <StarRateRoundedIcon className={classes.starIcon} />
               )}
-              <p>{new Date(props.time.toDate()).toLocaleString()}</p>
+              <p>
+                {new Date(props.time.toDate()).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </p>
               {props.sender === currentUser.email && (
                 <DoneAllIcon
                   className={
@@ -163,7 +178,12 @@ function ChatMessage(props) {
               {props.starredMessage === true && (
                 <StarRateRoundedIcon className={classes.starIcon} />
               )}
-              <p>{new Date(props.time.toDate()).toLocaleString()}</p>
+              <p>
+                {new Date(props.time.toDate()).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </p>
               {props.sender === currentUser.email && (
                 <DoneAllIcon
                   className={
@@ -186,7 +206,12 @@ function ChatMessage(props) {
               {props.starredMessage === true && (
                 <StarRateRoundedIcon className={classes.starIcon} />
               )}
-              <p>{new Date(props.time.toDate()).toLocaleString()}</p>
+              <p>
+                {new Date(props.time.toDate()).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </p>
               {props.sender === currentUser.email && (
                 <DoneAllIcon
                   className={

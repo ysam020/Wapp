@@ -109,6 +109,7 @@
   /* Chat */
   --chat-header: #eff2f5;
   --chat-message-row: rgba(0, 128, 105, 0.08);
+  --chat-date: #fefefe;
   --chat-message-sent: #d9fdd2;
   --chat-message-received: #fff;
   --chat-message-document: #eff2f5;
@@ -246,6 +247,7 @@
   /* Chat */
   --chat-header: #1f2c33;
   --chat-message-row: rgba(233, 237, 239, 0.05);
+  --chat-date: #182229;
   --chat-message-sent: #015c4b;
   --chat-message-received: #1f2c33;
   --chat-message-document: #111b21;
