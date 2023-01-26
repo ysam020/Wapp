@@ -116,8 +116,8 @@ function Home() {
       .doc(currentUser.email);
   }
 
+  // Update last online in user collection
   useEffect(() => {
-    // Update last online in user collection
     db.collection("users")
       .doc(currentUser.email)
       .update({ lastOnline: firebase.firestore.Timestamp.now() });
@@ -179,17 +179,19 @@ function Home() {
     });
 
     // Mark messages as read when user replies
-    senderMessageCollectionRef
-      .doc(emailId)
-      .collection("messages")
-      .get()
-      .then(function (querySnapshot) {
-        querySnapshot.forEach(function (doc) {
-          doc.ref.update({
-            read: true,
+    if (chatMessages.length !== 0) {
+      senderMessageCollectionRef
+        .doc(emailId)
+        .collection("messages")
+        .get()
+        .then(function (querySnapshot) {
+          querySnapshot.forEach(function (doc) {
+            doc.ref.update({
+              read: true,
+            });
           });
         });
-      });
+    }
 
     receiverFriendListRef.update({ messageRead: true });
   };
@@ -280,30 +282,21 @@ function Home() {
               .delete()
               .then(() => {
                 // Update last message in sidebar
-                senderMessageCollectionRef
-                  .where(
-                    "senderEmail",
-                    "==",
-                    currentUser.email,
-                    "&&",
-                    emailId,
-                    "||",
-                    "receiverEmail",
-                    "==",
-                    currentUser.email,
-                    "&&",
-                    emailId
-                  )
-                  .orderBy("timestamp", "desc")
-                  .limit(1)
-                  .onSnapshot((snapshot) => {
-                    senderFriendListRef.update({
-                      lastMessage: snapshot.docs[0].data().text,
-                      messageRead: snapshot.docs[0].data().read,
-                      messageType: snapshot.docs[0].data().messageInfo,
-                      timestamp: snapshot.docs[0].data().timestamp,
-                    });
+                if (selectedMessages.length !== chatMessages.length) {
+                  senderFriendListRef.update({
+                    lastMessage: chatMessages.at(-2).text,
+                    messageRead: chatMessages.at(-2).read,
+                    messageType: chatMessages.at(-2).messageInfo,
+                    timestamp: chatMessages.at(-2).timestamp,
                   });
+                } else {
+                  senderFriendListRef.update({
+                    lastMessage: "",
+                    messageRead: "",
+                    messageType: "",
+                    timestamp: null,
+                  });
+                }
               })
           )
         );

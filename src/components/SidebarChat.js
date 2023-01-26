@@ -8,7 +8,7 @@ import DoneAllIcon from "@mui/icons-material/DoneAll";
 import Tooltip from "@mui/material/Tooltip";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     sidebarChatIcon: {
       width: "15px !important",
@@ -36,32 +36,35 @@ function SidebarChat(props) {
   // Classify timestamp based on time ago
   const getTimeAgo = () => {
     const currentDate = new Date();
-    const messageDate = props.time.toDate();
 
-    const midNightTime = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth(),
-      currentDate.getDate(),
-      0,
-      0,
-      0
-    );
+    if (props.time !== null) {
+      const messageDate = props.time.toDate();
 
-    const diffTime = currentDate - messageDate;
-    const elapsedTime = (messageDate - midNightTime) / (1000 * 60 * 60);
-    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+      const midNightTime = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        currentDate.getDate(),
+        0,
+        0,
+        0
+      );
 
-    if (elapsedTime > 0 && elapsedTime < 24) {
-      return messageDate.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-    } else if (diffDays < 2) {
-      return "Yesterday";
-    } else if (diffDays < 7) {
-      return messageDate.toLocaleString("default", { weekday: "long" });
-    } else {
-      return messageDate.toLocaleDateString();
+      const diffTime = currentDate - messageDate;
+      const elapsedTime = (messageDate - midNightTime) / (1000 * 60 * 60);
+      const diffDays = diffTime / (1000 * 60 * 60 * 24);
+
+      if (elapsedTime > 0 && elapsedTime < 24) {
+        return messageDate.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+      } else if (diffDays < 2) {
+        return "Yesterday";
+      } else if (diffDays < 7) {
+        return messageDate.toLocaleString("default", { weekday: "long" });
+      } else {
+        return messageDate.toLocaleDateString();
+      }
     }
   };
 
