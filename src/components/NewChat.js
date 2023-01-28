@@ -45,7 +45,6 @@ function NewChat(props) {
   var usersCollectionRef = db.collection("users");
 
   useEffect(() => {
-    console.log("loaded");
     // Get all users
     const getAllUsers = () => {
       usersCollectionRef.onSnapshot((snapshot) => {
@@ -118,19 +117,23 @@ function NewChat(props) {
       </div>
 
       <div className="new-chat-body">
-        <div className="new-group">
-          <IconButton>
-            <GroupRoundedIcon className={classes.groupIcon} />
-          </IconButton>
-          <h3>New group</h3>
-        </div>
+        {!searchInput && (
+          <>
+            <div className="new-group">
+              <IconButton>
+                <GroupRoundedIcon className={classes.groupIcon} />
+              </IconButton>
+              <h3>New group</h3>
+            </div>
 
-        <div className="new-community">
-          <IconButton>
-            <GroupsRoundedIcon className={classes.groupIcon} />
-          </IconButton>
-          <h3>New community</h3>
-        </div>
+            <div className="new-community">
+              <IconButton>
+                <GroupsRoundedIcon className={classes.groupIcon} />
+              </IconButton>
+              <h3>New community</h3>
+            </div>
+          </>
+        )}
 
         <div className="contacts">
           <h2>Contacts on wapp</h2>

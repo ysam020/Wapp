@@ -105,7 +105,7 @@ function App() {
           })
           .then((currentToken) => {
             if (currentToken) {
-              console.log("Generated token:", currentToken);
+              console.log("Generated FCM token:", currentToken);
             } else {
               console.log("Permission denied");
             }

@@ -10,6 +10,7 @@ function Loader(props) {
         alt=""
         height={150}
       />
+
       <BarLoader
         className="bar-loader"
         color="#008069"

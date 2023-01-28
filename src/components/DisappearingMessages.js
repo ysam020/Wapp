@@ -29,7 +29,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-function DisappearingMessages() {
+function DisappearingMessages(props) {
   // MUI Styles
   const classes = useStyles();
 
@@ -358,7 +358,7 @@ function DisappearingMessages() {
         <p>
           Update your&nbsp;
           <a href="/#" rel="noreferrer">
-            default message timer
+            default message timer&nbsp;
           </a>
           in Settings
         </p>

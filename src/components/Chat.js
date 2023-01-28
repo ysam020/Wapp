@@ -539,8 +539,6 @@ function Chat(props) {
         ) : (
           <div className="chat-body-inner-container">
             {props.chatMessages.map((message, index) => {
-              // console.log(getPreviousMessageDate(index));
-              // console.log(getTimeAgo(index));
               return (
                 <div
                   className={
@@ -606,7 +604,7 @@ function Chat(props) {
 
       {emojiBox && (
         <EmojiPicker
-          onEmojiClick={(event, emojiObject) => {
+          onEmojiClick={(emojiObject) => {
             props.setMessage(props.message + emojiObject.emoji);
             sendMessageRef.current.focus();
           }}

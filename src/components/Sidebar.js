@@ -37,7 +37,7 @@ const useStyles = makeStyles(() =>
     icon: {
       color: "#8696A0",
     },
-    rightArrowIcon: { width: "12px !important" },
+    rightArrowIcon: { width: "12px !important", color: "#8696A0" },
     wifiIcon: { color: "#FFD279" },
   })
 );
