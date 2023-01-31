@@ -180,15 +180,23 @@ function Home() {
 
     // Mark messages as read when user replies
     if (chatMessages.length !== 0) {
-      senderMessageCollectionRef
-        .doc(emailId)
-        .collection("messages")
+      receiverMessageCollectionRef
+        .where(
+          "senderEmail",
+          "==",
+          emailId,
+          "&&",
+          "receiverEmail",
+          "==",
+          currentUser.email
+        )
         .get()
         .then(function (querySnapshot) {
           querySnapshot.forEach(function (doc) {
             doc.ref.update({
               read: true,
             });
+            console.log(doc.data());
           });
         });
     }

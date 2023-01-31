@@ -109,6 +109,11 @@ function Chat(props) {
 
   var chatUserRef = db.collection("users").doc(props.emailId);
 
+  var receiverMessageCollectionRef = db
+    .collection("chats")
+    .doc(props.emailId)
+    .collection("messages");
+
   var blockedUserCollectionRef = db
     .collection("blockedUser")
     .doc(currentUser.email)
@@ -342,6 +347,28 @@ function Chat(props) {
     setShowWebcam(false);
     setCircularProgress(true);
   };
+
+  useEffect(() => {
+    receiverMessageCollectionRef
+      .where(
+        "senderEmail",
+        "==",
+        props.emailId,
+        "&&",
+        "receiverEmail",
+        "==",
+        currentUser.email
+      )
+      .get()
+      .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          doc.ref.update({
+            read: true,
+          });
+          console.log(doc.data());
+        });
+      });
+  });
 
   // Update typing to database
   const handleTyping = useCallback(() => {
