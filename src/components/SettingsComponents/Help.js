@@ -8,6 +8,7 @@ import helpList from "../../data/Helplist";
 import { IconButton } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import wappHelp from "../../assets/images/wapp-help.png";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -33,6 +34,7 @@ function Help() {
       <div className="sidebar-panel-header">
         <div className="sidebar-panel-header-container">
           <IconButton
+            aria-label="back"
             className={classes.backIcon}
             onClick={() => {
               toggleSettingsContext.toggleSettingsDispatch("toggle");
@@ -51,8 +53,7 @@ function Help() {
             <div
               className="help-img"
               style={{
-                backgroundImage:
-                  "url(https://firebasestorage.googleapis.com/v0/b/wapp-c2920.appspot.com/o/assets%2Fimages%2Fwapp-help.png?alt=media&token=2a07ed37-0e9a-442f-becf-bf9c4ba0992e)",
+                backgroundImage: `url(${wappHelp})`,
               }}
             ></div>
           </div>
@@ -65,7 +66,12 @@ function Help() {
 
             return (
               <div key={id} className="help-list-item">
-                <IconButton className={classes.helpListIcon}>{icon}</IconButton>
+                <IconButton
+                  aria-label="help-icon"
+                  className={classes.helpListIcon}
+                >
+                  {icon}
+                </IconButton>
                 <h4>{name}</h4>
               </div>
             );

@@ -2,7 +2,6 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import "firebase/storage";
-import "firebase/messaging";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDTDvGXNnUuzR3cqjVc5ZLyHfNqhrA_q5w",
@@ -20,7 +19,6 @@ const db = firebaseApp.firestore();
 const auth = firebase.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
 const storage = firebase.storage();
-const messaging = firebase.messaging();
 
-export { auth, provider, storage, messaging };
+export { auth, provider, storage };
 export default db;

@@ -91,6 +91,7 @@ function SearchMessage(props) {
     <div className="sidebar-panel-right">
       <div className="sidebar-panel-right-header">
         <IconButton
+          aria-label="close"
           className={classes.icon}
           onClick={() => searchMessageContext.searchMessageDispatch("toggle")}
         >
@@ -103,6 +104,7 @@ function SearchMessage(props) {
       <div className="search-messages-body">
         <div className="search-messages-input-container">
           <IconButton
+            aria-label="search"
             className={classes.icon}
             onClick={() => searchMessagesRef.current.focus()}
           >

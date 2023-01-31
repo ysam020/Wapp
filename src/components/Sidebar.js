@@ -136,15 +136,17 @@ function Sidebar(props) {
     <div className="sidebar">
       <div className="sidebar-header">
         <IconButton
+          aria-label="avatar"
           onClick={() => {
             toggleSidebarProfileContext.toggleSidebarProfileDispatch("toggle");
             toggleSidebarContext.toggleSidebarDispatch("toggle");
           }}
         >
-          <Avatar src={currentUser.photoURL} />
+          <Avatar src={currentUser.photoURL} alt={currentUser.fullname} />
         </IconButton>
         <div className="sidebar-header-right">
           <IconButton
+            aria-label="communities"
             onClick={() => {
               toggleSidebarContext.toggleSidebarDispatch("toggle");
               communitiesContext.communitiesDispatch("toggle");
@@ -152,11 +154,12 @@ function Sidebar(props) {
           >
             <GroupsRoundedIcon className={classes.icon} />
           </IconButton>
-          <IconButton className={classes.icon}>
+          <IconButton aria-label="status" className={classes.icon}>
             <DonutLargeSharpIcon />
           </IconButton>
 
           <IconButton
+            aria-label="new-chat"
             className={classes.icon}
             onClick={() => {
               toggleSidebarContext.toggleSidebarDispatch("toggle");
@@ -167,7 +170,11 @@ function Sidebar(props) {
           </IconButton>
 
           <div className="sidebar-popover-container">
-            <IconButton onClick={handleSidebarPopover} className={classes.icon}>
+            <IconButton
+              aria-label="more"
+              onClick={handleSidebarPopover}
+              className={classes.icon}
+            >
               <MoreVertRoundedIcon />
               {sidebarPopover && (
                 <ClickAwayListener onClickAway={handleClickAway}>
@@ -199,7 +206,7 @@ function Sidebar(props) {
           >
             <div className="sidebar-network-icon">
               <div className="sidebar-network-wifi-icon-container">
-                <IconButton>
+                <IconButton aria-label="network-icon">
                   <WifiOffIcon className={classes.wifiIcon} />
                 </IconButton>
               </div>
@@ -222,6 +229,7 @@ function Sidebar(props) {
       <div className="sidebar-search">
         <div className="sidebar-search-container">
           <IconButton
+            aria-label="search"
             className={classes.icon}
             onClick={() => sidebarSearchRef.current.focus()}
           >
@@ -234,7 +242,7 @@ function Sidebar(props) {
             ref={sidebarSearchRef}
           />
         </div>
-        <IconButton className={classes.icon}>
+        <IconButton aria-label="filter" className={classes.icon}>
           <FilterListRoundedIcon />
         </IconButton>
       </div>

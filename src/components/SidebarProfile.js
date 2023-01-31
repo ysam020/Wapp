@@ -84,6 +84,7 @@ function SidebarProfile() {
       <div className="sidebar-panel-header">
         <div className="sidebar-panel-header-container">
           <IconButton
+            aria-label="back"
             className={classes.backIcon}
             onClick={() => {
               toggleSidebarProfileContext.toggleSidebarProfileDispatch(
@@ -99,7 +100,11 @@ function SidebarProfile() {
       </div>
 
       <div className="sidebar-profile-image">
-        <Avatar src={currentUser.photoURL} className={classes.avatarIcon} />
+        <Avatar
+          src={currentUser.photoURL}
+          className={classes.avatarIcon}
+          alt={currentUser.fullname}
+        />
       </div>
 
       <div className="sidebar-profile-body">
@@ -120,13 +125,16 @@ function SidebarProfile() {
             />
             {!editNameFocus ? (
               <Tooltip title="Click to edit" enterDelay={1000}>
-                <IconButton onClick={() => editNameInputRef.current.focus()}>
+                <IconButton
+                  aria-label="edit-name"
+                  onClick={() => editNameInputRef.current.focus()}
+                >
                   <ModeEditOutlineIcon className={classes.editIcon} />
                 </IconButton>
               </Tooltip>
             ) : (
               <Tooltip title="Click to save" enterDelay={1000}>
-                <IconButton onClick={updateName}>
+                <IconButton aria-label="save-name" onClick={updateName}>
                   <DoneIcon className={classes.editIcon} />
                 </IconButton>
               </Tooltip>
@@ -158,13 +166,16 @@ function SidebarProfile() {
             />
             {!editAboutFocus ? (
               <Tooltip title="Click to edit" enterDelay={1000}>
-                <IconButton onClick={() => editAboutInputRef.current.focus()}>
+                <IconButton
+                  aria-label="edit-about"
+                  onClick={() => editAboutInputRef.current.focus()}
+                >
                   <ModeEditOutlineIcon className={classes.editIcon} />
                 </IconButton>
               </Tooltip>
             ) : (
               <Tooltip title="Click to save" enterDelay={1000}>
-                <IconButton onClick={updateAbout}>
+                <IconButton aria-label="save-about" onClick={updateAbout}>
                   <DoneIcon className={classes.editIcon} />
                 </IconButton>
               </Tooltip>

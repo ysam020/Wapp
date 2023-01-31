@@ -46,6 +46,7 @@ function Security() {
       <div className="sidebar-panel-header">
         <div className="sidebar-panel-header-container">
           <IconButton
+            aria-label="back"
             className={classes.backIcon}
             onClick={() => {
               toggleSettingsContext.toggleSettingsDispatch("toggle");
@@ -60,7 +61,7 @@ function Security() {
 
       <div className="security-body">
         <div className="security-img">
-          <IconButton>
+          <IconButton aria-label="lock">
             <LockIcon className={classes.lockIcon} />
           </IconButton>
         </div>
@@ -78,6 +79,7 @@ function Security() {
               return (
                 <div key={id} className="security-list-item">
                   <IconButton
+                    aria-label="security-list"
                     className={classes.securityListIcon}
                     disableRipple={true}
                   >

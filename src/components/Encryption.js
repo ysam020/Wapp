@@ -34,6 +34,7 @@ function Encryption() {
     <div className="sidebar-panel-right">
       <div className="sidebar-panel-right-header">
         <IconButton
+          aria-label="close"
           className={classes.icon}
           onClick={() => {
             toggleContactInfoContext.toggleContactInfoDispatch("toggle");

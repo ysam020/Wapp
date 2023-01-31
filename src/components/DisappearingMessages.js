@@ -17,11 +17,6 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const useStyles = makeStyles(() =>
   createStyles({
-    avatarIcon: {
-      height: "200px",
-      width: "200px",
-      margin: "auto",
-    },
     icon: { color: "#8696A0" },
     radioTextLight: { color: "#fff" },
     radioTextDark: { color: "#000" },
@@ -41,6 +36,7 @@ function DisappearingMessages(props) {
     <div className="sidebar-panel-right">
       <div className="sidebar-panel-right-header">
         <IconButton
+          aria-label="close"
           className={classes.icon}
           onClick={() => {
             disappearingMessagesContext.disappearingMessagesDispatch("toggle");

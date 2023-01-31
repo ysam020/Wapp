@@ -32,6 +32,7 @@ function Privacy() {
       <div className="sidebar-panel-header">
         <div className="sidebar-panel-header-container">
           <IconButton
+            aria-label="back"
             className={classes.backIcon}
             onClick={() => {
               toggleSettingsContext.toggleSettingsDispatch("toggle");
@@ -53,7 +54,7 @@ function Privacy() {
               <h4>Last seen and online</h4>
               <p>Nobody, Everyone</p>
             </div>
-            <IconButton className={classes.icon}>
+            <IconButton aria-label="right-arrow" className={classes.icon}>
               <ChevronRightRoundedIcon />
             </IconButton>
           </div>
@@ -63,7 +64,7 @@ function Privacy() {
               <h4>Profile Photo</h4>
               <p>Nobody, Everyone</p>
             </div>
-            <IconButton className={classes.icon}>
+            <IconButton aria-label="right-arrow" className={classes.icon}>
               <ChevronRightRoundedIcon />
             </IconButton>
           </div>
@@ -73,7 +74,7 @@ function Privacy() {
               <h4>About</h4>
               <p>Nobody, Everyone</p>
             </div>
-            <IconButton className={classes.icon}>
+            <IconButton aria-label="right-arrow" className={classes.icon}>
               <ChevronRightRoundedIcon />
             </IconButton>
           </div>
@@ -104,7 +105,7 @@ function Privacy() {
               <h4>Default message timer</h4>
               <p>Off</p>
             </div>
-            <IconButton className={classes.icon}>
+            <IconButton aria-label="right-arrow" className={classes.icon}>
               <ChevronRightRoundedIcon />
             </IconButton>
           </div>
@@ -117,7 +118,7 @@ function Privacy() {
                 <h4>Groups</h4>
                 <p>0 contacts excluded</p>
               </div>
-              <IconButton className={classes.icon}>
+              <IconButton aria-label="right-arrow" className={classes.icon}>
                 <ChevronRightRoundedIcon />
               </IconButton>
             </div>
@@ -127,7 +128,7 @@ function Privacy() {
                 <h4>Blocked contacts</h4>
                 <p>0</p>
               </div>
-              <IconButton className={classes.icon}>
+              <IconButton aria-label="right-arrow" className={classes.icon}>
                 <ChevronRightRoundedIcon />
               </IconButton>
             </div>

@@ -11,11 +11,6 @@ const useStyles = makeStyles(() =>
     backIcon: {
       color: "white",
     },
-    avatarIcon: {
-      height: "200px",
-      width: "200px",
-      margin: "auto",
-    },
     editIcon: {
       color: "#8696A0",
     },
@@ -35,6 +30,7 @@ function Communities() {
       <div className="sidebar-panel-header">
         <div className="sidebar-panel-header-container">
           <IconButton
+            aria-label="back"
             className={classes.backIcon}
             onClick={() => {
               communitiesContext.communitiesDispatch("toggle");

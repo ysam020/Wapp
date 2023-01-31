@@ -30,6 +30,7 @@ function Notifications() {
       <div className="sidebar-panel-header">
         <div className="sidebar-panel-header-container">
           <IconButton
+            aria-label="back"
             className={classes.backIcon}
             onClick={() => {
               settingsNotificationContext.settingsNotificationDispatch(

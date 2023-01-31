@@ -365,7 +365,6 @@ function Chat(props) {
           doc.ref.update({
             read: true,
           });
-          console.log(doc.data());
         });
       });
   });
@@ -444,11 +443,12 @@ function Chat(props) {
     <div className="chat">
       <div className="chat-header">
         <IconButton
+          aria-label="avatar"
           onClick={() => {
             toggleContactInfoContext.toggleContactInfoDispatch("toggle");
           }}
         >
-          <Avatar src={props.chatUser.photoURL} />
+          <Avatar src={props.chatUser.photoURL} alt={props.chatUser.fullname} />
         </IconButton>
 
         <div className="chat-header-info">
@@ -464,6 +464,7 @@ function Chat(props) {
 
         <div className="chat-header-right">
           <IconButton
+            aria-label="search"
             className={classes.icon}
             onClick={() => {
               searchMessageContext.searchMessageDispatch("toggle");
@@ -474,6 +475,7 @@ function Chat(props) {
 
           <div className="chat-popover-container">
             <IconButton
+              aria-label="more"
               onClick={props.handleChatPopover}
               className={classes.icon}
             >
@@ -540,6 +542,7 @@ function Chat(props) {
           <div className="webcam-container">
             <div className="webcam-header">
               <IconButton
+                aria-label="close"
                 onClick={() => {
                   setShowWebcam(false);
                   setCircularProgress(true);
@@ -674,6 +677,7 @@ function Chat(props) {
           className="chat-footer"
         >
           <IconButton
+            aria-label="close"
             onClick={() => {
               props.setSelectMessagesUI(false);
               props.setSelectedMessages([]);
@@ -683,6 +687,7 @@ function Chat(props) {
           </IconButton>
           <p>{`${props.selectedMessages.length} selected`}</p>
           <IconButton
+            aria-label="star-messages"
             onClick={props.starMessages}
             disabled={props.selectedMessages.length === 0 ? true : false}
           >
@@ -690,6 +695,7 @@ function Chat(props) {
           </IconButton>
 
           <IconButton
+            aria-label="delete-messages"
             onClick={props.deleteSelectedMessages}
             disabled={props.selectedMessages.length === 0 ? true : false}
           >
@@ -697,6 +703,7 @@ function Chat(props) {
           </IconButton>
 
           <IconButton
+            aria-label="forward-messages"
             disabled={props.selectedMessages.length === 0 ? true : false}
             onClick={() => handleOpenModal()}
           >
@@ -707,6 +714,7 @@ function Chat(props) {
         <div className="chat-footer">
           {closeButton && (
             <IconButton
+              aria-label="close"
               className={classes.icon}
               onClick={() => {
                 setEmojiBox(false);
@@ -721,6 +729,7 @@ function Chat(props) {
           )}
 
           <IconButton
+            aria-label="emoji"
             className={classes.icon}
             onClick={() => {
               setEmojiBox(true);
@@ -736,6 +745,7 @@ function Chat(props) {
 
           {gifButton && (
             <IconButton
+              aria-label="gif"
               className={classes.icon}
               onClick={() => {
                 setGifBox(true);
@@ -756,7 +766,10 @@ function Chat(props) {
                   }}
                 >
                   <Tooltip title="Photos" placement="right">
-                    <IconButton onClick={() => inputImagesRef.current.click()}>
+                    <IconButton
+                      aria-label="photo"
+                      onClick={() => inputImagesRef.current.click()}
+                    >
                       <InsertPhotoIcon className={classes.mediaIcon} />
                       <input
                         accept="image/*"
@@ -776,7 +789,10 @@ function Chat(props) {
                   }}
                 >
                   <Tooltip title="Videos" placement="right">
-                    <IconButton onClick={() => inputVideosRef.current.click()}>
+                    <IconButton
+                      aria-label="video"
+                      onClick={() => inputVideosRef.current.click()}
+                    >
                       <VideoCameraBackIcon className={classes.mediaIcon} />
                       <input
                         accept="video/mp4,video/3gpp,video/quicktime"
@@ -797,6 +813,7 @@ function Chat(props) {
                 >
                   <Tooltip title="Document" placement="right">
                     <IconButton
+                      aria-label="document"
                       onClick={() => inputDocumentRef.current.click()}
                     >
                       <InsertDriveFileIcon className={classes.mediaIcon} />
@@ -819,6 +836,7 @@ function Chat(props) {
                 >
                   <Tooltip title="Camera" placement="right">
                     <IconButton
+                      aria-label="camera"
                       onClick={() => {
                         setShowWebcam(!showWebcam);
                         setSendMediaList(!sendMediaList);
@@ -834,6 +852,7 @@ function Chat(props) {
               </ul>
             )}
             <IconButton
+              aria-label="send-media"
               className={classes.icon}
               onClick={() => setSendMediaList(!sendMediaList)}
               style={{ transform: "rotate(45deg)" }}
@@ -856,7 +875,7 @@ function Chat(props) {
             <button type="submit">Send Message</button>
           </form>
 
-          <IconButton className={classes.icon}>
+          <IconButton aria-label="audio" className={classes.icon}>
             <MicOutlinedIcon />
           </IconButton>
         </div>

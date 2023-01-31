@@ -69,6 +69,7 @@ function ForwardMessageModal(props) {
       >
         <div className="forward-message-modal-header">
           <IconButton
+            aria-label="close"
             className={classes.icon}
             onClick={() => {
               props.handleCloseModal();
@@ -125,7 +126,10 @@ function ForwardMessageModal(props) {
                   }}
                 />
                 <div className="user-data">
-                  <Avatar src={user.data().photoURL} />
+                  <Avatar
+                    src={user.data().photoURL}
+                    alt={user.data().fullname}
+                  />
                   <div className="user-data-text">
                     <h5>{user.data().fullname}</h5>
                     <p>{user.data().about}</p>

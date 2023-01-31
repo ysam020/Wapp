@@ -87,6 +87,7 @@ function NewChat(props) {
       <div className="sidebar-panel-header">
         <div className="sidebar-panel-header-container">
           <IconButton
+            aria-label="back"
             className={classes.backIcon}
             onClick={() => {
               newChatContext.newChatDispatch("toggle");
@@ -102,6 +103,7 @@ function NewChat(props) {
       <div className="new-chat-search">
         <div className="sidebar-search-container">
           <IconButton
+            aria-label="search"
             className={classes.icon}
             onClick={() => newChatSearchRef.current.focus()}
           >
@@ -120,14 +122,14 @@ function NewChat(props) {
         {!searchInput && (
           <>
             <div className="new-group">
-              <IconButton>
+              <IconButton aria-label="group">
                 <GroupRoundedIcon className={classes.groupIcon} />
               </IconButton>
               <h3>New group</h3>
             </div>
 
             <div className="new-community">
-              <IconButton>
+              <IconButton aria-label="communities">
                 <GroupsRoundedIcon className={classes.groupIcon} />
               </IconButton>
               <h3>New community</h3>

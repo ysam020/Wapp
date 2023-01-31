@@ -96,7 +96,7 @@ function ChatMessage(props) {
                 rel="noreferrer"
                 download
               >
-                <img src={props.imageURL} width={300} alt="img" />
+                <img src={props.imageURL} width={300} height="auto" alt="img" />
               </a>
             </div>
             <span className="chat-timestamp">
@@ -130,6 +130,7 @@ function ChatMessage(props) {
                 src={props.videoURL}
                 controls={true}
                 width={300}
+                height="auto"
                 style={{ outline: "none" }}
               ></video>
             </div>

@@ -12,7 +12,7 @@ function SidebarSearchedUser(props) {
         props.setSearchInput("");
       }}
     >
-      <Avatar src={props.photoURL} />
+      <Avatar src={props.photoURL} alt={props.name} />
       <div className="sidebar-chat-info">
         <div className="sidebar-chat-info-row-1">
           <h3>{props.name}</h3>

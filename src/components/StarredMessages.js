@@ -69,6 +69,7 @@ function StarredMessages(props) {
       <div className="sidebar-panel-right">
         <div className="sidebar-panel-right-header">
           <IconButton
+            aria-label="close"
             className={classes.icon}
             onClick={() =>
               starredMessageContext.starredMessageDispatch("toggle")
@@ -91,6 +92,11 @@ function StarredMessages(props) {
                         : currentUser.photoURL
                     }
                     className={classes.avatarIcon}
+                    alt={
+                      message.data().senderEmail === chatUser.email
+                        ? chatUser.photoURL
+                        : currentUser.photoURL
+                    }
                   />
                   <p>
                     {message.data().senderEmail} <ArrowRightRoundedIcon />

@@ -42,6 +42,7 @@ function AccountInfo() {
       <div className="sidebar-panel-header">
         <div className="sidebar-panel-header-container">
           <IconButton
+            aria-label="back"
             className={classes.backIcon}
             onClick={() => {
               toggleSettingsContext.toggleSettingsDispatch("toggle");
@@ -56,7 +57,7 @@ function AccountInfo() {
 
       <div className="account-info-body">
         <div className="account-info-img">
-          <IconButton>
+          <IconButton aria-label="feed">
             <FeedRoundedIcon className={classes.feedIcon} />
           </IconButton>
         </div>

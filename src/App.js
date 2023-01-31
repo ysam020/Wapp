@@ -13,7 +13,7 @@ import Context, {
   ChatBackgroundContext,
 } from "./contexts/Context";
 import firebase from "firebase/app";
-import db, { auth, provider, messaging } from "./firebase";
+import db, { auth, provider } from "./firebase";
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -94,33 +94,6 @@ function App() {
   const [chatBackground, setChatBackground] = useState(
     theme === "light" ? "#EFEAE2" : theme === null ? "#EFEAE2" : "#0C141A"
   );
-
-  async function requestPermission() {
-    Notification.requestPermission().then((permission) => {
-      if (permission === "granted") {
-        messaging
-          .getToken({
-            vapidKey:
-              "BAj_ssV_kzcLdf5doRDRW4GHTWvUOOho6rnH6RkgyvEOh9rBUbFW2FWkxlL7DQhetLdNslOMAeCClhbkNR3zP90",
-          })
-          .then((currentToken) => {
-            if (currentToken) {
-              console.log("Generated FCM token:", currentToken);
-            } else {
-              console.log("Permission denied");
-            }
-          })
-          .catch((err) => {
-            console.log("An error occurred while retrieving token. ", err);
-            // ...
-          });
-      }
-    });
-  }
-
-  useEffect(() => {
-    requestPermission();
-  });
 
   return (
     <ChatBackgroundContext.Provider

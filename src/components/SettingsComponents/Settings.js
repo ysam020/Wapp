@@ -176,6 +176,7 @@ function Settings() {
         <div className="sidebar-panel-header">
           <div className="sidebar-panel-header-container">
             <IconButton
+              aria-label="back"
               className={classes.backIcon}
               onClick={() => {
                 toggleSettingsContext.toggleSettingsDispatch("toggle");
@@ -191,7 +192,11 @@ function Settings() {
         <div className="settings-body">
           <div className="settings-user-info">
             <div className="settings-user-info-image"></div>
-            <Avatar src={currentUser.photoURL} className={classes.avatarIcon} />
+            <Avatar
+              src={currentUser.photoURL}
+              className={classes.avatarIcon}
+              alt={currentUser.fullname}
+            />
             <div className="settings-user-info-text">
               <h3>{currentUser.fullname}</h3>
               <p>{currentUser.about}</p>
@@ -204,7 +209,10 @@ function Settings() {
 
               return (
                 <div key={id} className={style} onClick={onClick}>
-                  <IconButton className={classes.settingsListIcon}>
+                  <IconButton
+                    aria-label="settings-list"
+                    className={classes.settingsListIcon}
+                  >
                     {icon}
                   </IconButton>
                   <h5>{name}</h5>

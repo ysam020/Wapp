@@ -1,15 +1,12 @@
 import React from "react";
 import "../styles/loader.css";
 import BarLoader from "react-spinners/BarLoader";
+import loaderImg from "../assets/images/WhatsApp.svg.webp";
 
 function Loader(props) {
   return (
     <div className="loader">
-      <img
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/640px-WhatsApp.svg.png"
-        alt="loader-img"
-        height={150}
-      />
+      <img src={loaderImg} alt="loader-img" height={150} />
 
       <BarLoader
         className="bar-loader"

@@ -120,6 +120,7 @@ function ContactInfo(props) {
       <div className="sidebar-panel-right">
         <div className="sidebar-panel-right-header">
           <IconButton
+            aria-label="close"
             className={classes.icon}
             onClick={() =>
               toggleContactInfoContext.toggleContactInfoDispatch("toggle")
@@ -131,7 +132,11 @@ function ContactInfo(props) {
         </div>
 
         <div className="contact-info-img">
-          <Avatar src={chatUser.photoURL} className={classes.avatarIcon} />
+          <Avatar
+            src={chatUser.photoURL}
+            className={classes.avatarIcon}
+            alt={chatUser.fullname}
+          />
           <h3>{chatUser.email}</h3>
         </div>
 
@@ -144,7 +149,7 @@ function ContactInfo(props) {
           <h5>Media, links and documents</h5>
           <div className="media-right-container">
             <p>0</p>
-            <IconButton className={classes.icon}>
+            <IconButton aria-label="right-arrow" className={classes.icon}>
               <KeyboardArrowRightRoundedIcon />
             </IconButton>
           </div>
@@ -158,17 +163,17 @@ function ContactInfo(props) {
               starredMessageContext.starredMessageDispatch("toggle");
             }}
           >
-            <IconButton className={classes.icon}>
+            <IconButton aria-label="star-messages" className={classes.icon}>
               <StarRateRoundedIcon />
             </IconButton>
             <h5>Starred messages</h5>
-            <IconButton className={classes.icon}>
+            <IconButton aria-label="right-arrow" className={classes.icon}>
               <KeyboardArrowRightRoundedIcon />
             </IconButton>
           </div>
 
           <div className="mute-notification">
-            <IconButton className={classes.icon}>
+            <IconButton aria-label="notifications" className={classes.icon}>
               <NotificationsRoundedIcon />
             </IconButton>
             <h5>Mute notifications</h5>
@@ -184,14 +189,17 @@ function ContactInfo(props) {
               );
             }}
           >
-            <IconButton className={classes.icon}>
+            <IconButton
+              aria-label="disappearing-messages"
+              className={classes.icon}
+            >
               <HistoryIcon />
             </IconButton>
             <div className="disappearing-messages-text">
               <h5>Disappearing messages</h5>
               <p>Off</p>
             </div>
-            <IconButton className={classes.icon}>
+            <IconButton aria-label="right-arrow" className={classes.icon}>
               <KeyboardArrowRightRoundedIcon />
             </IconButton>
           </div>
@@ -203,7 +211,7 @@ function ContactInfo(props) {
               encryptionContext.encryptionDispatch("toggle");
             }}
           >
-            <IconButton className={classes.icon}>
+            <IconButton aria-label="encryption" className={classes.icon}>
               <LockIcon />
             </IconButton>
             <div className="encryption-text">
@@ -218,7 +226,7 @@ function ContactInfo(props) {
               // Conditional rendering of classname
               onClick={props.block.length === 0 ? blockUser : unblockUser}
             >
-              <IconButton>
+              <IconButton aria-label="block">
                 <BlockIcon className={classes.redIcon} />
               </IconButton>
               <div className="block-text">
@@ -239,7 +247,7 @@ function ContactInfo(props) {
                 handleOpenModal();
               }}
             >
-              <IconButton>
+              <IconButton aria-label="report">
                 <ThumbDownAltIcon className={classes.redIcon} />
               </IconButton>
               <div className="report-text">
@@ -250,7 +258,7 @@ function ContactInfo(props) {
 
           <Tooltip title="Delete chat" enterDelay={1000} enterNextDelay={1000}>
             <div className="delete-chat" onClick={() => props.deleteChat()}>
-              <IconButton>
+              <IconButton aria-label="delete">
                 <DeleteIcon className={classes.redIcon} />
               </IconButton>
               <div className="delete-text">
