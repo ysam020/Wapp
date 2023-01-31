@@ -7,7 +7,7 @@ function Loader(props) {
     <div className="loader">
       <img
         src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/640px-WhatsApp.svg.png"
-        alt=""
+        alt="loader-img"
         height={150}
       />
 
