@@ -55,6 +55,11 @@
   width: 100%;
 }
 
+.chat-message img,
+.chat-message video {
+  max-width: 300px;
+}
+
 .chat-date {
   background-color: var(--chat-date);
   margin: 10px 0;

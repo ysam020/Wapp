@@ -7,11 +7,9 @@ function Loader(props) {
   return (
     <div className="loader">
       <img src={loaderImg} alt="loader-img" height={150} />
-
       <BarLoader
         className="bar-loader"
         color="#008069"
-        loading={props.loading}
         aria-label="Loading Spinner"
         data-testid="loader"
         speedMultiplier={0.7}

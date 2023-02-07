@@ -16,7 +16,7 @@ import firebase from "firebase/app";
 import db, { auth, provider } from "./firebase";
 
 function App() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   // Parse user from local storage, if present
@@ -65,7 +65,6 @@ function App() {
 
   useEffect(() => {
     // Loader
-    setLoading(true);
     setTimeout(() => {
       setLoading(false);
     }, 1500);

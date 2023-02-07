@@ -49,6 +49,7 @@ import "react-tenor/dist/styles.css";
 import Webcam from "react-webcam";
 import firebase from "firebase/app";
 import cryptoRandomString from "crypto-random-string";
+import chatDoodle from "../assets/images/chat-doodle.png";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -302,9 +303,7 @@ function Chat(props) {
   // Wallpaper doodles
   useEffect(() => {
     if (doodle) {
-      setChatWallpaper(
-        "https://firebasestorage.googleapis.com/v0/b/wapp-c2920.appspot.com/o/assets%2Fimages%2Fwapp-bg.png?alt=media&token=5ed64ae3-3250-48ec-9f84-b196951273e8"
-      );
+      setChatWallpaper(chatDoodle);
     } else {
       setChatWallpaper("");
     }
@@ -349,6 +348,7 @@ function Chat(props) {
   };
 
   useEffect(() => {
+    // Mark messages as read when chat component loads
     receiverMessageCollectionRef
       .where(
         "senderEmail",
