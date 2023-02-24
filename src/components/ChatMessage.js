@@ -50,6 +50,87 @@ function ChatMessage(props) {
     "i"
   ); // validate fragment locator
 
+  const downloadPhoto = (photoUrl, fileName, extension) => {
+    fetch(photoUrl)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const file = new File([blob], "image", {
+          type: `image/${extension}`,
+        });
+
+        readFile(file);
+
+        function readFile(input) {
+          const fr = new FileReader();
+          fr.readAsDataURL(input);
+          fr.addEventListener("load", () => {
+            const res = fr.result;
+            let downloadBtn = document.getElementById("downloadPhoto");
+            let aTag = document.createElement("a");
+            aTag.href = res;
+            aTag.download = fileName;
+            aTag.click();
+            downloadBtn.appendChild(aTag);
+            aTag.remove();
+          });
+        }
+      });
+  };
+
+  const downloadVideo = (videoUrl, fileName, extension) => {
+    fetch(videoUrl)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const file = new File([blob], "video", {
+          type: `video/${extension}`,
+        });
+
+        readFile(file);
+
+        function readFile(input) {
+          const fr = new FileReader();
+          fr.readAsDataURL(input);
+          fr.addEventListener("load", () => {
+            const res = fr.result;
+            let downloadBtn = document.getElementById("downloadVideo");
+            let aTag = document.createElement("a");
+            aTag.href = res;
+            aTag.download = fileName;
+            aTag.click();
+            downloadBtn.appendChild(aTag);
+            aTag.remove();
+          });
+        }
+      });
+  };
+
+  const downloadFile = (fileUrl, fileName, extension) => {
+    fetch(fileUrl)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const file = new File([blob], "application", {
+          type: `application/${extension}`,
+        });
+
+        readFile(file);
+
+        function readFile(input) {
+          const fr = new FileReader();
+          fr.readAsDataURL(input);
+          fr.addEventListener("load", () => {
+            const res = fr.result;
+            let downloadBtn = document.getElementById("downloadFile");
+            let aTag = document.createElement("a");
+            aTag.href = res;
+            aTag.download = fileName;
+            aTag.click();
+            downloadBtn.appendChild(aTag);
+            aTag.remove();
+          });
+        }
+      });
+  };
+
   return (
     <>
       <div
@@ -89,20 +170,14 @@ function ChatMessage(props) {
           </>
         ) : props.imageURL ? (
           <>
-            <div className="message-text">
-              <a
-                href={props.imageURL}
-                target="_blank"
-                rel="noreferrer"
-                download
-              >
-                <img
-                  // src={props.imageURL}
-                  alt="img"
-                  src={`${props.imageURL}small`}
-                  srcSet={`${props.imageURL}small 100w, ${props.imageURL}mediun 200w, ${props.imageURL}large 300w`}
-                />
-              </a>
+            <div
+              className="message-text"
+              onClick={() =>
+                downloadPhoto(props.imageURL, props.fileName, props.extension)
+              }
+              id="downloadPhoto"
+            >
+              <img alt="img" src={props.imageURL} />
             </div>
             <span className="chat-timestamp">
               {props.starredMessage === true && (
@@ -136,6 +211,10 @@ function ChatMessage(props) {
                 controls={true}
                 height="auto"
                 style={{ outline: "none" }}
+                onClick={() =>
+                  downloadVideo(props.videoURL, props.fileName, props.extension)
+                }
+                id="downloadVideo"
               ></video>
             </div>
             <span className="chat-timestamp">
@@ -163,20 +242,19 @@ function ChatMessage(props) {
           </>
         ) : props.fileURL ? (
           <>
-            <div className="message-text-document">
+            <div
+              className="message-text-document"
+              onClick={() =>
+                downloadFile(props.fileURL, props.fileName, props.extension)
+              }
+              id="downloadFile"
+            >
               <div className="file-container">
-                <a
-                  href={props.fileURL}
-                  target="_blank"
-                  rel="noreferrer"
-                  download
-                >
-                  <div className="file-inner-container">
-                    <InsertDriveFileIcon className={classes.fileIcon} />
-                    <p>{props.fileName}</p>
-                    <FileDownloadIcon className={classes.downloadIcon} />
-                  </div>
-                </a>
+                <div className="file-inner-container">
+                  <InsertDriveFileIcon className={classes.fileIcon} />
+                  <p>{props.fileName}</p>
+                  <FileDownloadIcon className={classes.downloadIcon} />
+                </div>
               </div>
             </div>
             <span className="chat-timestamp">

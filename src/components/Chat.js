@@ -217,6 +217,7 @@ function Chat(props) {
     let randomString = cryptoRandomString({ length: 10 });
 
     const uploadTask = storage.ref(`files/${file.name}`).put(file);
+
     uploadTask.on(
       "state_changed",
       (snapshot) => {},
@@ -231,6 +232,8 @@ function Chat(props) {
             if (e.target.getAttribute("accept") === "image/*") {
               let payload = {
                 text: "Photo",
+                fileName: file.name,
+                extension: file.name.split(".").at(-1),
                 messageId: randomString,
                 messageInfo: "Photo",
                 senderEmail: currentUser.email,
@@ -249,6 +252,8 @@ function Chat(props) {
             ) {
               let payload = {
                 text: "Video",
+                fileName: file.name,
+                extension: file.name.split(".").at(-1),
                 messageId: randomString,
                 messageInfo: "Video",
                 senderEmail: currentUser.email,
@@ -264,6 +269,8 @@ function Chat(props) {
             else if (e.target.getAttribute("accept") === "*") {
               let payload = {
                 text: "Document",
+                fileName: file.name,
+                extension: file.name.split(".").at(-1),
                 messageId: randomString,
                 messageInfo: "Document",
                 senderEmail: currentUser.email,
@@ -271,7 +278,6 @@ function Chat(props) {
                 timestamp: firebase.firestore.Timestamp.now(),
                 read: false,
                 fileURL: url,
-                fileName: e.target.files[0].name,
               };
 
               props.sendMessageToDatabase(payload);
@@ -623,6 +629,7 @@ function Chat(props) {
                       videoName={message.videoName}
                       fileURL={message.fileURL}
                       fileName={message.fileName}
+                      extension={message.extension}
                     />
                   </div>
                 </div>

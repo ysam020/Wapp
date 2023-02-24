@@ -25,7 +25,6 @@ const useStyles = makeStyles(() =>
       color: "#53bdeb",
       marginRight: "5px",
     },
-    downIcon: { color: "#8696A0" },
   })
 );
 

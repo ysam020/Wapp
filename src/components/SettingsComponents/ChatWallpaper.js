@@ -29,7 +29,9 @@ function ChatWallpaper() {
   const themeContext = useContext(ThemeContext);
   const toggleSettingsContext = useContext(ToggleSettingsContext);
   const toggleChatWallpaperContxt = useContext(ToggleChatWallpaperContext);
-  const { setChatBackground, setDoodle } = useContext(ChatBackgroundContext);
+  const { setChatBackground, doodle, setDoodle } = useContext(
+    ChatBackgroundContext
+  );
 
   return (
     <div className="sidebar-panel">
@@ -54,14 +56,20 @@ function ChatWallpaper() {
           <FormControlLabel
             control={
               <Checkbox
-                defaultChecked
+                checked={doodle}
                 sx={{
                   color: "#8696A0",
                   "&.Mui-checked": {
                     color: "#04A784",
                   },
                 }}
-                onChange={(e) => setDoodle(e.target.checked)}
+                onChange={(e) => {
+                  setDoodle(e.target.checked);
+                  localStorage.setItem(
+                    "doodle",
+                    JSON.stringify(e.target.checked ? true : false)
+                  );
+                }}
               />
             }
             label="Add Wapp Doodles"
@@ -90,6 +98,10 @@ function ChatWallpaper() {
                       className="chat-wallpaper-list-item"
                       onClick={() => {
                         setChatBackground(color);
+                        localStorage.setItem(
+                          "chatBackground",
+                          JSON.stringify(color)
+                        );
                       }}
                     ></div>
                   );
@@ -113,6 +125,10 @@ function ChatWallpaper() {
                       className="chat-wallpaper-list-item"
                       onClick={() => {
                         setChatBackground(color);
+                        localStorage.setItem(
+                          "chatBackground",
+                          JSON.stringify(color)
+                        );
                       }}
                     ></div>
                   );

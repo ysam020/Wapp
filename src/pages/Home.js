@@ -196,7 +196,6 @@ function Home() {
             doc.ref.update({
               read: true,
             });
-            console.log(doc.data());
           });
         });
     }

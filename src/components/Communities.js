@@ -11,9 +11,6 @@ const useStyles = makeStyles(() =>
     backIcon: {
       color: "white",
     },
-    editIcon: {
-      color: "#8696A0",
-    },
   })
 );
 

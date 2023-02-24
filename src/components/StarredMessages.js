@@ -225,13 +225,9 @@ function StarredMessages(props) {
                               download
                             >
                               <div className="file-inner-container">
-                                <InsertDriveFileIcon
-                                  className={classes.fileIcon}
-                                />
+                                <InsertDriveFileIcon />
                                 <p>{message.data().fileName}</p>
-                                <FileDownloadIcon
-                                  className={classes.downloadIcon}
-                                />
+                                <FileDownloadIcon />
                               </div>
                             </a>
                           </div>

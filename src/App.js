@@ -89,10 +89,31 @@ function App() {
   };
 
   // Chat wallpaper
-  const [doodle, setDoodle] = useState(true);
-  const [chatBackground, setChatBackground] = useState(
-    theme === "light" ? "#EFEAE2" : theme === null ? "#EFEAE2" : "#0C141A"
+  const [doodle, setDoodle] = useState(
+    JSON.parse(localStorage.getItem("doodle"))
   );
+
+  if (JSON.parse(localStorage.getItem("doodle")) === null) {
+    localStorage.setItem("doodle", JSON.stringify(true));
+    setDoodle(true);
+  }
+
+  const [chatBackground, setChatBackground] = useState(
+    JSON.parse(localStorage.getItem("chatBackground"))
+  );
+
+  if (JSON.parse(localStorage.getItem("chatBackground")) === null) {
+    setChatBackground(
+      theme === null ? "#EFEAE2" : theme === "light" ? "#EFEAE2" : "#0C141A"
+    );
+
+    localStorage.setItem(
+      "chatBackground",
+      JSON.stringify(
+        theme === null ? "#EFEAE2" : theme === "light" ? "#EFEAE2" : "#0C141A"
+      )
+    );
+  }
 
   return (
     <ChatBackgroundContext.Provider
