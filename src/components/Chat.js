@@ -176,7 +176,6 @@ function Chat(props) {
     // Hide emoji box on escape button
     document.addEventListener("keydown", (e) => {
       if (e.keyCode === 27) {
-        // Hide emojiBox on escape key
         setEmojiBox(false);
         setCloseButton(false);
         setGifButton(false);
@@ -335,6 +334,8 @@ function Chat(props) {
           .then((url) => {
             let payload = {
               text: "Photo",
+              fileName: `Img${randomString}`,
+              extension: "jpg",
               messageId: randomString,
               messageInfo: "Photo",
               senderEmail: currentUser.email,
