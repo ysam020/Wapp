@@ -176,6 +176,7 @@ function ChatMessage(props) {
                 downloadPhoto(props.imageURL, props.fileName, props.extension)
               }
               id="downloadPhoto"
+              style={{ cursor: "pointer" }}
             >
               <img alt="img" src={props.imageURL} />
             </div>
@@ -210,7 +211,7 @@ function ChatMessage(props) {
                 src={props.videoURL}
                 controls={true}
                 height="auto"
-                style={{ outline: "none" }}
+                style={{ outline: "none", cursor: "pointer" }}
                 onClick={() =>
                   downloadVideo(props.videoURL, props.fileName, props.extension)
                 }
@@ -248,6 +249,7 @@ function ChatMessage(props) {
                 downloadFile(props.fileURL, props.fileName, props.extension)
               }
               id="downloadFile"
+              style={{ cursor: "pointer" }}
             >
               <div className="file-container">
                 <div className="file-inner-container">

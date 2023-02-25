@@ -11,6 +11,7 @@ import {
   SettingsHelpContext,
   ThemeContext,
   ToggleChatWallpaperContext,
+  ChatBackgroundContext,
 } from "../../contexts/Context";
 
 import KeyboardShortcutsModal from "./KeyboardShortcutsModal";
@@ -35,7 +36,7 @@ import FeedRoundedIcon from "@mui/icons-material/FeedRounded";
 import BrightnessAutoRoundedIcon from "@mui/icons-material/BrightnessAutoRounded";
 import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     backIcon: {
       color: "white",
@@ -51,7 +52,7 @@ const useStyles = makeStyles((theme) =>
 );
 
 // Theme Switch Styles
-const ThemeSwitch = styled(Switch)(({ theme }) => ({
+const ThemeSwitch = styled(Switch)(() => ({
   "& .MuiSwitch-switchBase.Mui-checked": {
     color: "#015C4B",
     "&:hover": {
@@ -81,6 +82,7 @@ function Settings() {
   const settingsHelpContext = useContext(SettingsHelpContext);
   const themeContext = useContext(ThemeContext);
   const toggleChatWallpaperContext = useContext(ToggleChatWallpaperContext);
+  const { setChatBackground } = useContext(ChatBackgroundContext);
 
   const settingsList = [
     {
@@ -118,7 +120,6 @@ function Settings() {
       name: "Dark theme",
       icon: <Brightness6RoundedIcon />,
       style: "settings-list-item settings-list-item-theme",
-      onClick: () => {},
     },
     {
       id: 5,
@@ -221,6 +222,19 @@ function Settings() {
                   {name === "Dark theme" && (
                     <ThemeSwitch
                       onChange={themeContext.toggleTheme}
+                      onClick={() => {
+                        setChatBackground(
+                          themeContext.theme === "light" ? "#EFEAE2" : "#0C141A"
+                        );
+                        localStorage.setItem(
+                          "chatBackground",
+                          JSON.stringify(
+                            themeContext.theme === "light"
+                              ? "#0C141A"
+                              : "#EFEAE2"
+                          )
+                        );
+                      }}
                       checked={themeContext.theme === "dark"}
                       inputProps={{ "aria-label": "controlled" }}
                       sx={{
