@@ -50,84 +50,19 @@ function ChatMessage(props) {
     "i"
   ); // validate fragment locator
 
-  const downloadPhoto = (photoUrl, fileName, extension) => {
+  const downloadMedia = (photoUrl, fileName) => {
     fetch(photoUrl)
       .then((res) => res.blob())
       .then((blob) => {
-        const file = new File([blob], "image", {
-          type: `image/${extension}`,
-        });
-
-        readFile(file);
-
-        function readFile(input) {
-          const fr = new FileReader();
-          fr.readAsDataURL(input);
-          fr.addEventListener("load", () => {
-            const res = fr.result;
-            let downloadBtn = document.getElementById("downloadPhoto");
-            let aTag = document.createElement("a");
-            aTag.href = res;
-            aTag.download = fileName;
-            aTag.click();
-            downloadBtn.appendChild(aTag);
-            aTag.remove();
-          });
-        }
-      });
-  };
-
-  const downloadVideo = (videoUrl, fileName, extension) => {
-    fetch(videoUrl)
-      .then((res) => res.blob())
-      .then((blob) => {
-        const file = new File([blob], "video", {
-          type: `video/${extension}`,
-        });
-
-        readFile(file);
-
-        function readFile(input) {
-          const fr = new FileReader();
-          fr.readAsDataURL(input);
-          fr.addEventListener("load", () => {
-            const res = fr.result;
-            let downloadBtn = document.getElementById("downloadVideo");
-            let aTag = document.createElement("a");
-            aTag.href = res;
-            aTag.download = fileName;
-            aTag.click();
-            downloadBtn.appendChild(aTag);
-            aTag.remove();
-          });
-        }
-      });
-  };
-
-  const downloadFile = (fileUrl, fileName, extension) => {
-    fetch(fileUrl)
-      .then((res) => res.blob())
-      .then((blob) => {
-        const file = new File([blob], "application", {
-          type: `application/${extension}`,
-        });
-
-        readFile(file);
-
-        function readFile(input) {
-          const fr = new FileReader();
-          fr.readAsDataURL(input);
-          fr.addEventListener("load", () => {
-            const res = fr.result;
-            let downloadBtn = document.getElementById("downloadFile");
-            let aTag = document.createElement("a");
-            aTag.href = res;
-            aTag.download = fileName;
-            aTag.click();
-            downloadBtn.appendChild(aTag);
-            aTag.remove();
-          });
-        }
+        const url = window.URL.createObjectURL(new Blob([blob]));
+        console.log(url);
+        let downloadBtn = document.getElementById("downloadPhoto");
+        let aTag = document.createElement("a");
+        aTag.href = url;
+        aTag.download = fileName;
+        aTag.click();
+        downloadBtn.appendChild(aTag);
+        aTag.remove();
       });
   };
 
@@ -172,9 +107,7 @@ function ChatMessage(props) {
           <>
             <div
               className="message-text"
-              onClick={() =>
-                downloadPhoto(props.imageURL, props.fileName, props.extension)
-              }
+              onClick={() => downloadMedia(props.imageURL, props.fileName)}
               id="downloadPhoto"
               style={{ cursor: "pointer" }}
             >
@@ -212,9 +145,7 @@ function ChatMessage(props) {
                 controls={true}
                 height="auto"
                 style={{ outline: "none", cursor: "pointer" }}
-                onClick={() =>
-                  downloadVideo(props.videoURL, props.fileName, props.extension)
-                }
+                onClick={() => downloadMedia(props.videoURL, props.fileName)}
                 id="downloadVideo"
               ></video>
             </div>
@@ -245,9 +176,7 @@ function ChatMessage(props) {
           <>
             <div
               className="message-text-document"
-              onClick={() =>
-                downloadFile(props.fileURL, props.fileName, props.extension)
-              }
+              onClick={() => downloadMedia(props.fileURL, props.fileName)}
               id="downloadFile"
               style={{ cursor: "pointer" }}
             >

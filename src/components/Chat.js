@@ -640,6 +640,7 @@ function Chat(props) {
         )}
       </div>
 
+      {/* Emoji box */}
       {emojiBox && (
         <EmojiPicker
           onEmojiClick={(emojiObject) => {
@@ -662,6 +663,7 @@ function Chat(props) {
         />
       )}
 
+      {/* Gif picker */}
       {gifBox && (
         <Tenor
           defaultResults={true}
