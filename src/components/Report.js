@@ -3,11 +3,39 @@ import "../styles/report.css";
 import Modal from "@mui/material/Modal";
 import { ThemeContext, ToggleContactInfoContext } from "../contexts/Context";
 import Checkbox from "@mui/material/Checkbox";
+import { deleteChat } from "../utils/deleteChat";
+import { UserContext } from "../contexts/Context";
+import db from "../firebase";
 
 function KeyboardShortcutsModal(props) {
   // Context
   const themeContext = useContext(ThemeContext);
   const toggleContactInfoContext = useContext(ToggleContactInfoContext);
+  const currentUser = useContext(UserContext);
+
+  if (props.emailId) {
+    var senderMessageCollectionRef = db
+      .collection("chats")
+      .doc(currentUser.email)
+      .collection("messages");
+
+    var receiverMessageCollectionRef = db
+      .collection("chats")
+      .doc(props.emailId)
+      .collection("messages");
+
+    var senderFriendListRef = db
+      .collection("FriendList")
+      .doc(currentUser.email)
+      .collection("list")
+      .doc(props.emailId);
+
+    var receiverFriendListRef = db
+      .collection("FriendList")
+      .doc(props.emailId)
+      .collection("list")
+      .doc(currentUser.email);
+  }
 
   // useState
   const [checked, setChecked] = useState(true);
@@ -74,7 +102,15 @@ function KeyboardShortcutsModal(props) {
               props.setOpenModal(false);
               if (checked === true) {
                 props.blockUser();
-                props.deleteChat();
+                deleteChat(
+                  props.emailId,
+                  currentUser,
+                  senderMessageCollectionRef,
+                  receiverMessageCollectionRef,
+                  senderFriendListRef,
+                  receiverFriendListRef,
+                  props.setChat
+                );
                 toggleContactInfoContext.toggleContactInfoDispatch("toggle");
               }
             }}

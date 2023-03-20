@@ -7,8 +7,7 @@ import {
 import Checkbox from "@mui/material/Checkbox";
 import { IconButton } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
+import * as Icons from "../Icons";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -39,7 +38,7 @@ function Privacy() {
               settingsPrivacyContext.settingsPrivacyDispatch("toggle");
             }}
           >
-            <ArrowBackIcon />
+            <Icons.ArrowBackIcon />
           </IconButton>
           <h3>Privacy</h3>
         </div>
@@ -55,7 +54,7 @@ function Privacy() {
               <p>Nobody, Everyone</p>
             </div>
             <IconButton aria-label="right-arrow" className={classes.icon}>
-              <ChevronRightRoundedIcon />
+              <Icons.ChevronRightRoundedIcon />
             </IconButton>
           </div>
 
@@ -65,7 +64,7 @@ function Privacy() {
               <p>Nobody, Everyone</p>
             </div>
             <IconButton aria-label="right-arrow" className={classes.icon}>
-              <ChevronRightRoundedIcon />
+              <Icons.ChevronRightRoundedIcon />
             </IconButton>
           </div>
 
@@ -75,7 +74,7 @@ function Privacy() {
               <p>Nobody, Everyone</p>
             </div>
             <IconButton aria-label="right-arrow" className={classes.icon}>
-              <ChevronRightRoundedIcon />
+              <Icons.ChevronRightRoundedIcon />
             </IconButton>
           </div>
 
@@ -106,7 +105,7 @@ function Privacy() {
               <p>Off</p>
             </div>
             <IconButton aria-label="right-arrow" className={classes.icon}>
-              <ChevronRightRoundedIcon />
+              <Icons.ChevronRightRoundedIcon />
             </IconButton>
           </div>
         </div>
@@ -119,7 +118,7 @@ function Privacy() {
                 <p>0 contacts excluded</p>
               </div>
               <IconButton aria-label="right-arrow" className={classes.icon}>
-                <ChevronRightRoundedIcon />
+                <Icons.ChevronRightRoundedIcon />
               </IconButton>
             </div>
 
@@ -129,7 +128,7 @@ function Privacy() {
                 <p>0</p>
               </div>
               <IconButton aria-label="right-arrow" className={classes.icon}>
-                <ChevronRightRoundedIcon />
+                <Icons.ChevronRightRoundedIcon />
               </IconButton>
             </div>
           </div>

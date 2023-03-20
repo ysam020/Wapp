@@ -6,9 +6,7 @@ import {
 } from "../../contexts/Context";
 import { IconButton } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import FeedRoundedIcon from "@mui/icons-material/FeedRounded";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import * as Icons from "../Icons";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -49,7 +47,7 @@ function AccountInfo() {
               settingsAccountInfoContext.settingsAccountInfoDispatch("toggle");
             }}
           >
-            <ArrowBackIcon />
+            <Icons.ArrowBackIcon />
           </IconButton>
           <h3>Request Account Info</h3>
         </div>
@@ -58,7 +56,7 @@ function AccountInfo() {
       <div className="account-info-body">
         <div className="account-info-img">
           <IconButton aria-label="feed">
-            <FeedRoundedIcon className={classes.feedIcon} />
+            <Icons.FeedRoundedIcon className={classes.feedIcon} />
           </IconButton>
         </div>
         <div className="account-info-row-1">
@@ -71,7 +69,7 @@ function AccountInfo() {
         </div>
 
         <div className="account-info-row-2">
-          <AccessTimeIcon className={classes.timeIcon} />
+          <Icons.AccessTimeIcon className={classes.timeIcon} />
           <div className="account-info-row-2-container">
             <h5>Request Sent</h5>
             <p>Ready by December 5, 2022</p>

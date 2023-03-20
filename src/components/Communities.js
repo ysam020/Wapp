@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import "../styles/communities.css";
 import { ToggleSidebarContext, CommunitiesContext } from "../contexts/Context";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import * as Icons from "./Icons";
 import { IconButton } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import ButtonPrimary from "./ButtonPrimary";
@@ -34,7 +34,7 @@ function Communities() {
               toggleSidebarContext.toggleSidebarDispatch("toggle");
             }}
           >
-            <ArrowBackIcon />
+            <Icons.ArrowBackIcon />
           </IconButton>
           <h3>Communities</h3>
         </div>

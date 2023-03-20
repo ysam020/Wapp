@@ -7,7 +7,7 @@ import {
 import helpList from "../../data/Helplist";
 import { IconButton } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import * as Icons from "../Icons";
 import wappHelp from "../../assets/images/wapp-help.png";
 
 const useStyles = makeStyles((theme) =>
@@ -41,7 +41,7 @@ function Help() {
               settingsHelpContext.settingsHelpDispatch("toggle");
             }}
           >
-            <ArrowBackIcon />
+            <Icons.ArrowBackIcon />
           </IconButton>
           <h3>Help</h3>
         </div>

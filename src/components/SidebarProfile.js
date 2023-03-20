@@ -5,12 +5,10 @@ import {
   UserContext,
   ToggleSidebarProfileContext,
 } from "../contexts/Context";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { IconButton, Tooltip } from "@material-ui/core";
 import { Avatar } from "@material-ui/core";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
+import * as Icons from "./Icons";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import DoneIcon from "@mui/icons-material/Done";
 import db from "../firebase";
 import { useEffect } from "react";
 
@@ -93,7 +91,7 @@ function SidebarProfile() {
               toggleSidebarContext.toggleSidebarDispatch("toggle");
             }}
           >
-            <ArrowBackIcon />
+            <Icons.ArrowBackIcon />
           </IconButton>
           <h3>Profile</h3>
         </div>
@@ -129,13 +127,13 @@ function SidebarProfile() {
                   aria-label="edit-name"
                   onClick={() => editNameInputRef.current.focus()}
                 >
-                  <ModeEditOutlineIcon className={classes.editIcon} />
+                  <Icons.ModeEditOutlineIcon className={classes.editIcon} />
                 </IconButton>
               </Tooltip>
             ) : (
               <Tooltip title="Click to save" enterDelay={1000}>
                 <IconButton aria-label="save-name" onClick={updateName}>
-                  <DoneIcon className={classes.editIcon} />
+                  <Icons.DoneIcon className={classes.editIcon} />
                 </IconButton>
               </Tooltip>
             )}
@@ -170,13 +168,13 @@ function SidebarProfile() {
                   aria-label="edit-about"
                   onClick={() => editAboutInputRef.current.focus()}
                 >
-                  <ModeEditOutlineIcon className={classes.editIcon} />
+                  <Icons.ModeEditOutlineIcon className={classes.editIcon} />
                 </IconButton>
               </Tooltip>
             ) : (
               <Tooltip title="Click to save" enterDelay={1000}>
                 <IconButton aria-label="save-about" onClick={updateAbout}>
-                  <DoneIcon className={classes.editIcon} />
+                  <Icons.DoneIcon className={classes.editIcon} />
                 </IconButton>
               </Tooltip>
             )}

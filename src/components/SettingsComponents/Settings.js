@@ -26,15 +26,7 @@ import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { styled } from "@mui/material/styles";
 
 // Material icons
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
-import LockRoundedIcon from "@mui/icons-material/LockRounded";
-import SecurityRoundedIcon from "@mui/icons-material/SecurityRounded";
-import Brightness6RoundedIcon from "@mui/icons-material/Brightness6Rounded";
-import WallpaperRoundedIcon from "@mui/icons-material/WallpaperRounded";
-import FeedRoundedIcon from "@mui/icons-material/FeedRounded";
-import BrightnessAutoRoundedIcon from "@mui/icons-material/BrightnessAutoRounded";
-import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
+import * as Icons from "../Icons";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -88,7 +80,7 @@ function Settings() {
     {
       id: 1,
       name: "Notifications",
-      icon: <NotificationsRoundedIcon />,
+      icon: <Icons.NotificationsRoundedIcon />,
       style: "settings-list-item settings-list-item-notifications",
       onClick: () => {
         settingsNotificationContext.settingsNotificationDispatch("toggle");
@@ -98,7 +90,7 @@ function Settings() {
     {
       id: 2,
       name: "Privacy",
-      icon: <LockRoundedIcon />,
+      icon: <Icons.LockRoundedIcon />,
       style: "settings-list-item settings-list-item-privacy",
       onClick: () => {
         settingsPrivacyContext.settingsPrivacyDispatch("toggle");
@@ -108,7 +100,7 @@ function Settings() {
     {
       id: 3,
       name: "Security",
-      icon: <SecurityRoundedIcon />,
+      icon: <Icons.SecurityRoundedIcon />,
       style: "settings-list-item settings-list-item-security",
       onClick: () => {
         settingsSecurityContext.settingsSecurityDispatch("toggle");
@@ -118,13 +110,13 @@ function Settings() {
     {
       id: 4,
       name: "Dark theme",
-      icon: <Brightness6RoundedIcon />,
+      icon: <Icons.Brightness6RoundedIcon />,
       style: "settings-list-item settings-list-item-theme",
     },
     {
       id: 5,
       name: "Chat Wallpaper",
-      icon: <WallpaperRoundedIcon />,
+      icon: <Icons.WallpaperRoundedIcon />,
       style: "settings-list-item settings-list-item-chat-wallpaper",
       onClick: () => {
         toggleChatWallpaperContext.toggleChatWallpaperDispatch("toggle");
@@ -134,7 +126,7 @@ function Settings() {
     {
       id: 6,
       name: "Request Account Info",
-      icon: <FeedRoundedIcon />,
+      icon: <Icons.FeedRoundedIcon />,
       style: "settings-list-item settings-list-item-request-account-info",
       onClick: () => {
         settingsAccountInfoContext.settingsAccountInfoDispatch("toggle");
@@ -144,7 +136,7 @@ function Settings() {
     {
       id: 7,
       name: "Keyboard Shortcuts",
-      icon: <BrightnessAutoRoundedIcon />,
+      icon: <Icons.BrightnessAutoRoundedIcon />,
       style: "settings-list-item settings-list-item-keyboard-shortcuts",
       onClick: () => {
         handleOpenModal();
@@ -153,7 +145,7 @@ function Settings() {
     {
       id: 8,
       name: "Help",
-      icon: <HelpRoundedIcon />,
+      icon: <Icons.HelpRoundedIcon />,
       style: "settings-list-item settings-list-item-help",
       onClick: () => {
         settingsHelpContext.settingsHelpDispatch("toggle");
@@ -184,7 +176,7 @@ function Settings() {
                 toggleSidebarContext.toggleSidebarDispatch("toggle");
               }}
             >
-              <ArrowBackIcon />
+              <Icons.ArrowBackIcon />
             </IconButton>
             <h3>Settings</h3>
           </div>

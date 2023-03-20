@@ -8,8 +8,7 @@ import React, {
 import "../styles/search-messages.css";
 import { SearchMessageContext } from "../contexts/Context";
 import { IconButton } from "@material-ui/core";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import * as Icons from "./Icons";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import db from "../firebase";
 import { UserContext } from "../contexts/Context";
@@ -95,7 +94,7 @@ function SearchMessage(props) {
           className={classes.icon}
           onClick={() => searchMessageContext.searchMessageDispatch("toggle")}
         >
-          <CloseRoundedIcon />
+          <Icons.CloseRoundedIcon />
         </IconButton>
 
         <h3>Search messages</h3>
@@ -108,7 +107,7 @@ function SearchMessage(props) {
             className={classes.icon}
             onClick={() => searchMessagesRef.current.focus()}
           >
-            <SearchOutlinedIcon />
+            <Icons.SearchOutlinedIcon />
           </IconButton>
           <input
             placeholder="Search messages"

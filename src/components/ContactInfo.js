@@ -18,17 +18,10 @@ import Switch from "@mui/material/Switch";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 
 // Material icons
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
-import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
-import HistoryIcon from "@mui/icons-material/History";
-import LockIcon from "@mui/icons-material/Lock";
-import BlockIcon from "@mui/icons-material/Block";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
-import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
+import * as Icons from "./Icons";
 
 import Report from "./Report";
+import { deleteChat } from "../utils/deleteChat";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -58,6 +51,7 @@ const ThemeSwitch = styled(Switch)(({ theme }) => ({
 }));
 
 function ContactInfo(props) {
+  // const { emailId } = props;
   // MUI Styles
   const classes = useStyles();
 
@@ -71,6 +65,30 @@ function ContactInfo(props) {
   const encryptionContext = useContext(EncryptionContext);
   const disappearingMessagesContext = useContext(DisappearingMessagesContext);
   const starredMessageContext = useContext(StarredMessageContext);
+
+  if (props.emailId) {
+    var senderMessageCollectionRef = db
+      .collection("chats")
+      .doc(currentUser.email)
+      .collection("messages");
+
+    var receiverMessageCollectionRef = db
+      .collection("chats")
+      .doc(props.emailId)
+      .collection("messages");
+
+    var senderFriendListRef = db
+      .collection("FriendList")
+      .doc(currentUser.email)
+      .collection("list")
+      .doc(props.emailId);
+
+    var receiverFriendListRef = db
+      .collection("FriendList")
+      .doc(props.emailId)
+      .collection("list")
+      .doc(currentUser.email);
+  }
 
   var chatUserRef = db.collection("users").doc(props.emailId);
 
@@ -126,7 +144,7 @@ function ContactInfo(props) {
               toggleContactInfoContext.toggleContactInfoDispatch("toggle")
             }
           >
-            <CloseRoundedIcon />
+            <Icons.CloseRoundedIcon />
           </IconButton>
           <h3>Contact info</h3>
         </div>
@@ -150,7 +168,7 @@ function ContactInfo(props) {
           <div className="media-right-container">
             <p>0</p>
             <IconButton aria-label="right-arrow" className={classes.icon}>
-              <KeyboardArrowRightRoundedIcon />
+              <Icons.KeyboardArrowRightRoundedIcon />
             </IconButton>
           </div>
         </div>
@@ -164,17 +182,17 @@ function ContactInfo(props) {
             }}
           >
             <IconButton aria-label="star-messages" className={classes.icon}>
-              <StarRateRoundedIcon />
+              <Icons.StarRateRoundedIcon />
             </IconButton>
             <h5>Starred messages</h5>
             <IconButton aria-label="right-arrow" className={classes.icon}>
-              <KeyboardArrowRightRoundedIcon />
+              <Icons.KeyboardArrowRightRoundedIcon />
             </IconButton>
           </div>
 
           <div className="mute-notification">
             <IconButton aria-label="notifications" className={classes.icon}>
-              <NotificationsRoundedIcon />
+              <Icons.NotificationsRoundedIcon />
             </IconButton>
             <h5>Mute notifications</h5>
             <ThemeSwitch />
@@ -193,14 +211,14 @@ function ContactInfo(props) {
               aria-label="disappearing-messages"
               className={classes.icon}
             >
-              <HistoryIcon />
+              <Icons.HistoryIcon />
             </IconButton>
             <div className="disappearing-messages-text">
               <h5>Disappearing messages</h5>
               <p>Off</p>
             </div>
             <IconButton aria-label="right-arrow" className={classes.icon}>
-              <KeyboardArrowRightRoundedIcon />
+              <Icons.KeyboardArrowRightRoundedIcon />
             </IconButton>
           </div>
 
@@ -212,7 +230,7 @@ function ContactInfo(props) {
             }}
           >
             <IconButton aria-label="encryption" className={classes.icon}>
-              <LockIcon />
+              <Icons.LockIcon />
             </IconButton>
             <div className="encryption-text">
               <h5>Encryption</h5>
@@ -227,7 +245,7 @@ function ContactInfo(props) {
               onClick={props.block.length === 0 ? blockUser : unblockUser}
             >
               <IconButton aria-label="block">
-                <BlockIcon className={classes.redIcon} />
+                <Icons.BlockIcon className={classes.redIcon} />
               </IconButton>
               <div className="block-text">
                 <h5>
@@ -248,7 +266,7 @@ function ContactInfo(props) {
               }}
             >
               <IconButton aria-label="report">
-                <ThumbDownAltIcon className={classes.redIcon} />
+                <Icons.ThumbDownAltIcon className={classes.redIcon} />
               </IconButton>
               <div className="report-text">
                 <h5>Report {chatUser.email}</h5>
@@ -257,9 +275,22 @@ function ContactInfo(props) {
           </Tooltip>
 
           <Tooltip title="Delete chat" enterDelay={1000} enterNextDelay={1000}>
-            <div className="delete-chat" onClick={() => props.deleteChat()}>
+            <div
+              className="delete-chat"
+              onClick={() =>
+                deleteChat(
+                  props.emailId,
+                  currentUser,
+                  senderMessageCollectionRef,
+                  receiverMessageCollectionRef,
+                  senderFriendListRef,
+                  receiverFriendListRef,
+                  props.setChat
+                )
+              }
+            >
               <IconButton aria-label="delete">
-                <DeleteIcon className={classes.redIcon} />
+                <Icons.DeleteIcon className={classes.redIcon} />
               </IconButton>
               <div className="delete-text">
                 <h5>Delete chat</h5>
@@ -274,8 +305,9 @@ function ContactInfo(props) {
         setOpenModal={setOpenModal}
         handleOpenModal={handleOpenModal}
         handleCloseModal={handleCloseModal}
-        deleteChat={props.deleteChat}
         blockUser={blockUser}
+        emailId={props.emailId}
+        setChat={props.setChat}
       />
     </>
   );

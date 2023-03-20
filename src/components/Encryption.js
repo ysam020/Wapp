@@ -8,7 +8,7 @@ import {
 import ButtonPrimary from "./ButtonPrimary";
 import { IconButton } from "@mui/material";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import * as Icons from "./Icons";
 import cryptoRandomString from "crypto-random-string";
 import QRCode from "react-qr-code";
 
@@ -41,7 +41,7 @@ function Encryption() {
             encryptionContext.encryptionDispatch("toggle");
           }}
         >
-          <CloseRoundedIcon />
+          <Icons.CloseRoundedIcon />
         </IconButton>
         <div>
           <h3>Verify Security Code</h3>

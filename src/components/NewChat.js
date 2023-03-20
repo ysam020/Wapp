@@ -2,11 +2,8 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import "../styles/new-chat.css";
 import { ToggleSidebarContext, NewChatContext } from "../contexts/Context";
 import SidebarSearchedUser from "./SidebarSearchedUser";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { IconButton } from "@material-ui/core";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import GroupRoundedIcon from "@mui/icons-material/GroupRounded";
-import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
+import * as Icons from "./Icons";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import db from "../firebase";
 
@@ -94,7 +91,7 @@ function NewChat(props) {
               toggleSidebarContext.toggleSidebarDispatch("toggle");
             }}
           >
-            <ArrowBackIcon />
+            <Icons.ArrowBackIcon />
           </IconButton>
           <h3>New chat</h3>
         </div>
@@ -107,7 +104,7 @@ function NewChat(props) {
             className={classes.icon}
             onClick={() => newChatSearchRef.current.focus()}
           >
-            <SearchOutlinedIcon />
+            <Icons.SearchOutlinedIcon />
           </IconButton>
           <input
             placeholder="Search or start a new chat"
@@ -123,14 +120,14 @@ function NewChat(props) {
           <>
             <div className="new-group">
               <IconButton aria-label="group">
-                <GroupRoundedIcon className={classes.groupIcon} />
+                <Icons.GroupRoundedIcon className={classes.groupIcon} />
               </IconButton>
               <h3>New group</h3>
             </div>
 
             <div className="new-community">
               <IconButton aria-label="communities">
-                <GroupsRoundedIcon className={classes.groupIcon} />
+                <Icons.GroupsRoundedIcon className={classes.groupIcon} />
               </IconButton>
               <h3>New community</h3>
             </div>

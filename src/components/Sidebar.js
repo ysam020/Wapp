@@ -19,14 +19,7 @@ import { Avatar } from "@material-ui/core";
 import db from "../firebase";
 import SidebarChat from "./SidebarChat";
 import SidebarSearchedUser from "./SidebarSearchedUser";
-import DonutLargeSharpIcon from "@mui/icons-material/DonutLargeSharp";
-import ChatRoundedIcon from "@mui/icons-material/ChatRounded";
-import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import FilterListRoundedIcon from "@mui/icons-material/FilterListRounded";
-import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
-import WifiOffIcon from "@mui/icons-material/WifiOff";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import * as Icons from "./Icons";
 import { IconButton } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
@@ -152,10 +145,10 @@ function Sidebar(props) {
               communitiesContext.communitiesDispatch("toggle");
             }}
           >
-            <GroupsRoundedIcon className={classes.icon} />
+            <Icons.GroupsRoundedIcon className={classes.icon} />
           </IconButton>
           <IconButton aria-label="status" className={classes.icon}>
-            <DonutLargeSharpIcon />
+            <Icons.DonutLargeSharpIcon />
           </IconButton>
 
           <IconButton
@@ -166,7 +159,7 @@ function Sidebar(props) {
               newChatContext.newChatDispatch("toggle");
             }}
           >
-            <ChatRoundedIcon />
+            <Icons.ChatRoundedIcon />
           </IconButton>
 
           <div className="sidebar-popover-container">
@@ -175,7 +168,7 @@ function Sidebar(props) {
               onClick={handleSidebarPopover}
               className={classes.icon}
             >
-              <MoreVertRoundedIcon />
+              <Icons.MoreVertRoundedIcon />
               {sidebarPopover && (
                 <ClickAwayListener onClickAway={handleClickAway}>
                   <div className="sidebar-popover">
@@ -207,7 +200,7 @@ function Sidebar(props) {
             <div className="sidebar-network-icon">
               <div className="sidebar-network-wifi-icon-container">
                 <IconButton aria-label="network-icon">
-                  <WifiOffIcon className={classes.wifiIcon} />
+                  <Icons.WifiOffIcon className={classes.wifiIcon} />
                 </IconButton>
               </div>
             </div>
@@ -219,7 +212,7 @@ function Sidebar(props) {
                 style={{ display: "flex", alignItems: "center" }}
               >
                 <a href="/#">Reconnect</a>
-                <ArrowForwardIosIcon className={classes.rightArrowIcon} />
+                <Icons.ArrowForwardIosIcon className={classes.rightArrowIcon} />
               </div>
             </div>
           </div>
@@ -233,7 +226,7 @@ function Sidebar(props) {
             className={classes.icon}
             onClick={() => sidebarSearchRef.current.focus()}
           >
-            <SearchOutlinedIcon />
+            <Icons.SearchOutlinedIcon />
           </IconButton>
           <input
             placeholder="Search or start a new chat"
@@ -243,7 +236,7 @@ function Sidebar(props) {
           />
         </div>
         <IconButton aria-label="filter" className={classes.icon}>
-          <FilterListRoundedIcon />
+          <Icons.FilterListRoundedIcon />
         </IconButton>
       </div>
 

@@ -11,7 +11,7 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { IconButton } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import * as Icons from "../Icons";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -45,7 +45,7 @@ function ChatWallpaper() {
               toggleChatWallpaperContxt.toggleChatWallpaperDispatch("toggle");
             }}
           >
-            <ArrowBackIcon />
+            <Icons.ArrowBackIcon />
           </IconButton>
           <h3>Chat Wallpaper</h3>
         </div>

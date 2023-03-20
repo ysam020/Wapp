@@ -8,8 +8,7 @@ import securityList from "../../data/SecurityList";
 import Checkbox from "@mui/material/Checkbox";
 import { IconButton } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import LockIcon from "@mui/icons-material/Lock";
+import * as Icons from "../Icons";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -53,7 +52,7 @@ function Security() {
               settingsSecurityContext.settingsSecurityDispatch("toggle");
             }}
           >
-            <ArrowBackIcon />
+            <Icons.ArrowBackIcon />
           </IconButton>
           <h3>Security</h3>
         </div>
@@ -62,7 +61,7 @@ function Security() {
       <div className="security-body">
         <div className="security-img">
           <IconButton aria-label="lock">
-            <LockIcon className={classes.lockIcon} />
+            <Icons.LockIcon className={classes.lockIcon} />
           </IconButton>
         </div>
         <div className="security-row-1">

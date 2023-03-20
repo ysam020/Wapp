@@ -1,10 +1,6 @@
 import React from "react";
 import { Avatar } from "@material-ui/core";
-import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
-import VideoCameraBackIcon from "@mui/icons-material/VideoCameraBack";
-import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
-import GifBoxIcon from "@mui/icons-material/GifBox";
-import DoneAllIcon from "@mui/icons-material/DoneAll";
+import * as Icons from "./Icons";
 import Tooltip from "@mui/material/Tooltip";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 
@@ -110,7 +106,7 @@ function SidebarChat(props) {
                   }}
                 >
                   {props.messageSent === true ? (
-                    <DoneAllIcon
+                    <Icons.DoneAllIcon
                       className={
                         props.messageRead === false
                           ? classes.unreadIcon
@@ -120,7 +116,7 @@ function SidebarChat(props) {
                   ) : (
                     ""
                   )}
-                  <PhotoCameraIcon className={classes.sidebarChatIcon} />
+                  <Icons.PhotoCameraIcon className={classes.sidebarChatIcon} />
                   <p>Photo</p>
                 </div>
               ) : props.messageType === "Gif" ? (
@@ -132,7 +128,7 @@ function SidebarChat(props) {
                   }}
                 >
                   {props.messageSent === true ? (
-                    <DoneAllIcon
+                    <Icons.DoneAllIcon
                       className={
                         props.messageRead === false
                           ? classes.unreadIcon
@@ -142,7 +138,7 @@ function SidebarChat(props) {
                   ) : (
                     ""
                   )}
-                  <GifBoxIcon className={classes.sidebarChatIcon} />
+                  <Icons.GifBoxIcon className={classes.sidebarChatIcon} />
                   <p>Gif</p>
                 </div>
               ) : props.messageType === "Video" ? (
@@ -154,7 +150,7 @@ function SidebarChat(props) {
                   }}
                 >
                   {props.messageSent === true ? (
-                    <DoneAllIcon
+                    <Icons.DoneAllIcon
                       className={
                         props.messageRead === false
                           ? classes.unreadIcon
@@ -164,7 +160,9 @@ function SidebarChat(props) {
                   ) : (
                     ""
                   )}
-                  <VideoCameraBackIcon className={classes.sidebarChatIcon} />
+                  <Icons.VideoCameraBackIcon
+                    className={classes.sidebarChatIcon}
+                  />
                   <p>Video</p>
                 </div>
               ) : props.messageType === "Document" ? (
@@ -176,7 +174,7 @@ function SidebarChat(props) {
                   }}
                 >
                   {props.messageSent === true ? (
-                    <DoneAllIcon
+                    <Icons.DoneAllIcon
                       className={
                         props.messageRead === false
                           ? classes.unreadIcon
@@ -186,7 +184,9 @@ function SidebarChat(props) {
                   ) : (
                     ""
                   )}
-                  <InsertDriveFileIcon className={classes.sidebarChatIcon} />
+                  <Icons.InsertDriveFileIcon
+                    className={classes.sidebarChatIcon}
+                  />
                   <p>Document</p>
                 </div>
               ) : props.lastMessage ? (
@@ -198,7 +198,7 @@ function SidebarChat(props) {
                   }}
                 >
                   {props.messageSent === true ? (
-                    <DoneAllIcon
+                    <Icons.DoneAllIcon
                       className={
                         props.messageRead === false
                           ? classes.unreadIcon

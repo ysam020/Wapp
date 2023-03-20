@@ -13,7 +13,7 @@ import { IconButton } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 
 // Material icons
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import * as Icons from "./Icons";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -42,7 +42,7 @@ function DisappearingMessages(props) {
             disappearingMessagesContext.disappearingMessagesDispatch("toggle");
           }}
         >
-          <CloseRoundedIcon />
+          <Icons.CloseRoundedIcon />
         </IconButton>
         <h3>Disappaering messages</h3>
       </div>

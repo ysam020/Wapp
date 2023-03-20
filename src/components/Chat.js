@@ -24,20 +24,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 
 // Material icons
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
-import InsertEmoticonOutlinedIcon from "@mui/icons-material/InsertEmoticonOutlined";
-import AttachFileOutlinedIcon from "@mui/icons-material/AttachFileOutlined";
-import MicOutlinedIcon from "@mui/icons-material/MicOutlined";
-import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
-import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
-import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
-import ShortcutIcon from "@mui/icons-material/Shortcut";
-import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
-import VideoCameraBackIcon from "@mui/icons-material/VideoCameraBack";
-import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
-import CameraAltRoundedIcon from "@mui/icons-material/CameraAltRounded";
+import * as Icons from "./Icons";
 
 // MUI styles
 import { createStyles, makeStyles } from "@material-ui/core/styles";
@@ -48,8 +35,19 @@ import Tenor from "react-tenor";
 import "react-tenor/dist/styles.css";
 import Webcam from "react-webcam";
 import firebase from "firebase/app";
-import cryptoRandomString from "crypto-random-string";
 import chatDoodle from "../assets/images/chat-doodle.png";
+import { getMessages } from "../utils/getMessages";
+
+import { sendMessageToDatabase } from "../utils/sendMessageToDatabase";
+import { deleteChat } from "../utils/deleteChat";
+import { deleteSelectedMessages } from "../utils/deleteSelectedMessages";
+import { starMessages } from "../utils/starMessages";
+import { selectFiles } from "../utils/selectFiles";
+import { selectGif } from "../utils/selectGIF";
+import { clickImage } from "../utils/clickImage";
+import { markMessageAsread } from "../utils/markMessageAsRead";
+import { handleTyping, handleTypingIndicator } from "../utils/typing";
+import { getTimeAgo } from "../utils/getTimeAgo";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -110,6 +108,11 @@ function Chat(props) {
 
   var chatUserRef = db.collection("users").doc(props.emailId);
 
+  var senderMessageCollectionRef = db
+    .collection("chats")
+    .doc(currentUser.email)
+    .collection("messages");
+
   var receiverMessageCollectionRef = db
     .collection("chats")
     .doc(props.emailId)
@@ -168,7 +171,13 @@ function Chat(props) {
   ]);
 
   useEffect(() => {
-    props.getMessages();
+    getMessages(
+      senderMessageCollectionRef,
+      currentUser,
+      props.emailId,
+      props.setStarredMessages,
+      props.setChatMessages
+    );
     // eslint-disable-next-line
   }, [props.emailId]);
 
@@ -191,6 +200,9 @@ function Chat(props) {
     ) {
       sendMessageRef.current.focus();
     }
+
+    // Mark messages as read when chat component loads
+    markMessageAsread(receiverMessageCollectionRef, props.emailId, currentUser);
   });
 
   // Scroll to bottom of chat when message is sent or received
@@ -209,102 +221,6 @@ function Chat(props) {
     localStorage.removeItem("chat");
   };
 
-  // Upload media and send message
-  const selectFiles = (e) => {
-    e.preventDefault();
-    const file = e.target.files[0];
-    let randomString = cryptoRandomString({ length: 10 });
-
-    const uploadTask = storage.ref(`files/${file.name}`).put(file);
-
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {},
-      (error) => console.log(error),
-      () => {
-        storage
-          .ref("files")
-          .child(file.name)
-          .getDownloadURL()
-          .then((url) => {
-            // If images
-            if (e.target.getAttribute("accept") === "image/*") {
-              let payload = {
-                text: "Photo",
-                fileName: file.name,
-                extension: file.name.split(".").at(-1),
-                messageId: randomString,
-                messageInfo: "Photo",
-                senderEmail: currentUser.email,
-                receiverEmail: props.emailId,
-                timestamp: firebase.firestore.Timestamp.now(),
-                read: false,
-                imageURL: url,
-              };
-
-              props.sendMessageToDatabase(payload);
-            }
-            // If videos
-            else if (
-              e.target.getAttribute("accept") ===
-              "video/mp4,video/3gpp,video/quicktime"
-            ) {
-              let payload = {
-                text: "Video",
-                fileName: file.name,
-                extension: file.name.split(".").at(-1),
-                messageId: randomString,
-                messageInfo: "Video",
-                senderEmail: currentUser.email,
-                receiverEmail: props.emailId,
-                timestamp: firebase.firestore.Timestamp.now(),
-                read: false,
-                videoURL: url,
-              };
-
-              props.sendMessageToDatabase(payload);
-            }
-            // If documents
-            else if (e.target.getAttribute("accept") === "*") {
-              let payload = {
-                text: "Document",
-                fileName: file.name,
-                extension: file.name.split(".").at(-1),
-                messageId: randomString,
-                messageInfo: "Document",
-                senderEmail: currentUser.email,
-                receiverEmail: props.emailId,
-                timestamp: firebase.firestore.Timestamp.now(),
-                read: false,
-                fileURL: url,
-              };
-
-              props.sendMessageToDatabase(payload);
-            }
-          });
-      }
-    );
-
-    setSendMediaList(!sendMediaList);
-  };
-
-  const selectGif = (result) => {
-    let randomString = cryptoRandomString({ length: 10 });
-
-    let payload = {
-      text: "Gif",
-      messageId: randomString,
-      messageInfo: "Gif",
-      senderEmail: currentUser.email,
-      receiverEmail: props.emailId,
-      timestamp: firebase.firestore.Timestamp.now(),
-      read: false,
-      imageURL: result.media[0].gif.url,
-    };
-
-    props.sendMessageToDatabase(payload);
-  };
-
   // Wallpaper doodles
   useEffect(() => {
     if (doodle) {
@@ -314,93 +230,13 @@ function Chat(props) {
     }
   }, [doodle]);
 
-  const clickImage = () => {
-    const clickedImage = webcamRef.current.getScreenshot();
-    let randomString = cryptoRandomString({ length: 10 });
-
-    const uploadTask = storage
-      .ref(`files/Img${randomString}`)
-      .putString(clickedImage, "data_url", { contentType: "image/jpg" });
-
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {},
-      (error) => console.log(error),
-      () => {
-        storage
-          .ref("files")
-          .child(`Img${randomString}`)
-          .getDownloadURL()
-          .then((url) => {
-            let payload = {
-              text: "Photo",
-              fileName: `Img${randomString}`,
-              extension: "jpg",
-              messageId: randomString,
-              messageInfo: "Photo",
-              senderEmail: currentUser.email,
-              receiverEmail: props.emailId,
-              timestamp: firebase.firestore.Timestamp.now(),
-              read: false,
-              imageURL: url,
-            };
-
-            props.sendMessageToDatabase(payload);
-          });
-      }
-    );
-
-    setShowWebcam(false);
-    setCircularProgress(true);
-  };
-
   useEffect(() => {
-    // Mark messages as read when chat component loads
-    receiverMessageCollectionRef
-      .where(
-        "senderEmail",
-        "==",
-        props.emailId,
-        "&&",
-        "receiverEmail",
-        "==",
-        currentUser.email
-      )
-      .get()
-      .then(function (querySnapshot) {
-        querySnapshot.forEach(function (doc) {
-          doc.ref.update({
-            read: true,
-          });
-        });
-      });
-  });
-
-  // Update typing to database
-  const handleTyping = useCallback(() => {
-    if (typing === true) {
-      receiverFriendListRef.update({ typing: true });
-    } else {
-      receiverFriendListRef.update({ typing: false });
-    }
+    handleTyping(typing, receiverFriendListRef);
     // eslint-disable-next-line
   }, [typing]);
 
   useEffect(() => {
-    handleTyping();
-    // eslint-disable-next-line
-  }, [typing]);
-
-  // Get typing indicator from database
-  const handleTypingIndicator = useCallback(() => {
-    senderFriendListRef.onSnapshot((snapshot) => {
-      setTypingIndicator(snapshot.data().typing);
-    });
-    // eslint-disable-next-line
-  }, [typingIndicator]);
-
-  useEffect(() => {
-    handleTypingIndicator();
+    handleTypingIndicator(senderFriendListRef, setTypingIndicator);
     // eslint-disable-next-line
   }, [typingIndicator]);
 
@@ -418,32 +254,6 @@ function Chat(props) {
         props.chatMessages[index - 1].timestamp.toDate().toLocaleDateString()
       ? null
       : props.chatMessages[index].timestamp.toDate().toLocaleDateString();
-  };
-
-  // Classify timestamp based on time ago
-  const getTimeAgo = (index) => {
-    const currentDate = new Date();
-
-    if (getPreviousMessageDate(index) !== null) {
-      var messageDate = getPreviousMessageDate(index);
-
-      var dateArray = messageDate.split("/");
-      dateArray.reverse();
-
-      var newMessageDate = new Date(dateArray.join("/"));
-    }
-
-    var diffTime = currentDate - newMessageDate;
-    const diffDays = diffTime / (1000 * 60 * 60 * 24);
-    if (diffDays < 1) {
-      return "Today";
-    } else if (diffDays < 2) {
-      return "Yesterday";
-    } else if (diffDays < 7) {
-      return newMessageDate.toLocaleString("default", { weekday: "long" });
-    } else {
-      return newMessageDate.toLocaleDateString();
-    }
   };
 
   return (
@@ -477,7 +287,7 @@ function Chat(props) {
               searchMessageContext.searchMessageDispatch("toggle");
             }}
           >
-            <SearchOutlinedIcon />
+            <Icons.SearchOutlinedIcon />
           </IconButton>
 
           <div className="chat-popover-container">
@@ -486,7 +296,7 @@ function Chat(props) {
               onClick={props.handleChatPopover}
               className={classes.icon}
             >
-              <MoreVertRoundedIcon />
+              <Icons.MoreVertRoundedIcon />
             </IconButton>
             {props.chatPopover && (
               <ClickAwayListener onClickAway={props.handleClickAway}>
@@ -524,7 +334,15 @@ function Chat(props) {
                   <h4>Clear messages</h4>
                   <h4
                     onClick={() => {
-                      props.deleteChat();
+                      deleteChat(
+                        props.emailId,
+                        currentUser,
+                        senderMessageCollectionRef,
+                        receiverMessageCollectionRef,
+                        senderFriendListRef,
+                        receiverFriendListRef,
+                        props.setChat
+                      );
                       props.handleChatPopover();
                     }}
                   >
@@ -555,16 +373,31 @@ function Chat(props) {
                   setCircularProgress(true);
                 }}
               >
-                <CloseOutlinedIcon className={classes.webcamCloseIcon} />
+                <Icons.CloseOutlinedIcon className={classes.webcamCloseIcon} />
               </IconButton>
               <h3>Take Photo</h3>
             </div>
             {!circularProgress ? (
               <>
                 <Webcam className="webcam" ref={webcamRef} />
-                <CameraAltRoundedIcon
+                <Icons.CameraAltRoundedIcon
                   className={classes.webcamCameraIcon}
-                  onClick={clickImage}
+                  onClick={() =>
+                    clickImage(
+                      webcamRef,
+                      storage,
+                      currentUser,
+                      props,
+                      firebase,
+                      sendMessageToDatabase,
+                      senderMessageCollectionRef,
+                      receiverMessageCollectionRef,
+                      senderFriendListRef,
+                      receiverFriendListRef,
+                      setShowWebcam,
+                      setCircularProgress
+                    )
+                  }
                 />
               </>
             ) : (
@@ -614,7 +447,7 @@ function Chat(props) {
                   <div className="chat-message-box">
                     <div className="chat-date">
                       {getPreviousMessageDate(index) && (
-                        <p>{getTimeAgo(index)}</p>
+                        <p>{getTimeAgo(index, getPreviousMessageDate)}</p>
                       )}
                     </div>
 
@@ -669,7 +502,19 @@ function Chat(props) {
           defaultResults={true}
           limit={1000}
           searchPlaceholder="Search GIFs via Tenor"
-          onSelect={selectGif}
+          onSelect={(result) =>
+            selectGif(
+              currentUser,
+              props,
+              firebase,
+              sendMessageToDatabase,
+              senderMessageCollectionRef,
+              receiverMessageCollectionRef,
+              senderFriendListRef,
+              receiverFriendListRef,
+              result
+            )
+          }
         />
       )}
 
@@ -693,23 +538,36 @@ function Chat(props) {
               props.setSelectedMessages([]);
             }}
           >
-            <CloseOutlinedIcon className={classes.icon} />
+            <Icons.CloseOutlinedIcon className={classes.icon} />
           </IconButton>
           <p>{`${props.selectedMessages.length} selected`}</p>
           <IconButton
             aria-label="star-messages"
-            onClick={props.starMessages}
+            onClick={starMessages(
+              props.selectedMessages,
+              senderMessageCollectionRef
+            )}
             disabled={props.selectedMessages.length === 0 ? true : false}
           >
-            <StarRateRoundedIcon className={classes.icon} />
+            <Icons.StarRateRoundedIcon className={classes.icon} />
           </IconButton>
 
           <IconButton
             aria-label="delete-messages"
-            onClick={props.deleteSelectedMessages}
+            onClick={() =>
+              deleteSelectedMessages(
+                props.selectedMessages,
+                senderMessageCollectionRef,
+                props.chatMessages,
+                senderFriendListRef,
+                receiverMessageCollectionRef,
+                props.setSelectMessagesUI,
+                props.setSelectedMessages
+              )
+            }
             disabled={props.selectedMessages.length === 0 ? true : false}
           >
-            <DeleteRoundedIcon className={classes.icon} />
+            <Icons.DeleteRoundedIcon className={classes.icon} />
           </IconButton>
 
           <IconButton
@@ -717,7 +575,7 @@ function Chat(props) {
             disabled={props.selectedMessages.length === 0 ? true : false}
             onClick={() => handleOpenModal()}
           >
-            <ShortcutIcon className={classes.icon} />
+            <Icons.ShortcutIcon className={classes.icon} />
           </IconButton>
         </div>
       ) : (
@@ -734,7 +592,7 @@ function Chat(props) {
                 sendMessageRef.current.focus();
               }}
             >
-              <CloseOutlinedIcon />
+              <Icons.CloseOutlinedIcon />
             </IconButton>
           )}
 
@@ -750,7 +608,7 @@ function Chat(props) {
               sendMessageRef.current.focus();
             }}
           >
-            <InsertEmoticonOutlinedIcon />
+            <Icons.InsertEmoticonOutlinedIcon />
           </IconButton>
 
           {gifButton && (
@@ -762,7 +620,7 @@ function Chat(props) {
                 setEmojiBox(false);
               }}
             >
-              <GifBoxOutlinedIcon />
+              <Icons.GifBoxOutlinedIcon />
             </IconButton>
           )}
 
@@ -780,14 +638,30 @@ function Chat(props) {
                       aria-label="photo"
                       onClick={() => inputImagesRef.current.click()}
                     >
-                      <InsertPhotoIcon className={classes.mediaIcon} />
+                      <Icons.InsertPhotoIcon className={classes.mediaIcon} />
                       <input
                         accept="image/*"
                         type="file"
                         multiple=""
                         style={{ display: "none" }}
                         ref={inputImagesRef}
-                        onChange={selectFiles}
+                        onChange={(e) => {
+                          e.preventDefault();
+                          selectFiles(
+                            e,
+                            storage,
+                            currentUser,
+                            props,
+                            firebase,
+                            sendMessageToDatabase,
+                            senderMessageCollectionRef,
+                            receiverMessageCollectionRef,
+                            senderFriendListRef,
+                            receiverFriendListRef,
+                            setSendMediaList,
+                            sendMediaList
+                          );
+                        }}
                       ></input>
                     </IconButton>
                   </Tooltip>
@@ -803,14 +677,31 @@ function Chat(props) {
                       aria-label="video"
                       onClick={() => inputVideosRef.current.click()}
                     >
-                      <VideoCameraBackIcon className={classes.mediaIcon} />
+                      <Icons.VideoCameraBackIcon
+                        className={classes.mediaIcon}
+                      />
                       <input
                         accept="video/mp4,video/3gpp,video/quicktime"
                         type="file"
                         multiple=""
                         style={{ display: "none" }}
                         ref={inputVideosRef}
-                        onChange={selectFiles}
+                        onChange={(e) => {
+                          e.preventDefault();
+                          selectFiles(
+                            storage,
+                            currentUser,
+                            props,
+                            firebase,
+                            sendMessageToDatabase,
+                            senderMessageCollectionRef,
+                            receiverMessageCollectionRef,
+                            senderFriendListRef,
+                            receiverFriendListRef,
+                            setSendMediaList,
+                            sendMediaList
+                          );
+                        }}
                       ></input>
                     </IconButton>
                   </Tooltip>
@@ -826,14 +717,31 @@ function Chat(props) {
                       aria-label="document"
                       onClick={() => inputDocumentRef.current.click()}
                     >
-                      <InsertDriveFileIcon className={classes.mediaIcon} />
+                      <Icons.InsertDriveFileIcon
+                        className={classes.mediaIcon}
+                      />
                       <input
                         accept="*"
                         type="file"
                         multiple=""
                         style={{ display: "none" }}
                         ref={inputDocumentRef}
-                        onChange={selectFiles}
+                        onChange={(e) => {
+                          e.preventDefault();
+                          selectFiles(
+                            storage,
+                            currentUser,
+                            props,
+                            firebase,
+                            sendMessageToDatabase,
+                            senderMessageCollectionRef,
+                            receiverMessageCollectionRef,
+                            senderFriendListRef,
+                            receiverFriendListRef,
+                            setSendMediaList,
+                            sendMediaList
+                          );
+                        }}
                       ></input>
                     </IconButton>
                   </Tooltip>
@@ -855,7 +763,9 @@ function Chat(props) {
                         }, 1500);
                       }}
                     >
-                      <CameraAltRoundedIcon className={classes.mediaIcon} />
+                      <Icons.CameraAltRoundedIcon
+                        className={classes.mediaIcon}
+                      />
                     </IconButton>
                   </Tooltip>
                 </li>
@@ -867,7 +777,7 @@ function Chat(props) {
               onClick={() => setSendMediaList(!sendMediaList)}
               style={{ transform: "rotate(45deg)" }}
             >
-              <AttachFileOutlinedIcon />
+              <Icons.AttachFileOutlinedIcon />
             </IconButton>
           </div>
 
@@ -886,7 +796,7 @@ function Chat(props) {
           </form>
 
           <IconButton aria-label="audio" className={classes.icon}>
-            <MicOutlinedIcon />
+            <Icons.MicOutlinedIcon />
           </IconButton>
         </div>
       )}

@@ -7,7 +7,7 @@ import {
 import Checkbox from "@mui/material/Checkbox";
 import { IconButton } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import * as Icons from "../Icons";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -39,7 +39,7 @@ function Notifications() {
               toggleSettingsContext.toggleSettingsDispatch("toggle");
             }}
           >
-            <ArrowBackIcon />
+            <Icons.ArrowBackIcon />
           </IconButton>
           <div className="sidebar-profile-text">
             <h3>Notifications</h3>

@@ -1,14 +1,10 @@
 import React, { useContext, useState, useEffect, useCallback } from "react";
 import "../styles/starred-messages.css";
 import { StarredMessageContext, UserContext } from "../contexts/Context";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import ArrowRightRoundedIcon from "@mui/icons-material/ArrowRightRounded";
 import { Avatar, IconButton } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { auth } from "../firebase";
-import DoneAllIcon from "@mui/icons-material/DoneAll";
-import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
-import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import * as Icons from "./Icons";
 import db from "../firebase";
 
 const useStyles = makeStyles((theme) =>
@@ -75,7 +71,7 @@ function StarredMessages(props) {
               starredMessageContext.starredMessageDispatch("toggle")
             }
           >
-            <CloseRoundedIcon />
+            <Icons.CloseRoundedIcon />
           </IconButton>
           <h3>Starred messages</h3>
         </div>
@@ -99,7 +95,7 @@ function StarredMessages(props) {
                     }
                   />
                   <p>
-                    {message.data().senderEmail} <ArrowRightRoundedIcon />
+                    {message.data().senderEmail} <Icons.ArrowRightRoundedIcon />
                     {message.data().receiverEmail}
                   </p>
                 </div>
@@ -127,7 +123,7 @@ function StarredMessages(props) {
                           </p>
                           {message.data().senderEmail ===
                             auth?.currentUser.email && (
-                            <DoneAllIcon
+                            <Icons.DoneAllIcon
                               className={
                                 message.data().senderEmail ===
                                   auth?.currentUser.email &&
@@ -166,7 +162,7 @@ function StarredMessages(props) {
                           </p>
                           {message.data().senderEmail ===
                             auth?.currentUser.email && (
-                            <DoneAllIcon
+                            <Icons.DoneAllIcon
                               className={
                                 message.data().senderEmail ===
                                   auth?.currentUser.email &&
@@ -199,7 +195,7 @@ function StarredMessages(props) {
                           </p>
                           {message.data().senderEmail ===
                             auth?.currentUser.email && (
-                            <DoneAllIcon
+                            <Icons.DoneAllIcon
                               className={
                                 message.data().senderEmail ===
                                   auth?.currentUser.email &&
@@ -225,9 +221,9 @@ function StarredMessages(props) {
                               download
                             >
                               <div className="file-inner-container">
-                                <InsertDriveFileIcon />
+                                <Icons.InsertDriveFileIcon />
                                 <p>{message.data().fileName}</p>
-                                <FileDownloadIcon />
+                                <Icons.FileDownloadIcon />
                               </div>
                             </a>
                           </div>
@@ -240,7 +236,7 @@ function StarredMessages(props) {
                           </p>
                           {message.data().senderEmail ===
                             auth?.currentUser.email && (
-                            <DoneAllIcon
+                            <Icons.DoneAllIcon
                               className={
                                 message.data().senderEmail ===
                                   auth?.currentUser.email &&
@@ -268,7 +264,7 @@ function StarredMessages(props) {
                           </p>
                           {message.data().senderEmail ===
                             auth?.currentUser.email && (
-                            <DoneAllIcon
+                            <Icons.DoneAllIcon
                               className={
                                 message.data().senderEmail ===
                                   auth?.currentUser.email &&

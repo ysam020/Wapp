@@ -3,9 +3,7 @@ import "../styles/forward-message.css";
 import Modal from "@mui/material/Modal";
 import { ThemeContext } from "../contexts/Context";
 import { Avatar, IconButton } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import SendIcon from "@mui/icons-material/Send";
+import * as Icons from "./Icons";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import db from "../firebase";
 import Checkbox from "@mui/material/Checkbox";
@@ -75,7 +73,7 @@ function ForwardMessageModal(props) {
               props.handleCloseModal();
             }}
           >
-            <CloseIcon />
+            <Icons.CloseIcon />
           </IconButton>
           <h3>Forward message to</h3>
         </div>
@@ -86,7 +84,7 @@ function ForwardMessageModal(props) {
               className={classes.icon}
               onClick={() => forwardMessageSearchRef.current.focus()}
             >
-              <SearchOutlinedIcon />
+              <Icons.SearchOutlinedIcon />
             </IconButton>
             <input
               placeholder="Search..."
@@ -151,7 +149,7 @@ function ForwardMessageModal(props) {
               className="forward-message-send-icon"
               onClick={handleForwardMessage}
             >
-              <SendIcon className={classes.sendIcon} />
+              <Icons.SendIcon className={classes.sendIcon} />
             </div>
           </div>
         )}
