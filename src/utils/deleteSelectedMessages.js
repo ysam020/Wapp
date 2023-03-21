@@ -1,32 +1,35 @@
+import FirebaseRefs from "../components/FirebaseRefs";
+
 export const deleteSelectedMessages = (
   selectedMessages,
-  senderMessageCollectionRef,
   chatMessages,
-  senderFriendListRef,
-  receiverMessageCollectionRef,
   setSelectMessagesUI,
-  setSelectedMessages
+  setSelectedMessages,
+  emailId,
+  currentUser
 ) => {
+  const firebaseRef = FirebaseRefs(emailId, currentUser);
+
   selectedMessages.map((message) => {
-    senderMessageCollectionRef
+    firebaseRef.senderMessageCollectionRef
       .where("messageId", "==", message)
       .get()
       .then((querySnapshot) =>
         querySnapshot.forEach((doc) =>
-          senderMessageCollectionRef
+          firebaseRef.senderMessageCollectionRef
             .doc(doc.id)
             .delete()
             .then(() => {
               // Update last message in sidebar
               if (selectedMessages.length !== chatMessages.length) {
-                senderFriendListRef.update({
+                firebaseRef.senderFriendListRef.update({
                   lastMessage: chatMessages.at(-2).text,
                   messageRead: chatMessages.at(-2).read,
                   messageType: chatMessages.at(-2).messageInfo,
                   timestamp: chatMessages.at(-2).timestamp,
                 });
               } else {
-                senderFriendListRef.update({
+                firebaseRef.senderFriendListRef.update({
                   lastMessage: "",
                   messageRead: "",
                   messageType: "",
@@ -37,12 +40,12 @@ export const deleteSelectedMessages = (
         )
       );
 
-    receiverMessageCollectionRef
+    firebaseRef.receiverMessageCollectionRef
       .where("messageId", "==", message)
       .get()
       .then((querySnapshot) =>
         querySnapshot.forEach((doc) =>
-          receiverMessageCollectionRef.doc(doc.id).delete()
+          firebaseRef.receiverMessageCollectionRef.doc(doc.id).delete()
         )
       );
 

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import * as Icons from "./Icons";
-import { UserContext } from "../contexts/Context";
+import * as Icons from "../Icons";
+import { UserContext } from "../../contexts/Context";
 
 const useStyles = makeStyles((theme) =>
   createStyles({

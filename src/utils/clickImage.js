@@ -1,16 +1,15 @@
 import cryptoRandomString from "crypto-random-string";
+import firebase from "firebase/app";
 
 export const clickImage = (
   webcamRef,
   storage,
   currentUser,
-  props,
-  firebase,
+  emailId,
+  chatUser,
+  message,
+  chatMessages,
   sendMessageToDatabase,
-  senderMessageCollectionRef,
-  receiverMessageCollectionRef,
-  senderFriendListRef,
-  receiverFriendListRef,
   setShowWebcam,
   setCircularProgress
 ) => {
@@ -38,7 +37,7 @@ export const clickImage = (
             messageId: randomString,
             messageInfo: "Photo",
             senderEmail: currentUser.email,
-            receiverEmail: props.emailId,
+            receiverEmail: emailId,
             timestamp: firebase.firestore.Timestamp.now(),
             read: false,
             imageURL: url,
@@ -46,15 +45,11 @@ export const clickImage = (
 
           sendMessageToDatabase(
             payload,
-            senderMessageCollectionRef,
-            receiverMessageCollectionRef,
-            senderFriendListRef,
-            receiverFriendListRef,
-            props.chatUser,
-            props.message,
+            chatUser,
+            message,
             currentUser,
-            props.chatMessages,
-            props.emailId
+            chatMessages,
+            emailId
           );
         });
     }

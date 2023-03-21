@@ -1,25 +1,27 @@
 import firebase from "firebase/app";
+import FirebaseRefs from "../components/FirebaseRefs";
 
 export const sendMessageToDatabase = (
   payload,
-  senderMessageCollectionRef,
-  receiverMessageCollectionRef,
-  senderFriendListRef,
-  receiverFriendListRef,
+  // senderMessageCollectionRef,
+  // receiverMessageCollectionRef,
+  // senderFriendListRef,
+  // receiverFriendListRef,
   chatUser,
   message,
   currentUser,
   chatMessages,
   emailId
 ) => {
+  const firebaseRef = FirebaseRefs(emailId, currentUser);
   //Add message to chat collection for sender
-  senderMessageCollectionRef.add(payload);
+  firebaseRef.senderMessageCollectionRef.add(payload);
 
   //Add message to chat collection for receiver
-  receiverMessageCollectionRef.add(payload);
+  firebaseRef.receiverMessageCollectionRef.add(payload);
 
   // Add friend in FriendList collection for sender
-  senderFriendListRef.set({
+  firebaseRef.senderFriendListRef.set({
     email: chatUser.email,
     fullname: chatUser.fullname,
     photoURL: chatUser.photoURL,
@@ -31,7 +33,7 @@ export const sendMessageToDatabase = (
   });
 
   // Add friend in FriendList collection for receiver
-  receiverFriendListRef.set({
+  firebaseRef.receiverFriendListRef.set({
     email: currentUser.email,
     fullname: currentUser.fullname,
     photoURL: currentUser.photoURL,
@@ -42,7 +44,7 @@ export const sendMessageToDatabase = (
 
   // Mark messages as read when user replies
   if (chatMessages.length !== 0) {
-    receiverMessageCollectionRef
+    firebaseRef.receiverMessageCollectionRef
       .where(
         "senderEmail",
         "==",
@@ -62,5 +64,5 @@ export const sendMessageToDatabase = (
       });
   }
 
-  receiverFriendListRef.update({ messageRead: true });
+  firebaseRef.receiverFriendListRef.update({ messageRead: true });
 };

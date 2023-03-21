@@ -1,9 +1,9 @@
-export function markMessageAsread(
-  receiverMessageCollectionRef,
-  emailId,
-  currentUser
-) {
-  receiverMessageCollectionRef
+import FirebaseRefs from "../components/FirebaseRefs";
+
+export function markMessageAsread(emailId, currentUser) {
+  const firebaseRef = FirebaseRefs(emailId, currentUser);
+
+  firebaseRef.receiverMessageCollectionRef
     .where(
       "senderEmail",
       "==",

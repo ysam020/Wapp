@@ -1,52 +1,48 @@
-export const deleteChat = (
-  emailId,
-  currentUser,
-  senderMessageCollectionRef,
-  receiverMessageCollectionRef,
-  senderFriendListRef,
-  receiverFriendListRef,
-  setChat
-) => {
-  senderMessageCollectionRef
+import FirebaseRefs from "../components/FirebaseRefs";
+
+export const deleteChat = (emailId, currentUser, setChat) => {
+  const firebaseRef = FirebaseRefs(emailId, currentUser);
+
+  firebaseRef.senderMessageCollectionRef
     .where("receiverEmail", "==", emailId, "||", currentUser.email)
     .get()
     .then((querySnapshot) =>
       querySnapshot.forEach((doc) =>
-        senderMessageCollectionRef.doc(doc.id).delete()
+        firebaseRef.senderMessageCollectionRef.doc(doc.id).delete()
       )
     );
 
-  senderMessageCollectionRef
+  firebaseRef.senderMessageCollectionRef
     .where("senderEmail", "==", emailId, "||", currentUser.email)
     .get()
     .then((querySnapshot) =>
       querySnapshot.forEach((doc) =>
-        senderMessageCollectionRef.doc(doc.id).delete()
+        firebaseRef.senderMessageCollectionRef.doc(doc.id).delete()
       )
     );
 
-  receiverMessageCollectionRef
+  firebaseRef.receiverMessageCollectionRef
     .where("receiverEmail", "==", emailId, "||", currentUser.email)
     .get()
     .then((querySnapshot) =>
       querySnapshot.forEach((doc) =>
-        receiverMessageCollectionRef.doc(doc.id).delete()
+        firebaseRef.receiverMessageCollectionRef.doc(doc.id).delete()
       )
     );
 
-  receiverMessageCollectionRef
+  firebaseRef.receiverMessageCollectionRef
     .where("senderEmail", "==", emailId, "||", currentUser.email)
     .get()
     .then((querySnapshot) =>
       querySnapshot.forEach((doc) =>
-        receiverMessageCollectionRef.doc(doc.id).delete()
+        firebaseRef.receiverMessageCollectionRef.doc(doc.id).delete()
       )
     );
 
   // Delete from friend list
-  senderFriendListRef.delete();
+  firebaseRef.senderFriendListRef.delete();
 
-  receiverFriendListRef.delete();
+  firebaseRef.receiverFriendListRef.delete();
 
   setChat(false);
 

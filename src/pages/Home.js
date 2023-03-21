@@ -12,7 +12,7 @@ import Security from "../components/SettingsComponents/Security";
 import ChatWallpaper from "../components/SettingsComponents/ChatWallpaper";
 import AccountInfo from "../components/SettingsComponents/AccountInfo";
 import Help from "../components/SettingsComponents/Help";
-import Chat from "../components/Chat";
+import Chat from "../components/ChatComponents/Chat";
 import ContactInfo from "../components/ContactInfo";
 import DisappearingMessages from "../components/DisappearingMessages";
 import SearchMessage from "../components/SearchMessage";

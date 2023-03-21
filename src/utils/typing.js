@@ -1,18 +1,24 @@
+import FirebaseRefs from "../components/FirebaseRefs";
+
 // Update typing to database
-export const handleTyping = (typing, receiverFriendListRef) => {
+export const handleTyping = (typing, emailId, currentUser) => {
+  const firebaseRef = FirebaseRefs(emailId, currentUser);
   if (typing === true) {
-    receiverFriendListRef.update({ typing: true });
+    firebaseRef.receiverFriendListRef.update({ typing: true });
   } else {
-    receiverFriendListRef.update({ typing: false });
+    firebaseRef.receiverFriendListRef.update({ typing: false });
   }
 };
 
 // Get typing indicator from database
 export const handleTypingIndicator = (
-  senderFriendListRef,
-  setTypingIndicator
+  setTypingIndicator,
+  emailId,
+  currentUser
 ) => {
-  senderFriendListRef.onSnapshot((snapshot) => {
+  const firebaseRef = FirebaseRefs(emailId, currentUser);
+
+  firebaseRef.senderFriendListRef.onSnapshot((snapshot) => {
     setTypingIndicator(snapshot.data().typing);
   });
   // eslint-disable-next-line

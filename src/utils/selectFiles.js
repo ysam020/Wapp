@@ -1,21 +1,19 @@
 import cryptoRandomString from "crypto-random-string";
+import firebase from "firebase/app";
 
 export const selectFiles = (
   e,
   storage,
   currentUser,
-  props,
-  firebase,
+  emailId,
+  chatUser,
+  message,
+  chatMessages,
   sendMessageToDatabase,
-  senderMessageCollectionRef,
-  receiverMessageCollectionRef,
-  senderFriendListRef,
-  receiverFriendListRef,
   setSendMediaList,
   sendMediaList
 ) => {
   const file = e.target.files[0];
-  console.log(file);
   let randomString = cryptoRandomString({ length: 10 });
 
   const uploadTask = storage.ref(`files/${file.name}`).put(file);
@@ -39,7 +37,7 @@ export const selectFiles = (
               messageId: randomString,
               messageInfo: "Photo",
               senderEmail: currentUser.email,
-              receiverEmail: props.emailId,
+              receiverEmail: emailId,
               timestamp: firebase.firestore.Timestamp.now(),
               read: false,
               imageURL: url,
@@ -47,15 +45,11 @@ export const selectFiles = (
 
             sendMessageToDatabase(
               payload,
-              senderMessageCollectionRef,
-              receiverMessageCollectionRef,
-              senderFriendListRef,
-              receiverFriendListRef,
-              props.chatUser,
-              props.message,
+              chatUser,
+              message,
               currentUser,
-              props.chatMessages,
-              props.emailId
+              chatMessages,
+              emailId
             );
           }
           // If videos
@@ -70,7 +64,7 @@ export const selectFiles = (
               messageId: randomString,
               messageInfo: "Video",
               senderEmail: currentUser.email,
-              receiverEmail: props.emailId,
+              receiverEmail: emailId,
               timestamp: firebase.firestore.Timestamp.now(),
               read: false,
               videoURL: url,
@@ -78,15 +72,11 @@ export const selectFiles = (
 
             sendMessageToDatabase(
               payload,
-              senderMessageCollectionRef,
-              receiverMessageCollectionRef,
-              senderFriendListRef,
-              receiverFriendListRef,
-              props.chatUser,
-              props.message,
+              chatUser,
+              message,
               currentUser,
-              props.chatMessages,
-              props.emailId
+              chatMessages,
+              emailId
             );
           }
           // If documents
@@ -98,7 +88,7 @@ export const selectFiles = (
               messageId: randomString,
               messageInfo: "Document",
               senderEmail: currentUser.email,
-              receiverEmail: props.emailId,
+              receiverEmail: emailId,
               timestamp: firebase.firestore.Timestamp.now(),
               read: false,
               fileURL: url,
@@ -106,15 +96,11 @@ export const selectFiles = (
 
             sendMessageToDatabase(
               payload,
-              senderMessageCollectionRef,
-              receiverMessageCollectionRef,
-              senderFriendListRef,
-              receiverFriendListRef,
-              props.chatUser,
-              props.message,
+              chatUser,
+              message,
               currentUser,
-              props.chatMessages,
-              props.emailId
+              chatMessages,
+              emailId
             );
           }
         });

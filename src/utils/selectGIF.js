@@ -2,13 +2,12 @@ import cryptoRandomString from "crypto-random-string";
 
 export const selectGif = (
   currentUser,
-  props,
+  emailId,
+  message,
+  chatMessages,
+  chatUser,
   firebase,
   sendMessageToDatabase,
-  senderMessageCollectionRef,
-  receiverMessageCollectionRef,
-  senderFriendListRef,
-  receiverFriendListRef,
   result
 ) => {
   let randomString = cryptoRandomString({ length: 10 });
@@ -18,7 +17,7 @@ export const selectGif = (
     messageId: randomString,
     messageInfo: "Gif",
     senderEmail: currentUser.email,
-    receiverEmail: props.emailId,
+    receiverEmail: emailId,
     timestamp: firebase.firestore.Timestamp.now(),
     read: false,
     imageURL: result.media[0].gif.url,
@@ -26,14 +25,10 @@ export const selectGif = (
 
   sendMessageToDatabase(
     payload,
-    senderMessageCollectionRef,
-    receiverMessageCollectionRef,
-    senderFriendListRef,
-    receiverFriendListRef,
-    props.chatUser,
-    props.message,
+    chatUser,
+    message,
     currentUser,
-    props.chatMessages,
-    props.emailId
+    chatMessages,
+    emailId
   );
 };
