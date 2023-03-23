@@ -4,6 +4,7 @@ import { IconButton, Tooltip } from "@material-ui/core";
 import { storage } from "../../firebase";
 import { UserContext } from "../../contexts/Context";
 import { selectFiles } from "../../utils/selectFiles";
+import { sendMessage } from "../../utils/sendMessage";
 
 // MUI styles
 import { createStyles, makeStyles } from "@material-ui/core/styles";
@@ -239,7 +240,20 @@ function ChatFooter(props) {
         </IconButton>
       </div>
 
-      <form onSubmit={props.sendMessage}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          sendMessage(
+            props.block,
+            props.message,
+            props.emailId,
+            currentUser,
+            props.chatUser,
+            props.chatMessages,
+            props.setMessage
+          );
+        }}
+      >
         <input
           placeholder="Type a message"
           type="text"

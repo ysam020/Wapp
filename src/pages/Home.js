@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../styles/home.css";
 import "../styles/chatpage.css";
 import Sidebar from "../components/Sidebar";
@@ -40,25 +40,10 @@ import {
 import db from "../firebase";
 import firebase from "firebase/app";
 import * as Icons from "../components/Icons";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
-import cryptoRandomString from "crypto-random-string";
 import { sendMessageToDatabase } from "../utils/sendMessageToDatabase";
 import WappSVG from "../components/WappSVG";
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    lockIcon: {
-      color: "#8696a0",
-      width: "18px !important",
-      height: "18px !important",
-    },
-  })
-);
-
 function Home() {
-  // MUI Styles
-  const classes = useStyles();
-
   // Contexts
   const currentUser = useContext(UserContext);
   const toggleSidebarProfileContext = useContext(ToggleSidebarProfileContext);
@@ -83,7 +68,6 @@ function Home() {
     JSON.parse(localStorage.getItem("chat"))
   );
   const [chat, setChat] = useState(emailId ? true : false);
-  const [chatPopover, setChatPopover] = useState(false);
   const [message, setMessage] = useState("");
   const [block, setBlock] = useState([]);
   const [chatUser, setChatUser] = useState({});
@@ -92,83 +76,12 @@ function Home() {
   const [starredMessages, setStarredMessages] = useState([]);
   const [selectMessagesUI, setSelectMessagesUI] = useState(false);
 
-  if (emailId) {
-    var senderMessageCollectionRef = db
-      .collection("chats")
-      .doc(currentUser.email)
-      .collection("messages");
-
-    var receiverMessageCollectionRef = db
-      .collection("chats")
-      .doc(emailId)
-      .collection("messages");
-
-    var senderFriendListRef = db
-      .collection("FriendList")
-      .doc(currentUser.email)
-      .collection("list")
-      .doc(emailId);
-
-    var receiverFriendListRef = db
-      .collection("FriendList")
-      .doc(emailId)
-      .collection("list")
-      .doc(currentUser.email);
-  }
-
   // Update last online in user collection
   useEffect(() => {
     db.collection("users")
       .doc(currentUser.email)
       .update({ lastOnline: firebase.firestore.Timestamp.now() });
   }, [currentUser.email]);
-
-  // Send Message
-  const sendMessage = useCallback(
-    (e) => {
-      e.preventDefault();
-      let randomString = cryptoRandomString({ length: 10 });
-
-      if (block.length === 0 && message.length !== 0 && emailId) {
-        let payload = {
-          text: message,
-          messageId: randomString,
-          messageInfo: "string",
-          senderEmail: currentUser.email,
-          receiverEmail: emailId,
-          timestamp: firebase.firestore.Timestamp.now(),
-          read: false,
-        };
-
-        sendMessageToDatabase(
-          payload,
-          senderMessageCollectionRef,
-          receiverMessageCollectionRef,
-          senderFriendListRef,
-          receiverFriendListRef,
-          chatUser,
-          message,
-          currentUser,
-          chatMessages,
-          emailId
-        );
-      }
-
-      setMessage("");
-    },
-    // eslint-disable-next-line
-    [message]
-  );
-
-  // Chat Popover
-  const handleChatPopover = () => {
-    setChatPopover(!chatPopover);
-  };
-
-  // Close chat popover if clicked outside
-  const handleClickAway = () => {
-    setChatPopover(!chatPopover);
-  };
 
   return (
     <div className="home">
@@ -206,9 +119,6 @@ function Home() {
           <div className="chatpage">
             <div className="chatpage-container">
               <Chat
-                chatPopover={chatPopover}
-                handleChatPopover={handleChatPopover}
-                handleClickAway={handleClickAway}
                 message={message}
                 setMessage={setMessage}
                 chatMessages={chatMessages}
@@ -216,7 +126,6 @@ function Home() {
                 setChatUser={setChatUser}
                 block={block}
                 setBlock={setBlock}
-                sendMessage={sendMessage}
                 setChatMessages={setChatMessages}
                 setStarredMessages={setStarredMessages}
                 sendMessageToDatabase={sendMessageToDatabase}
@@ -268,7 +177,13 @@ function Home() {
             </div>
 
             <div className="home-footer">
-              <Icons.LockIcon className={classes.lockIcon} />
+              <Icons.LockIcon
+                sx={{
+                  color: "#8696a0",
+                  width: "18px !important",
+                  height: "18px !important",
+                }}
+              />
               <p>End-to-end encrypted</p>
             </div>
           </div>

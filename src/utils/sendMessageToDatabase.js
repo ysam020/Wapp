@@ -3,10 +3,6 @@ import FirebaseRefs from "../components/FirebaseRefs";
 
 export const sendMessageToDatabase = (
   payload,
-  // senderMessageCollectionRef,
-  // receiverMessageCollectionRef,
-  // senderFriendListRef,
-  // receiverFriendListRef,
   chatUser,
   message,
   currentUser,

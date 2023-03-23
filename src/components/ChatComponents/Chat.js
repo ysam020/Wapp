@@ -147,7 +147,6 @@ function Chat(props) {
   const closeChat = () => {
     toggleContactInfoContext.toggleContactInfoDispatch("hide");
     props.setChat(false);
-    props.handleChatPopover();
     localStorage.removeItem("chat");
   };
 
@@ -170,16 +169,13 @@ function Chat(props) {
     setOpenModal(false);
     setSelectedUser([]);
   };
- 
+
   return (
     <div className="chat">
       <ChatHeader
         lastSeen={lastSeen}
         closeChat={closeChat}
         chatUser={props.chatUser}
-        chatPopover={props.chatPopover}
-        handleChatPopover={props.handleChatPopover}
-        handleClickAway={props.handleClickAway}
         selectMessagesUI={props.selectMessagesUI}
         setSelectMessagesUI={props.setSelectMessagesUI}
         emailId={props.emailId}
@@ -321,7 +317,7 @@ function Chat(props) {
           message={props.message}
           chatMessages={props.chatMessages}
           setMessage={props.setMessage}
-          sendMessage={props.sendMessage}
+          block={props.block}
         />
       )}
 

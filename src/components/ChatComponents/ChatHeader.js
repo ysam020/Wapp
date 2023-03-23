@@ -27,6 +27,7 @@ function ChatHeader(props) {
 
   // useState
   const [typingIndicator, setTypingIndicator] = useState();
+  const [chatPopover, setChatPopover] = useState(false);
 
   // useContext
   const toggleContactInfoContext = useContext(ToggleContactInfoContext);
@@ -38,6 +39,16 @@ function ChatHeader(props) {
     handleTypingIndicator(setTypingIndicator, props.emailId, props.currentUser);
     // eslint-disable-next-line
   }, [typingIndicator]);
+
+  // Close chat popover if clicked outside
+  const handleClickAway = () => {
+    setChatPopover(!chatPopover);
+  };
+
+  // Chat Popover
+  const handleChatPopover = () => {
+    setChatPopover(!chatPopover);
+  };
 
   return (
     <div className="chat-header">
@@ -75,13 +86,13 @@ function ChatHeader(props) {
         <div className="chat-popover-container">
           <IconButton
             aria-label="more"
-            onClick={props.handleChatPopover}
+            onClick={handleChatPopover}
             className={classes.icon}
           >
             <Icons.MoreVertRoundedIcon />
           </IconButton>
-          {props.chatPopover && (
-            <ClickAwayListener onClickAway={props.handleClickAway}>
+          {chatPopover && (
+            <ClickAwayListener onClickAway={handleClickAway}>
               <div className="chat-popover">
                 <h4
                   onClick={() => {
@@ -96,12 +107,19 @@ function ChatHeader(props) {
                 <h4
                   onClick={() => {
                     props.setSelectMessagesUI(!props.selectMessagesUI);
-                    props.handleChatPopover();
+                    handleChatPopover();
                   }}
                 >
                   Select messages
                 </h4>
-                <h4 onClick={props.closeChat}>Close chat</h4>
+                <h4
+                  onClick={() => {
+                    props.closeChat();
+                    handleClickAway();
+                  }}
+                >
+                  Close chat
+                </h4>
                 <h4>Mute notifications</h4>
                 <h4
                   onClick={() => {
