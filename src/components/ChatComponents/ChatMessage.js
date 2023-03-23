@@ -79,26 +79,6 @@ function ChatMessage(props) {
                 {props.message}
               </a>
             </div>
-            <span className="chat-timestamp">
-              <Icons.StarRateRoundedIcon className={classes.starIcon} />
-              <p>
-                {new Date(props.time.toDate()).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })()}
-              </p>
-              {props.sender === currentUser.email && (
-                <Icons.DoneAllIcon
-                  className={
-                    props.sender === currentUser.email && props.read === true
-                      ? `${classes.readIcon}`
-                      : props.sender === currentUser.email
-                      ? `${classes.unreadIcon}`
-                      : ""
-                  }
-                />
-              )}
-            </span>
           </>
         ) : props.imageURL ? (
           <>
@@ -110,29 +90,6 @@ function ChatMessage(props) {
             >
               <img alt="img" src={props.imageURL} />
             </div>
-            <span className="chat-timestamp">
-              {props.starredMessage === true && (
-                <Icons.StarRateRoundedIcon className={classes.starIcon} />
-              )}
-
-              <p>
-                {new Date(props.time.toDate()).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </p>
-              {props.sender === currentUser.email && (
-                <Icons.DoneAllIcon
-                  className={
-                    props.sender === currentUser.email && props.read === true
-                      ? `${classes.readIcon} media-delivered-icon`
-                      : props.sender === currentUser.email
-                      ? `${classes.unreadIcon} media-delivered-icon`
-                      : ""
-                  }
-                />
-              )}
-            </span>
           </>
         ) : props.videoURL ? (
           <>
@@ -146,28 +103,6 @@ function ChatMessage(props) {
                 id="downloadVideo"
               ></video>
             </div>
-            <span className="chat-timestamp">
-              {props.starredMessage === true && (
-                <Icons.StarRateRoundedIcon className={classes.starIcon} />
-              )}
-              <p>
-                {new Date(props.time.toDate()).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </p>
-              {props.sender === currentUser.email && (
-                <Icons.DoneAllIcon
-                  className={
-                    props.sender === currentUser.email && props.read === true
-                      ? `${classes.readIcon} media-delivered-icon`
-                      : props.sender === currentUser.email
-                      ? `${classes.unreadIcon} media-delivered-icon`
-                      : ""
-                  }
-                />
-              )}
-            </span>
           </>
         ) : props.fileURL ? (
           <>
@@ -185,58 +120,36 @@ function ChatMessage(props) {
                 </div>
               </div>
             </div>
-            <span className="chat-timestamp">
-              {props.starredMessage === true && (
-                <Icons.StarRateRoundedIcon className={classes.starIcon} />
-              )}
-              <p>
-                {new Date(props.time.toDate()).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </p>
-              {props.sender === currentUser.email && (
-                <Icons.DoneAllIcon
-                  className={
-                    props.sender === currentUser.email && props.read === true
-                      ? `${classes.readIcon} delivered-icon`
-                      : props.sender === currentUser.email
-                      ? `${classes.unreadIcon} delivered-icon`
-                      : ""
-                  }
-                />
-              )}
-            </span>
           </>
         ) : (
           <>
             <div className="message-text">
               <p>{props.message}</p>
             </div>
-            <span className="chat-timestamp">
-              {props.starredMessage === true && (
-                <Icons.StarRateRoundedIcon className={classes.starIcon} />
-              )}
-              <p>
-                {new Date(props.time.toDate()).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </p>
-              {props.sender === currentUser.email && (
-                <Icons.DoneAllIcon
-                  className={
-                    props.sender === currentUser.email && props.read === true
-                      ? `${classes.readIcon} delivered-icon`
-                      : props.sender === currentUser.email
-                      ? `${classes.unreadIcon} delivered-icon`
-                      : ""
-                  }
-                />
-              )}
-            </span>
           </>
         )}
+        <span className="chat-timestamp">
+          {props.starredMessage === true && (
+            <Icons.StarRateRoundedIcon className={classes.starIcon} />
+          )}
+          <p>
+            {new Date(props.time.toDate()).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </p>
+          {props.sender === currentUser.email && (
+            <Icons.DoneAllIcon
+              className={
+                props.sender === currentUser.email && props.read === true
+                  ? `${classes.readIcon} delivered-icon`
+                  : props.sender === currentUser.email
+                  ? `${classes.unreadIcon} delivered-icon`
+                  : ""
+              }
+            />
+          )}
+        </span>
       </div>
     </>
   );

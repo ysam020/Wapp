@@ -64,7 +64,6 @@ function Chat(props) {
   const [gifBox, setGifBox] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState([]);
-
   const [circularProgress, setCircularProgress] = useState(true);
 
   // Contexts
@@ -171,7 +170,7 @@ function Chat(props) {
     setOpenModal(false);
     setSelectedUser([]);
   };
-
+ 
   return (
     <div className="chat">
       <ChatHeader

@@ -220,7 +220,7 @@ function ChatFooter(props) {
                     setSendMediaList(!sendMediaList);
                     setTimeout(() => {
                       props.setCircularProgress(false);
-                    }, 1500);
+                    }, 1000);
                   }}
                 >
                   <Icons.CameraAltRoundedIcon className={classes.mediaIcon} />
