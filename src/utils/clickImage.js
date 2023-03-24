@@ -1,5 +1,6 @@
 import cryptoRandomString from "crypto-random-string";
 import firebase from "firebase/app";
+import { sendMessageToDatabase } from "./sendMessageToDatabase";
 
 export const clickImage = (
   webcamRef,
@@ -9,7 +10,6 @@ export const clickImage = (
   chatUser,
   message,
   chatMessages,
-  sendMessageToDatabase,
   setShowWebcam,
   setCircularProgress
 ) => {

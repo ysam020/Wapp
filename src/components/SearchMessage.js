@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import "../styles/search-messages.css";
-import { SearchMessageContext } from "../contexts/Context";
+import { SearchMessageContext, EmailContext } from "../contexts/Context";
 import { IconButton } from "@material-ui/core";
 import * as Icons from "./Icons";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
@@ -38,6 +38,7 @@ function SearchMessage(props) {
   // Contexts
   const searchMessageContext = useContext(SearchMessageContext);
   const currentUser = useContext(UserContext);
+  const emailId = useContext(EmailContext);
 
   // useState
   const [searchedMessage, setSearchedMessage] = useState([]);
@@ -60,8 +61,8 @@ function SearchMessage(props) {
 
         let newMessage = messages.filter(
           (message) =>
-            message.senderEmail === (currentUser.email && props.emailId) ||
-            message.receiverEmail === (currentUser.email && props.emailId)
+            message.senderEmail === (currentUser.email && emailId) ||
+            message.receiverEmail === (currentUser.email && emailId)
         );
 
         setSearchedMessage(
@@ -80,11 +81,10 @@ function SearchMessage(props) {
 
   useEffect(() => {
     searchMessagesRef.current.focus();
-
     getMessages();
 
     // eslint-disable-next-line
-  }, [searchedMessageInput, props.emailId]);
+  }, [searchedMessageInput, emailId]);
 
   return (
     <div className="sidebar-panel-right">

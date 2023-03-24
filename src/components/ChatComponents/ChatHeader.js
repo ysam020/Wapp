@@ -6,6 +6,8 @@ import {
   DisappearingMessagesContext,
   SearchMessageContext,
   UserContext,
+  ChatDetailsContext,
+  EmailContext,
 } from "../../contexts/Context";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import moment from "moment";
@@ -21,7 +23,7 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-function ChatHeader(props) {
+function ChatHeader() {
   // MUI styles
   const classes = useStyles();
 
@@ -34,9 +36,11 @@ function ChatHeader(props) {
   const disappearingMessagesContext = useContext(DisappearingMessagesContext);
   const searchMessageContext = useContext(SearchMessageContext);
   const currentUser = useContext(UserContext);
+  const chatDetailsContext = useContext(ChatDetailsContext);
+  const emailId = useContext(EmailContext);
 
   useEffect(() => {
-    handleTypingIndicator(setTypingIndicator, props.emailId, props.currentUser);
+    handleTypingIndicator(setTypingIndicator, emailId, currentUser);
     // eslint-disable-next-line
   }, [typingIndicator]);
 
@@ -58,16 +62,21 @@ function ChatHeader(props) {
           toggleContactInfoContext.toggleContactInfoDispatch("toggle");
         }}
       >
-        <Avatar src={props.chatUser.photoURL} alt={props.chatUser.fullname} />
+        <Avatar
+          src={chatDetailsContext.chatUser.photoURL}
+          alt={chatDetailsContext.chatUser.fullname}
+        />
       </IconButton>
 
       <div className="chat-header-info">
-        <h3>{props.chatUser?.fullname}</h3>
+        <h3>{chatDetailsContext.chatUser?.fullname}</h3>
         {typingIndicator && typingIndicator === true ? (
           <p className="typing-indicator">typing...</p>
         ) : (
-          props.lastSeen && (
-            <p>{`Last seen ${moment(props.lastSeen.toDate()).fromNow()}`}</p>
+          chatDetailsContext.lastSeen && (
+            <p>{`Last seen ${moment(
+              chatDetailsContext.lastSeen.toDate()
+            ).fromNow()}`}</p>
           )
         )}
       </div>
@@ -99,14 +108,16 @@ function ChatHeader(props) {
                     toggleContactInfoContext.toggleContactInfoDispatch(
                       "toggle"
                     );
-                    props.handleChatPopover();
+                    handleChatPopover();
                   }}
                 >
                   Contact info
                 </h4>
                 <h4
                   onClick={() => {
-                    props.setSelectMessagesUI(!props.selectMessagesUI);
+                    chatDetailsContext.setSelectMessagesUI(
+                      !chatDetailsContext.selectMessagesUI
+                    );
                     handleChatPopover();
                   }}
                 >
@@ -114,7 +125,7 @@ function ChatHeader(props) {
                 </h4>
                 <h4
                   onClick={() => {
-                    props.closeChat();
+                    chatDetailsContext.closeChat();
                     handleClickAway();
                   }}
                 >
@@ -126,7 +137,7 @@ function ChatHeader(props) {
                     disappearingMessagesContext.disappearingMessagesDispatch(
                       "toggle"
                     );
-                    props.handleChatPopover();
+                    handleChatPopover();
                   }}
                 >
                   Disappearing messages
@@ -134,8 +145,12 @@ function ChatHeader(props) {
                 <h4>Clear messages</h4>
                 <h4
                   onClick={() => {
-                    deleteChat(props.emailId, currentUser, props.setChat);
-                    props.handleChatPopover();
+                    deleteChat(
+                      emailId,
+                      currentUser,
+                      chatDetailsContext.setChat
+                    );
+                    handleChatPopover();
                   }}
                 >
                   Delete chat

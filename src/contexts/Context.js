@@ -22,6 +22,8 @@ export const CommunitiesContext = createContext();
 export const EncryptionContext = createContext();
 export const DisappearingMessagesContext = createContext();
 export const StarredMessageContext = createContext();
+export const EmailContext = createContext();
+export const ChatDetailsContext = createContext();
 
 const Context = ({ children }) => {
   const initialState = false;

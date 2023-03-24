@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import EmojiPicker from "emoji-picker-react";
+import { ChatDetailsContext } from "../../contexts/Context";
 
-function EmojiPickerComponent(props) {
+function EmojiPickerComponent() {
+  const chatDetailsContext = useContext(ChatDetailsContext);
+
   return (
     <EmojiPicker
       onEmojiClick={(event, emojiObject) => {
-        props.setMessage(props.message + emojiObject.emoji);
-        props.sendMessageRef.current.focus();
+        chatDetailsContext.setMessage(
+          chatDetailsContext.message + emojiObject.emoji
+        );
+        chatDetailsContext.sendMessageRef.current.focus();
       }}
       groupNames={{
         smileys_people: "Smileys and People",

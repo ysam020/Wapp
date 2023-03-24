@@ -1,27 +1,40 @@
-import React from "react";
+import React, { useContext } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import ChatMessage from "./ChatMessage";
 import { getTimeAgo } from "../../utils/getTimeAgo";
+import { ChatDetailsContext } from "../../contexts/Context";
 
 function SelectMessagesUI(props) {
+  const chatDetailsContext = useContext(ChatDetailsContext);
+
   // Check if message timestamp is same as that of previous message timestamp
   const getPreviousMessageDate = (index) => {
     return index === 0
-      ? props.chatMessages[0].timestamp.toDate().toLocaleDateString()
-      : props.chatMessages[index].timestamp.toDate().toLocaleDateString() ===
-        props.chatMessages[index - 1].timestamp.toDate().toLocaleDateString()
+      ? chatDetailsContext.chatMessages[0].timestamp
+          .toDate()
+          .toLocaleDateString()
+      : chatDetailsContext.chatMessages[index].timestamp
+          .toDate()
+          .toLocaleDateString() ===
+        chatDetailsContext.chatMessages[index - 1].timestamp
+          .toDate()
+          .toLocaleDateString()
       ? null
-      : props.chatMessages[index].timestamp.toDate().toLocaleDateString();
+      : chatDetailsContext.chatMessages[index].timestamp
+          .toDate()
+          .toLocaleDateString();
   };
 
   return (
     <div
       className={
-        props.selectMessagesUI ? "message-row select-messages" : "message-row"
+        chatDetailsContext.selectMessagesUI
+          ? "message-row select-messages"
+          : "message-row"
       }
       key={props.index}
     >
-      {props.selectMessagesUI && (
+      {chatDetailsContext.selectMessagesUI && (
         <Checkbox
           sx={{
             color: "#8696A0",
@@ -32,14 +45,14 @@ function SelectMessagesUI(props) {
           disableRipple={true}
           onChange={(event) => {
             if (event.target.checked) {
-              props.setSelectedMessages([
-                ...props.selectedMessages,
-                props.message.messageId,
+              chatDetailsContext.setSelectedMessages([
+                ...chatDetailsContext.selectedMessages,
+                chatDetailsContext.message.messageId,
               ]);
             } else {
-              props.setSelectedMessages(
-                props.selectedMessages.filter(
-                  (item) => item !== props.message.messageId
+              chatDetailsContext.setSelectedMessages(
+                chatDetailsContext.selectedMessages.filter(
+                  (item) => item !== chatDetailsContext.message.messageId
                 )
               );
             }

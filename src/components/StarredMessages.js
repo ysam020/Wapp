@@ -1,6 +1,10 @@
 import React, { useContext, useState, useEffect, useCallback } from "react";
 import "../styles/starred-messages.css";
-import { StarredMessageContext, UserContext } from "../contexts/Context";
+import {
+  StarredMessageContext,
+  UserContext,
+  EmailContext,
+} from "../contexts/Context";
 import { Avatar, IconButton } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { auth } from "../firebase";
@@ -32,6 +36,7 @@ function StarredMessages(props) {
   // Contexts
   const starredMessageContext = useContext(StarredMessageContext);
   const currentUser = useContext(UserContext);
+  const emailId = useContext(EmailContext);
 
   //   useState
   const [chatUser, setChatUser] = useState({});
@@ -39,7 +44,7 @@ function StarredMessages(props) {
   var userCollectionref = db.collection("users");
 
   const getUser = useCallback(() => {
-    userCollectionref.doc(props.emailId).onSnapshot((snapshot) => {
+    userCollectionref.doc(emailId).onSnapshot((snapshot) => {
       setChatUser(snapshot.data());
     });
     // eslint-disable-next-line

@@ -1,12 +1,17 @@
 import React, { useContext } from "react";
 import Tenor from "react-tenor";
 import { selectGif } from "../../utils/selectGIF";
-import { UserContext } from "../../contexts/Context";
-import firebase from "firebase/app";
+import {
+  UserContext,
+  EmailContext,
+  ChatDetailsContext,
+} from "../../contexts/Context";
 
 function GifPickerComponent(props) {
   // useContext
   const currentUser = useContext(UserContext);
+  const emailId = useContext(EmailContext);
+  const chatDetailsContext = useContext(ChatDetailsContext);
 
   return (
     <Tenor
@@ -16,12 +21,10 @@ function GifPickerComponent(props) {
       onSelect={(result) =>
         selectGif(
           currentUser,
-          props.emailId,
-          props.message,
-          props.chatMessages,
-          props.chatUser,
-          firebase,
-          props.sendMessageToDatabase,
+          emailId,
+          chatDetailsContext.message,
+          chatDetailsContext.chatMessages,
+          chatDetailsContext.chatUser,
           result
         )
       }

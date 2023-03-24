@@ -1,16 +1,6 @@
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useContext,
-  useCallback,
-} from "react";
+import * as React from "react";
 import "../../styles/chat.css";
-import {
-  ToggleContactInfoContext,
-  UserContext,
-  ChatBackgroundContext,
-} from "../../contexts/Context";
+import * as Context from "../../contexts/Context";
 import ForwardMessageModal from "../ForwardMessageModal";
 
 // MUI components
@@ -22,15 +12,7 @@ import * as Icons from "../Icons";
 // MUI styles
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 
-import "react-tenor/dist/styles.css";
-import chatDoodle from "../../assets/images/chat-doodle.png";
-
-import { getMessages } from "../../utils/getMessages";
-import { sendMessageToDatabase } from "../../utils/sendMessageToDatabase";
-import { deleteSelectedMessages } from "../../utils/deleteSelectedMessages";
-import { starMessages } from "../../utils/starMessages";
-import { markMessageAsread } from "../../utils/markMessageAsRead";
-import { handleTyping } from "../../utils/typing";
+// Components
 import EmojiPickerComponent from "./EmojiPickerComponent";
 import GifPickerComponent from "./GifPickerComponent";
 import WebcamComponents from "./WebcamComponents";
@@ -38,6 +20,18 @@ import ChatFooter from "./ChatFooter";
 import ChatHeader from "./ChatHeader";
 import SelectMessagesUI from "./SelectMessagesUI";
 import FirebaseRefs from "../FirebaseRefs";
+
+// utils
+import { getMessages } from "../../utils/getMessages";
+import { deleteSelectedMessages } from "../../utils/deleteSelectedMessages";
+import { starMessages } from "../../utils/starMessages";
+import { markMessageAsread } from "../../utils/markMessageAsRead";
+import { handleTyping } from "../../utils/typing";
+import { getUser } from "../../utils/getUser";
+import { checkBlockedUser } from "../../utils/checkBlockedUser";
+
+import "react-tenor/dist/styles.css";
+import chatDoodle from "../../assets/images/chat-doodle.png";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -52,49 +46,41 @@ function Chat(props) {
   const classes = useStyles();
 
   // Ref
-  const sendMessageRef = useRef(null);
-  const chatBox = useRef(null);
+  const sendMessageRef = React.useRef(null);
+  const chatBox = React.useRef(null);
 
   // Use state
-  const [emojiBox, setEmojiBox] = useState(false);
-  const [typing, setTyping] = useState(false);
-  const [lastSeen, setLastSeen] = useState();
-  const [chatWallpaper, setChatWallpaper] = useState("");
-  const [showWebcam, setShowWebcam] = useState(false);
-  const [gifBox, setGifBox] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
-  const [selectedUser, setSelectedUser] = useState([]);
-  const [circularProgress, setCircularProgress] = useState(true);
+  const [emojiBox, setEmojiBox] = React.useState(false);
+  const [typing, setTyping] = React.useState(false);
+  const [lastSeen, setLastSeen] = React.useState();
+  const [chatWallpaper, setChatWallpaper] = React.useState("");
+  const [showWebcam, setShowWebcam] = React.useState(false);
+  const [gifBox, setGifBox] = React.useState(false);
+  const [openModal, setOpenModal] = React.useState(false);
+  const [selectedUser, setSelectedUser] = React.useState([]);
+  const [circularProgress, setCircularProgress] = React.useState(true);
+  const [message, setMessage] = React.useState("");
+  const [chatMessages, setChatMessages] = React.useState([]);
+  const [chatUser, setChatUser] = React.useState({});
+  const [selectedMessages, setSelectedMessages] = React.useState([]);
+  const [selectMessagesUI, setSelectMessagesUI] = React.useState(false);
 
   // Contexts
-  const toggleContactInfoContext = useContext(ToggleContactInfoContext);
-  const currentUser = useContext(UserContext);
-  const { chatBackground, doodle } = useContext(ChatBackgroundContext);
+  const toggleContactInfoContext = React.useContext(
+    Context.ToggleContactInfoContext
+  );
+  const currentUser = React.useContext(Context.UserContext);
+  const { chatBackground, doodle } = React.useContext(
+    Context.ChatBackgroundContext
+  );
+  const emailId = React.useContext(Context.EmailContext);
 
   // Firebase refs
-  const firebaseRef = FirebaseRefs(props.emailId, currentUser);
+  const firebaseRef = FirebaseRefs(emailId, currentUser);
 
-  // Get users from database
-  const getUser = useCallback(() => {
-    firebaseRef.chatUserRef.onSnapshot((snapshot) =>
-      props.setChatUser(snapshot.data())
-    );
-    // eslint-disable-next-line
-  }, [props.chatUser]);
-
-  // Check blocked user
-  const checkBlockedUser = useCallback(() => {
-    firebaseRef.blockedUserCollectionRef.onSnapshot((snapshot) => {
-      props.setBlock(
-        snapshot.docs.filter((doc) => doc.data().email === props.chatUser.email)
-      );
-    });
-    // eslint-disable-next-line
-  }, [props.block]);
-
-  useEffect(() => {
-    getUser();
-    checkBlockedUser();
+  React.useEffect(() => {
+    getUser(emailId, currentUser, setChatUser);
+    checkBlockedUser(emailId, currentUser, props.setBlock, chatUser);
 
     // Get last online time
     firebaseRef.chatUserRef.onSnapshot((snapshot) =>
@@ -103,45 +89,45 @@ function Chat(props) {
 
     // eslint-disable-next-line
   }, [
-    props.chatMessages,
-    props.chatUser.email,
-    props.emailId,
+    chatMessages,
+    chatUser.email,
+    emailId,
     props.setBlock,
 
-    // props.setChatUser,
+    // setChatUser,
   ]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     getMessages(
       currentUser,
-      props.emailId,
+      emailId,
       props.setStarredMessages,
-      props.setChatMessages
+      setChatMessages
     );
     // eslint-disable-next-line
-  }, [props.emailId]);
+  }, [emailId]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     // Focus send message input
     if (
       showWebcam === false &&
-      props.selectMessagesUI === false &&
+      selectMessagesUI === false &&
       props.block.length === 0
     ) {
       sendMessageRef.current.focus();
     }
 
     // Mark messages as read when chat component loads
-    markMessageAsread(props.emailId, currentUser);
+    markMessageAsread(emailId, currentUser);
   });
 
   // Scroll to bottom of chat when message is sent or received
-  useEffect(() => {
+  React.useEffect(() => {
     chatBox.current.addEventListener("DOMNodeInserted", (event) => {
       const { currentTarget: target } = event;
       target.scroll({ top: target.scrollHeight, behavior: "smooth" });
     });
-  }, [props.chatMessages]); // Run each time chatMessages is update
+  }, [chatMessages]); // Run each time chatMessages is update
 
   // Close chat function
   const closeChat = () => {
@@ -151,7 +137,7 @@ function Chat(props) {
   };
 
   // Wallpaper doodles
-  useEffect(() => {
+  React.useEffect(() => {
     if (doodle) {
       setChatWallpaper(chatDoodle);
     } else {
@@ -159,8 +145,8 @@ function Chat(props) {
     }
   }, [doodle]);
 
-  useEffect(() => {
-    handleTyping(typing, props.emailId, currentUser);
+  React.useEffect(() => {
+    handleTyping(typing, emailId, currentUser);
     // eslint-disable-next-line
   }, [typing]);
 
@@ -171,166 +157,140 @@ function Chat(props) {
   };
 
   return (
-    <div className="chat">
-      <ChatHeader
-        lastSeen={lastSeen}
-        closeChat={closeChat}
-        chatUser={props.chatUser}
-        selectMessagesUI={props.selectMessagesUI}
-        setSelectMessagesUI={props.setSelectMessagesUI}
-        emailId={props.emailId}
-        currentUser={currentUser}
-        message={props.message}
-        chatMessages={props.chatMessages}
-        setChat={props.setChat}
-      />
+    <Context.ChatDetailsContext.Provider
+      value={{
+        emojiBox: emojiBox,
+        setEmojiBox: setEmojiBox,
+        typing: typing,
+        setTyping: setTyping,
+        lastSeen: lastSeen,
+        setLastSeen: setLastSeen,
+        showWebcam: showWebcam,
+        setShowWebcam: setShowWebcam,
+        gifBox: gifBox,
+        setGifBox: setGifBox,
+        openModal: openModal,
+        setOpenModal: setOpenModal,
+        selectedUser: selectedUser,
+        setSelectedUser: setSelectedUser,
+        circularProgress: circularProgress,
+        setCircularProgress: setCircularProgress,
+        message: message,
+        setMessage: setMessage,
+        chatMessages: chatMessages,
+        setChatMessages: setChatMessages,
+        chatUser: chatUser,
+        setChatUser: setChatUser,
+        selectedMessages: selectedMessages,
+        setSelectedMessages: setSelectedMessages,
+        selectMessagesUI: selectMessagesUI,
+        setSelectMessagesUI: setSelectMessagesUI,
+        closeChat: closeChat,
+        setChat: props.setChat,
+        sendMessageRef: sendMessageRef,
+        block: props.block,
+        handleCloseModal: handleCloseModal,
+      }}
+    >
+      <div className="chat">
+        <ChatHeader />
 
-      <div
-        className="chat-body"
-        ref={chatBox}
-        style={{
-          backgroundColor: `${chatBackground}`,
-          backgroundImage: `url(${chatWallpaper}`,
-        }}
-      >
-        {showWebcam ? (
-          <WebcamComponents
-            setShowWebcam={setShowWebcam}
-            circularProgress={circularProgress}
-            setCircularProgress={setCircularProgress}
-            sendMessageToDatabase={sendMessageToDatabase}
-            emailId={props.emailId}
-            chatUser={props.chatUser}
-            message={props.message}
-            chatMessages={props.chatMessages}
-          />
-        ) : (
-          <div className="chat-body-inner-container">
-            {props.chatMessages.map((message, index) => {
-              return (
-                <SelectMessagesUI
-                  key={index}
-                  message={message}
-                  index={index}
-                  chatMessages={props.chatMessages}
-                  selectMessagesUI={props.selectMessagesUI}
-                  selectedMessages={props.selectedMessages}
-                  setSelectedMessages={props.setSelectedMessages}
-                />
-              );
-            })}
-          </div>
-        )}
-      </div>
-
-      {/* Emoji box */}
-      {emojiBox && (
-        <EmojiPickerComponent
-          message={props.message}
-          setMessage={props.setMessage}
-          sendMessageRef={sendMessageRef}
-        />
-      )}
-
-      {/* Gif picker */}
-      {gifBox && (
-        <GifPickerComponent
-          emailId={props.emailId}
-          chatUser={props.chatUser}
-          message={props.message}
-          chatMessages={props.chatMessages}
-          sendMessageToDatabase={sendMessageToDatabase}
-        />
-      )}
-
-      {showWebcam === false && props.block.length !== 0 ? (
-        <div className="chat-footer-blocked">
-          <p>Cant send message to a blocked contact {props.chatUser.email}</p>
-        </div>
-      ) : showWebcam === true ? (
-        ""
-      ) : showWebcam === false &&
-        props.block.length === 0 &&
-        props.selectMessagesUI === true ? (
         <div
-          style={{ display: "flex", alignItems: "center" }}
-          className="chat-footer"
+          className="chat-body"
+          ref={chatBox}
+          style={{
+            backgroundColor: `${chatBackground}`,
+            backgroundImage: `url(${chatWallpaper}`,
+          }}
         >
-          <IconButton
-            aria-label="close"
-            onClick={() => {
-              props.setSelectMessagesUI(false);
-              props.setSelectedMessages([]);
-            }}
-          >
-            <Icons.CloseOutlinedIcon className={classes.icon} />
-          </IconButton>
-          <p>{`${props.selectedMessages.length} selected`}</p>
-          <IconButton
-            aria-label="star-messages"
-            onClick={() =>
-              starMessages(props.selectedMessages, props.emailId, currentUser)
-            }
-            disabled={props.selectedMessages.length === 0 ? true : false}
-          >
-            <Icons.StarRateRoundedIcon className={classes.icon} />
-          </IconButton>
-
-          <IconButton
-            aria-label="delete-messages"
-            onClick={() =>
-              deleteSelectedMessages(
-                props.selectedMessages,
-                props.chatMessages,
-                props.setSelectMessagesUI,
-                props.setSelectedMessages,
-                props.emailId,
-                currentUser
-              )
-            }
-            disabled={props.selectedMessages.length === 0 ? true : false}
-          >
-            <Icons.DeleteRoundedIcon className={classes.icon} />
-          </IconButton>
-
-          <IconButton
-            aria-label="forward-messages"
-            disabled={props.selectedMessages.length === 0 ? true : false}
-            onClick={() => handleOpenModal()}
-          >
-            <Icons.ShortcutIcon className={classes.icon} />
-          </IconButton>
+          {showWebcam ? (
+            <WebcamComponents />
+          ) : (
+            <div className="chat-body-inner-container">
+              {chatMessages.map((message, index) => {
+                return (
+                  <SelectMessagesUI
+                    key={index}
+                    message={message}
+                    index={index}
+                  />
+                );
+              })}
+            </div>
+          )}
         </div>
-      ) : (
-        <ChatFooter
-          emojiBox={emojiBox}
-          setEmojiBox={setEmojiBox}
-          setGifBox={setGifBox}
-          setTyping={setTyping}
-          showWebcam={showWebcam}
-          setShowWebcam={setShowWebcam}
-          setCircularProgress={setCircularProgress}
-          sendMessageRef={sendMessageRef}
-          sendMessageToDatabase={sendMessageToDatabase}
-          emailId={props.emailId}
-          chatUser={props.chatUser}
-          message={props.message}
-          chatMessages={props.chatMessages}
-          setMessage={props.setMessage}
-          block={props.block}
-        />
-      )}
 
-      <ForwardMessageModal
-        openModal={openModal}
-        setOpenModal={setOpenModal}
-        handleOpenModal={handleOpenModal}
-        handleCloseModal={handleCloseModal}
-        selectedUser={selectedUser}
-        setSelectedUser={setSelectedUser}
-        selectedMessages={props.selectedMessages}
-      />
-    </div>
+        {/* Emoji box */}
+        {emojiBox && <EmojiPickerComponent />}
+
+        {/* Gif picker */}
+        {gifBox && <GifPickerComponent />}
+
+        {showWebcam === false && props.block.length !== 0 ? (
+          <div className="chat-footer-blocked">
+            <p>Cant send message to a blocked contact {chatUser.email}</p>
+          </div>
+        ) : showWebcam === true ? (
+          ""
+        ) : showWebcam === false &&
+          props.block.length === 0 &&
+          selectMessagesUI === true ? (
+          <div
+            style={{ display: "flex", alignItems: "center" }}
+            className="chat-footer"
+          >
+            <IconButton
+              aria-label="close"
+              onClick={() => {
+                setSelectMessagesUI(false);
+                setSelectedMessages([]);
+              }}
+            >
+              <Icons.CloseOutlinedIcon className={classes.icon} />
+            </IconButton>
+            <p>{`${selectedMessages.length} selected`}</p>
+            <IconButton
+              aria-label="star-messages"
+              onClick={() =>
+                starMessages(selectedMessages, emailId, currentUser)
+              }
+              disabled={selectedMessages.length === 0 ? true : false}
+            >
+              <Icons.StarRateRoundedIcon className={classes.icon} />
+            </IconButton>
+
+            <IconButton
+              aria-label="delete-messages"
+              onClick={() =>
+                deleteSelectedMessages(
+                  selectedMessages,
+                  chatMessages,
+                  setSelectMessagesUI,
+                  setSelectedMessages,
+                  emailId,
+                  currentUser
+                )
+              }
+              disabled={selectedMessages.length === 0 ? true : false}
+            >
+              <Icons.DeleteRoundedIcon className={classes.icon} />
+            </IconButton>
+
+            <IconButton
+              aria-label="forward-messages"
+              disabled={selectedMessages.length === 0 ? true : false}
+              onClick={() => handleOpenModal()}
+            >
+              <Icons.ShortcutIcon className={classes.icon} />
+            </IconButton>
+          </div>
+        ) : (
+          <ChatFooter />
+        )}
+
+        <ForwardMessageModal />
+      </div>
+    </Context.ChatDetailsContext.Provider>
   );
 }
 

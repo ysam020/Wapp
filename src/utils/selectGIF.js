@@ -1,4 +1,6 @@
 import cryptoRandomString from "crypto-random-string";
+import { sendMessageToDatabase } from "./sendMessageToDatabase";
+import firebase from "firebase/app";
 
 export const selectGif = (
   currentUser,
@@ -6,8 +8,6 @@ export const selectGif = (
   message,
   chatMessages,
   chatUser,
-  firebase,
-  sendMessageToDatabase,
   result
 ) => {
   let randomString = cryptoRandomString({ length: 10 });

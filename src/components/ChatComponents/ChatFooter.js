@@ -2,7 +2,11 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import * as Icons from "../Icons";
 import { IconButton, Tooltip } from "@material-ui/core";
 import { storage } from "../../firebase";
-import { UserContext } from "../../contexts/Context";
+import {
+  UserContext,
+  EmailContext,
+  ChatDetailsContext,
+} from "../../contexts/Context";
 import { selectFiles } from "../../utils/selectFiles";
 import { sendMessage } from "../../utils/sendMessage";
 
@@ -18,7 +22,7 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-function ChatFooter(props) {
+function ChatFooter() {
   // MUI styles
   const classes = useStyles();
 
@@ -34,15 +38,17 @@ function ChatFooter(props) {
 
   // useContext
   const currentUser = useContext(UserContext);
+  const emailId = useContext(EmailContext);
+  const chatDetailsContext = useContext(ChatDetailsContext);
 
   useEffect(() => {
     // Hide emoji box on escape button
     document.addEventListener("keydown", (e) => {
       if (e.keyCode === 27) {
-        props.setEmojiBox(false);
+        chatDetailsContext.setEmojiBox(false);
         setCloseButton(false);
         setGifButton(false);
-        props.setGifBox(false);
+        chatDetailsContext.setGifBox(false);
       }
     });
   });
@@ -54,11 +60,11 @@ function ChatFooter(props) {
           aria-label="close"
           className={classes.icon}
           onClick={() => {
-            props.setEmojiBox(false);
+            chatDetailsContext.setEmojiBox(false);
             setCloseButton(!closeButton);
             setGifButton(false);
-            props.setGifBox(false);
-            props.sendMessageRef.current.focus();
+            chatDetailsContext.setGifBox(false);
+            chatDetailsContext.sendMessageRef.current.focus();
           }}
         >
           <Icons.CloseOutlinedIcon />
@@ -69,12 +75,12 @@ function ChatFooter(props) {
         aria-label="emoji"
         className={classes.icon}
         onClick={() => {
-          props.setEmojiBox(true);
+          chatDetailsContext.setEmojiBox(true);
           setCloseButton(true);
           setGifButton(true);
           setSendMediaList(false);
-          props.setGifBox(false);
-          props.sendMessageRef.current.focus();
+          chatDetailsContext.setGifBox(false);
+          chatDetailsContext.sendMessageRef.current.focus();
         }}
       >
         <Icons.InsertEmoticonOutlinedIcon />
@@ -85,8 +91,8 @@ function ChatFooter(props) {
           aria-label="gif"
           className={classes.icon}
           onClick={() => {
-            props.setGifBox(true);
-            props.setEmojiBox(false);
+            chatDetailsContext.setGifBox(true);
+            chatDetailsContext.setEmojiBox(false);
           }}
         >
           <Icons.GifBoxOutlinedIcon />
@@ -120,11 +126,10 @@ function ChatFooter(props) {
                         e,
                         storage,
                         currentUser,
-                        props.emailId,
-                        props.chatUser,
-                        props.message,
-                        props.chatMessages,
-                        props.sendMessageToDatabase,
+                        emailId,
+                        chatDetailsContext.chatUser,
+                        chatDetailsContext.message,
+                        chatDetailsContext.chatMessages,
                         setSendMediaList,
                         sendMediaList
                       );
@@ -157,11 +162,10 @@ function ChatFooter(props) {
                         e,
                         storage,
                         currentUser,
-                        props.emailId,
-                        props.chatUser,
-                        props.message,
-                        props.chatMessages,
-                        props.sendMessageToDatabase,
+                        emailId,
+                        chatDetailsContext.chatUser,
+                        chatDetailsContext.message,
+                        chatDetailsContext.chatMessages,
                         setSendMediaList,
                         sendMediaList
                       );
@@ -194,11 +198,10 @@ function ChatFooter(props) {
                         e,
                         storage,
                         currentUser,
-                        props.emailId,
-                        props.chatUser,
-                        props.message,
-                        props.chatMessages,
-                        props.sendMessageToDatabase,
+                        emailId,
+                        chatDetailsContext.chatUser,
+                        chatDetailsContext.message,
+                        chatDetailsContext.chatMessages,
                         setSendMediaList,
                         sendMediaList
                       );
@@ -217,10 +220,12 @@ function ChatFooter(props) {
                 <IconButton
                   aria-label="camera"
                   onClick={() => {
-                    props.setShowWebcam(!props.showWebcam);
+                    chatDetailsContext.setShowWebcam(
+                      !chatDetailsContext.showWebcam
+                    );
                     setSendMediaList(!sendMediaList);
                     setTimeout(() => {
-                      props.setCircularProgress(false);
+                      chatDetailsContext.setCircularProgress(false);
                     }, 1000);
                   }}
                 >
@@ -244,27 +249,27 @@ function ChatFooter(props) {
         onSubmit={(e) => {
           e.preventDefault();
           sendMessage(
-            props.block,
-            props.message,
-            props.emailId,
+            chatDetailsContext.block,
+            chatDetailsContext.message,
+            emailId,
             currentUser,
-            props.chatUser,
-            props.chatMessages,
-            props.setMessage
+            chatDetailsContext.chatUser,
+            chatDetailsContext.chatMessages,
+            chatDetailsContext.setMessage
           );
         }}
       >
         <input
           placeholder="Type a message"
           type="text"
-          value={props.message}
+          value={chatDetailsContext.message}
           onChange={(e) => {
-            props.setMessage(e.target.value);
+            chatDetailsContext.setMessage(e.target.value);
             e.target.value === ""
-              ? props.setTyping(false)
-              : props.setTyping(true);
+              ? chatDetailsContext.setTyping(false)
+              : chatDetailsContext.setTyping(true);
           }}
-          ref={props.sendMessageRef}
+          ref={chatDetailsContext.sendMessageRef}
         />
         <button type="submit">Send Message</button>
       </form>

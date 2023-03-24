@@ -7,7 +7,7 @@ import * as Icons from "./Icons";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import db from "../firebase";
 import Checkbox from "@mui/material/Checkbox";
-import { UserContext } from "../contexts/Context";
+import { UserContext, ChatDetailsContext } from "../contexts/Context";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -18,13 +18,14 @@ const useStyles = makeStyles(() =>
   })
 );
 
-function ForwardMessageModal(props) {
+function ForwardMessageModal() {
   // MUI Styles
   const classes = useStyles();
 
   // Context
   const themeContext = useContext(ThemeContext);
   const currentUser = useContext(UserContext);
+  const chatDetailsContext = useContext(ChatDetailsContext);
 
   // Usestate
   const [searchInput, setSearchInput] = useState("");
@@ -49,15 +50,18 @@ function ForwardMessageModal(props) {
 
   const handleForwardMessage = () => {
     senderMessageCollectionRef
-      .where("messageId", "==", props.selectedMessages)
+      .where("messageId", "==", chatDetailsContext.selectedMessages)
       .get()
       .then((querySnapshot) => {});
 
-    props.handleCloseModal();
+    chatDetailsContext.handleCloseModal();
   };
 
   return (
-    <Modal open={props.openModal} onClose={props.handleCloseModal}>
+    <Modal
+      open={chatDetailsContext.openModal}
+      onClose={chatDetailsContext.handleCloseModal}
+    >
       <div
         className={
           themeContext.theme === "light"
@@ -70,7 +74,7 @@ function ForwardMessageModal(props) {
             aria-label="close"
             className={classes.icon}
             onClick={() => {
-              props.handleCloseModal();
+              chatDetailsContext.handleCloseModal();
             }}
           >
             <Icons.CloseIcon />
@@ -110,13 +114,13 @@ function ForwardMessageModal(props) {
                   }}
                   onChange={(event) => {
                     if (event.target.checked) {
-                      props.setSelectedUser([
-                        ...props.selectedUser,
+                      chatDetailsContext.setSelectedUser([
+                        ...chatDetailsContext.selectedUser,
                         user.data().email,
                       ]);
                     } else {
-                      props.setSelectedUser(
-                        props.selectedUser.filter(
+                      chatDetailsContext.setSelectedUser(
+                        chatDetailsContext.selectedUser.filter(
                           (item) => item !== user.data().email
                         )
                       );
@@ -138,10 +142,10 @@ function ForwardMessageModal(props) {
           })}
         </div>
 
-        {props.selectedUser.length !== 0 && (
+        {chatDetailsContext.selectedUser.length !== 0 && (
           <div className="forward-message-footer">
             <div className="forward-message-footer-user-info">
-              {props.selectedUser.map((user, id) => {
+              {chatDetailsContext.selectedUser.map((user, id) => {
                 return <p key={id}>{`${user},`}&nbsp;</p>;
               })}
             </div>

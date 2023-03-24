@@ -7,6 +7,7 @@ import {
   EncryptionContext,
   DisappearingMessagesContext,
   StarredMessageContext,
+  EmailContext,
 } from "../contexts/Context";
 
 // MUI components
@@ -51,7 +52,6 @@ const ThemeSwitch = styled(Switch)(({ theme }) => ({
 }));
 
 function ContactInfo(props) {
-  // const { emailId } = props;
   // MUI Styles
   const classes = useStyles();
 
@@ -65,8 +65,9 @@ function ContactInfo(props) {
   const encryptionContext = useContext(EncryptionContext);
   const disappearingMessagesContext = useContext(DisappearingMessagesContext);
   const starredMessageContext = useContext(StarredMessageContext);
+  const emailId = useContext(EmailContext);
 
-  if (props.emailId) {
+  if (emailId) {
     var senderMessageCollectionRef = db
       .collection("chats")
       .doc(currentUser.email)
@@ -74,23 +75,23 @@ function ContactInfo(props) {
 
     var receiverMessageCollectionRef = db
       .collection("chats")
-      .doc(props.emailId)
+      .doc(emailId)
       .collection("messages");
 
     var senderFriendListRef = db
       .collection("FriendList")
       .doc(currentUser.email)
       .collection("list")
-      .doc(props.emailId);
+      .doc(emailId);
 
     var receiverFriendListRef = db
       .collection("FriendList")
-      .doc(props.emailId)
+      .doc(emailId)
       .collection("list")
       .doc(currentUser.email);
   }
 
-  var chatUserRef = db.collection("users").doc(props.emailId);
+  var chatUserRef = db.collection("users").doc(emailId);
 
   var blockedUserCollectionRef = db
     .collection("blockedUser")
@@ -116,7 +117,7 @@ function ContactInfo(props) {
     getUser();
     checkBlockedUser();
     // eslint-disable-next-line
-  }, [chatUser.email, props.emailId]); // Run whenever chatUser changes
+  }, [chatUser.email, emailId]); // Run whenever chatUser changes
 
   // Block user function
   const blockUser = () => {
@@ -127,7 +128,7 @@ function ContactInfo(props) {
 
   // Unblock user function
   const unblockUser = () => {
-    blockedUserCollectionRef.doc(props.emailId).delete();
+    blockedUserCollectionRef.doc(emailId).delete();
   };
 
   const handleOpenModal = () => setOpenModal(true);
@@ -279,7 +280,7 @@ function ContactInfo(props) {
               className="delete-chat"
               onClick={() =>
                 deleteChat(
-                  props.emailId,
+                  emailId,
                   currentUser,
                   senderMessageCollectionRef,
                   receiverMessageCollectionRef,
@@ -306,7 +307,6 @@ function ContactInfo(props) {
         handleOpenModal={handleOpenModal}
         handleCloseModal={handleCloseModal}
         blockUser={blockUser}
-        emailId={props.emailId}
         setChat={props.setChat}
       />
     </>

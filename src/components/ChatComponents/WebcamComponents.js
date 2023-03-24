@@ -3,7 +3,11 @@ import { IconButton } from "@material-ui/core";
 import * as Icons from "../Icons";
 import Webcam from "react-webcam";
 import CircularProgress from "@mui/material/CircularProgress";
-import { UserContext } from "../../contexts/Context";
+import {
+  UserContext,
+  EmailContext,
+  ChatDetailsContext,
+} from "../../contexts/Context";
 import { clickImage } from "../../utils/clickImage";
 import { storage } from "../../firebase";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
@@ -27,12 +31,14 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-function WebcamComponents(props) {
+function WebcamComponents() {
   // MUI Styles
   const classes = useStyles();
 
   // useContext
   const currentUser = useContext(UserContext);
+  const emailId = useContext(EmailContext);
+  const chatDetailsContext = useContext(ChatDetailsContext);
 
   // useRef
   const webcamRef = useRef(null);
@@ -43,15 +49,15 @@ function WebcamComponents(props) {
         <IconButton
           aria-label="close"
           onClick={() => {
-            props.setShowWebcam(false);
-            props.setCircularProgress(true);
+            chatDetailsContext.setShowWebcam(false);
+            chatDetailsContext.setCircularProgress(true);
           }}
         >
           <Icons.CloseOutlinedIcon className={classes.webcamCloseIcon} />
         </IconButton>
         <h3>Take Photo</h3>
       </div>
-      {!props.circularProgress ? (
+      {!chatDetailsContext.circularProgress ? (
         <>
           <Webcam className="webcam" ref={webcamRef} />
           <Icons.CameraAltRoundedIcon
@@ -61,13 +67,12 @@ function WebcamComponents(props) {
                 webcamRef,
                 storage,
                 currentUser,
-                props.emailId,
-                props.chatUser,
-                props.message,
-                props.chatMessages,
-                props.sendMessageToDatabase,
-                props.setShowWebcam,
-                props.setCircularProgress
+                emailId,
+                chatDetailsContext.chatUser,
+                chatDetailsContext.message,
+                chatDetailsContext.chatMessages,
+                chatDetailsContext.setShowWebcam,
+                chatDetailsContext.setCircularProgress
               )
             }
           />

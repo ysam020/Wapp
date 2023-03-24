@@ -1,5 +1,6 @@
 import cryptoRandomString from "crypto-random-string";
 import firebase from "firebase/app";
+import { sendMessageToDatabase } from "./sendMessageToDatabase";
 
 export const selectFiles = (
   e,
@@ -9,7 +10,6 @@ export const selectFiles = (
   chatUser,
   message,
   chatMessages,
-  sendMessageToDatabase,
   setSendMediaList,
   sendMediaList
 ) => {
