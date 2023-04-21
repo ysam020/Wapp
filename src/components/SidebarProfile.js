@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState } from "react";
 // Styles
 import "../styles/sidebar-profile.css";
 // Components
@@ -9,20 +9,13 @@ import { Avatar } from "@material-ui/core";
 import FirebaseRefs from "./FirebaseRefs";
 // Custom hooks
 import useContexts from "../customHooks/contexts";
+import useEditUserDetails from "../customHooks/editUserDetails";
 
 ///////////////////////////////////////////////////////////////////
 function SidebarProfile() {
   // useState
   const [editNameFocus, setEditNameFocus] = useState(false);
   const [editAboutFocus, setEditAboutFocus] = useState(false);
-  const [fullname, setFullname] = useState("");
-  const [about, setAbout] = useState("");
-
-  // useRef
-  const editNameRef = useRef();
-  const editAboutRef = useRef();
-  const editNameInputRef = useRef();
-  const editAboutInputRef = useRef();
 
   // Custom hooks
   const {
@@ -33,7 +26,6 @@ function SidebarProfile() {
   } = useContexts();
 
   const firebaseRef = FirebaseRefs(emailId, currentUser);
-  // var userRef = db.collection("users").doc(currentUser.email);
 
   const updateName = () => {
     firebaseRef.userRef.update({ fullname: editNameInputRef.current.value });
@@ -45,25 +37,14 @@ function SidebarProfile() {
     setEditAboutFocus(false);
   };
 
-  useEffect(() => {
-    firebaseRef.userRef.onSnapshot((snapshot) =>
-      setFullname(snapshot.data().fullname)
-    );
-    firebaseRef.userRef.onSnapshot((snapshot) =>
-      setAbout(snapshot.data().about)
-    );
-
-    editNameInputRef.current.setSelectionRange(
-      editNameInputRef.current.value.length,
-      editNameInputRef.current.value.length
-    );
-
-    editAboutInputRef.current.setSelectionRange(
-      editAboutInputRef.current.value.length,
-      editAboutInputRef.current.value.length
-    );
-    // eslint-disable-next-line
-  }, [updateName]);
+  const {
+    fullname,
+    about,
+    editNameRef,
+    editAboutRef,
+    editNameInputRef,
+    editAboutInputRef,
+  } = useEditUserDetails(updateName, updateAbout);
 
   return (
     <div className="sidebar-panel">

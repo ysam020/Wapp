@@ -18,7 +18,8 @@ function useWebcam(block) {
     ) {
       sendMessageRef.current.focus();
     }
-  });
+  }, [block.length, selectMessagesUI, showWebcam]);
+
   return {
     showWebcam,
     setShowWebcam,

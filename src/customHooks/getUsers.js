@@ -24,6 +24,7 @@ function useGetUsers() {
 
     // eslint-disable-next-line
   }, []);
+
   return { allUsers };
 }
 
