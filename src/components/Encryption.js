@@ -1,16 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
 import "../styles/encyption.css";
-import {
-  UserContext,
-  ToggleContactInfoContext,
-  EncryptionContext,
-} from "../contexts/Context";
 import ButtonPrimary from "./ButtonPrimary";
 import { IconButton } from "@mui/material";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import * as Icons from "./Icons";
 import cryptoRandomString from "crypto-random-string";
 import QRCode from "react-qr-code";
+import useContexts from "../customHooks/contexts";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -23,9 +19,8 @@ function Encryption() {
   const classes = useStyles();
 
   // Contexts
-  const currentUser = useContext(UserContext);
-  const toggleContactInfoContext = useContext(ToggleContactInfoContext);
-  const encryptionContext = useContext(EncryptionContext);
+  const { currentUser, toggleContactInfoDispatch, encryptionDispatch } =
+    useContexts();
 
   let QR_Code = cryptoRandomString({ length: 60, type: "numeric" });
   let QR_CodeArray = QR_Code.match(/.{1,5}/g);
@@ -37,8 +32,8 @@ function Encryption() {
           aria-label="close"
           className={classes.icon}
           onClick={() => {
-            toggleContactInfoContext.toggleContactInfoDispatch("toggle");
-            encryptionContext.encryptionDispatch("toggle");
+            toggleContactInfoDispatch("toggle");
+            encryptionDispatch("toggle");
           }}
         >
           <Icons.CloseRoundedIcon />

@@ -1,13 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import "../../styles/notifications.css";
-import {
-  ToggleSettingsContext,
-  SettingsNotificationContext,
-} from "../../contexts/Context";
 import Checkbox from "@mui/material/Checkbox";
 import { IconButton } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import * as Icons from "../Icons";
+import useContexts from "../../customHooks/contexts";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -22,8 +19,8 @@ function Notifications() {
   const classes = useStyles();
 
   // Contexts
-  const toggleSettingsContext = useContext(ToggleSettingsContext);
-  const settingsNotificationContext = useContext(SettingsNotificationContext);
+  const { toggleSettingsDispatch, settingsNotificationDispatch } =
+    useContexts();
 
   return (
     <div className="sidebar-panel">
@@ -33,10 +30,8 @@ function Notifications() {
             aria-label="back"
             className={classes.backIcon}
             onClick={() => {
-              settingsNotificationContext.settingsNotificationDispatch(
-                "toggle"
-              );
-              toggleSettingsContext.toggleSettingsDispatch("toggle");
+              settingsNotificationDispatch("toggle");
+              toggleSettingsDispatch("toggle");
             }}
           >
             <Icons.ArrowBackIcon />

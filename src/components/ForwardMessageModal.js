@@ -1,13 +1,12 @@
-import React, { useContext, useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import "../styles/forward-message.css";
 import Modal from "@mui/material/Modal";
-import { ThemeContext } from "../contexts/Context";
 import { Avatar, IconButton } from "@mui/material";
 import * as Icons from "./Icons";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import db from "../firebase";
 import Checkbox from "@mui/material/Checkbox";
-import { UserContext, ChatDetailsContext } from "../contexts/Context";
+import useContexts from "../customHooks/contexts";
+import useGetUsers from "../customHooks/getUsers";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -23,39 +22,15 @@ function ForwardMessageModal() {
   const classes = useStyles();
 
   // Context
-  const themeContext = useContext(ThemeContext);
-  const currentUser = useContext(UserContext);
-  const chatDetailsContext = useContext(ChatDetailsContext);
+  const { theme, chatDetailsContext } = useContexts();
 
   // Usestate
   const [searchInput, setSearchInput] = useState("");
-  const [users, setusers] = useState([]);
 
   // Forward message search ref
   const forwardMessageSearchRef = useRef();
 
-  var usersCollectionRef = db.collection("users");
-
-  var senderMessageCollectionRef = db
-    .collection("chats")
-    .doc(currentUser.email)
-    .collection("messages");
-
-  useEffect(() => {
-    usersCollectionRef.onSnapshot((snapshot) => {
-      setusers(snapshot.docs);
-    });
-    // eslint-disable-next-line
-  }, []);
-
-  const handleForwardMessage = () => {
-    senderMessageCollectionRef
-      .where("messageId", "==", chatDetailsContext.selectedMessages)
-      .get()
-      .then((querySnapshot) => {});
-
-    chatDetailsContext.handleCloseModal();
-  };
+  const { allUsers } = useGetUsers();
 
   return (
     <Modal
@@ -64,7 +39,7 @@ function ForwardMessageModal() {
     >
       <div
         className={
-          themeContext.theme === "light"
+          theme === "light"
             ? "forward-message-modal-container forward-message-modal-container-light"
             : "forward-message-modal-container forward-message-modal-container-dark"
         }
@@ -102,7 +77,7 @@ function ForwardMessageModal() {
         <div className="forward-message-body">
           <h4>Recent chats</h4>
 
-          {users.map((user, id) => {
+          {allUsers.map((user, id) => {
             return (
               <div className="forward-message-list-item" key={id}>
                 <Checkbox
@@ -149,10 +124,7 @@ function ForwardMessageModal() {
                 return <p key={id}>{`${user},`}&nbsp;</p>;
               })}
             </div>
-            <div
-              className="forward-message-send-icon"
-              onClick={handleForwardMessage}
-            >
+            <div className="forward-message-send-icon">
               <Icons.SendIcon className={classes.sendIcon} />
             </div>
           </div>

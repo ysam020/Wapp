@@ -1,16 +1,12 @@
-import React, { useRef, useContext } from "react";
+import React, { useRef } from "react";
 import { IconButton } from "@material-ui/core";
 import * as Icons from "../Icons";
 import Webcam from "react-webcam";
 import CircularProgress from "@mui/material/CircularProgress";
-import {
-  UserContext,
-  EmailContext,
-  ChatDetailsContext,
-} from "../../contexts/Context";
 import { clickImage } from "../../utils/clickImage";
 import { storage } from "../../firebase";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
+import useContexts from "../../customHooks/contexts";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -36,9 +32,7 @@ function WebcamComponents() {
   const classes = useStyles();
 
   // useContext
-  const currentUser = useContext(UserContext);
-  const emailId = useContext(EmailContext);
-  const chatDetailsContext = useContext(ChatDetailsContext);
+  const { currentUser, emailId, chatDetailsContext } = useContexts();
 
   // useRef
   const webcamRef = useRef(null);

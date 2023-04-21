@@ -1,17 +1,11 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React from "react";
 import "../styles/search-messages.css";
-import { SearchMessageContext, EmailContext } from "../contexts/Context";
 import { IconButton } from "@material-ui/core";
 import * as Icons from "./Icons";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import db from "../firebase";
-import { UserContext } from "../contexts/Context";
+import useContexts from "../customHooks/contexts";
+import { urlPattern } from "../assets/data/urlPattern";
+import useGetSearchedMessages from "../customHooks/getSearchedMessages";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -22,69 +16,18 @@ const useStyles = makeStyles(() =>
 );
 
 function SearchMessage(props) {
-  const urlPattern = new RegExp(
-    "^(https?:\\/\\/)?" + // validate protocol
-      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // validate domain name
-      "((\\d{1,3}\\.){3}\\d{1,3}))" + // validate OR ip (v4) address
-      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // validate port and path
-      "(\\?[;&a-z\\d%_.~+=-]*)?" + // validate query string
-      "(\\#[-a-z\\d_]*)?$",
-    "i"
-  ); // validate fragment locator
-
   // MUI Styles
   const classes = useStyles();
 
   // Contexts
-  const searchMessageContext = useContext(SearchMessageContext);
-  const currentUser = useContext(UserContext);
-  const emailId = useContext(EmailContext);
+  const { searchMessageDispatch } = useContexts();
 
-  // useState
-  const [searchedMessage, setSearchedMessage] = useState([]);
-  const [searchedMessageInput, setSearchedMessageInput] = useState("");
-
-  // Ref
-  const searchMessagesRef = useRef();
-
-  var senderMessageCollectionRef = db
-    .collection("chats")
-    .doc(currentUser.email)
-    .collection("messages");
-
-  // Get chats from database
-  const getMessages = useCallback(() => {
-    senderMessageCollectionRef
-      .orderBy("timestamp", "asc")
-      .onSnapshot((snapshot) => {
-        let messages = snapshot.docs.map((doc) => doc.data());
-
-        let newMessage = messages.filter(
-          (message) =>
-            message.senderEmail === (currentUser.email && emailId) ||
-            message.receiverEmail === (currentUser.email && emailId)
-        );
-
-        setSearchedMessage(
-          newMessage.filter((searchTerm) => {
-            if (searchedMessageInput) {
-              if (searchTerm.text.includes(searchedMessageInput)) {
-                return searchTerm;
-              }
-            }
-            return false;
-          })
-        );
-      });
-    // eslint-disable-next-line
-  }, [searchedMessageInput]);
-
-  useEffect(() => {
-    searchMessagesRef.current.focus();
-    getMessages();
-
-    // eslint-disable-next-line
-  }, [searchedMessageInput, emailId]);
+  const {
+    searchedMessage,
+    searchedMessageInput,
+    setSearchedMessageInput,
+    searchMessagesRef,
+  } = useGetSearchedMessages();
 
   return (
     <div className="sidebar-panel-right">
@@ -92,7 +35,7 @@ function SearchMessage(props) {
         <IconButton
           aria-label="close"
           className={classes.icon}
-          onClick={() => searchMessageContext.searchMessageDispatch("toggle")}
+          onClick={() => searchMessageDispatch("toggle")}
         >
           <Icons.CloseRoundedIcon />
         </IconButton>

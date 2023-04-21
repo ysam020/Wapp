@@ -1,12 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import "../../styles/account-info.css";
-import {
-  ToggleSettingsContext,
-  SettingsAccountInfoContext,
-} from "../../contexts/Context";
 import { IconButton } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import * as Icons from "../Icons";
+import useContexts from "../../customHooks/contexts";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -32,8 +29,7 @@ function AccountInfo() {
   const classes = useStyles();
 
   // Contexts
-  const toggleSettingsContext = useContext(ToggleSettingsContext);
-  const settingsAccountInfoContext = useContext(SettingsAccountInfoContext);
+  const { toggleSettingsDispatch, settingsAccountInfoDispatch } = useContexts();
 
   return (
     <div className="sidebar-panel">
@@ -43,8 +39,8 @@ function AccountInfo() {
             aria-label="back"
             className={classes.backIcon}
             onClick={() => {
-              toggleSettingsContext.toggleSettingsDispatch("toggle");
-              settingsAccountInfoContext.settingsAccountInfoDispatch("toggle");
+              toggleSettingsDispatch("toggle");
+              settingsAccountInfoDispatch("toggle");
             }}
           >
             <Icons.ArrowBackIcon />

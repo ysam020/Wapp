@@ -1,15 +1,12 @@
-import React, { useContext, useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "../styles/starred-messages.css";
-import {
-  StarredMessageContext,
-  UserContext,
-  EmailContext,
-} from "../contexts/Context";
 import { Avatar, IconButton } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { auth } from "../firebase";
 import * as Icons from "./Icons";
 import db from "../firebase";
+import useContexts from "../customHooks/contexts";
+import { urlPattern } from "../assets/data/urlPattern";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -34,9 +31,7 @@ function StarredMessages(props) {
   const classes = useStyles();
 
   // Contexts
-  const starredMessageContext = useContext(StarredMessageContext);
-  const currentUser = useContext(UserContext);
-  const emailId = useContext(EmailContext);
+  const { currentUser, emailId, starredMessageDispatch } = useContexts();
 
   //   useState
   const [chatUser, setChatUser] = useState({});
@@ -55,16 +50,6 @@ function StarredMessages(props) {
     // eslint-disable-next-line
   }, []);
 
-  const urlPattern = new RegExp(
-    "^(https?:\\/\\/)?" + // validate protocol
-      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // validate domain name
-      "((\\d{1,3}\\.){3}\\d{1,3}))" + // validate OR ip (v4) address
-      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // validate port and path
-      "(\\?[;&a-z\\d%_.~+=-]*)?" + // validate query string
-      "(\\#[-a-z\\d_]*)?$",
-    "i"
-  ); // validate fragment locator
-
   return (
     <>
       <div className="sidebar-panel-right">
@@ -72,9 +57,7 @@ function StarredMessages(props) {
           <IconButton
             aria-label="close"
             className={classes.icon}
-            onClick={() =>
-              starredMessageContext.starredMessageDispatch("toggle")
-            }
+            onClick={() => starredMessageDispatch("hide")}
           >
             <Icons.CloseRoundedIcon />
           </IconButton>

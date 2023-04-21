@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import "../styles/login.css";
-import { LoginContext } from "../contexts/Context";
 import Button from "@mui/material/Button";
+import useContexts from "../customHooks/contexts";
 
 function Login() {
-  const signIn = useContext(LoginContext);
+  const { signIn } = useContexts();
 
   return (
     <div className="login">

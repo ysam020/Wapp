@@ -1,22 +1,6 @@
-import React, {
-  useState,
-  useEffect,
-  useContext,
-  useRef,
-  useCallback,
-} from "react";
+import React, { useState, useRef } from "react";
 import "../styles/sidebar.css";
-import {
-  UserContext,
-  LogoutContext,
-  ToggleSidebarProfileContext,
-  ToggleSettingsContext,
-  ToggleSidebarContext,
-  NewChatContext,
-  CommunitiesContext,
-} from "../contexts/Context";
 import { Avatar } from "@material-ui/core";
-import db from "../firebase";
 import SidebarChat from "./SidebarChat";
 import SidebarSearchedUser from "./SidebarSearchedUser";
 import * as Icons from "./Icons";
@@ -24,6 +8,10 @@ import { IconButton } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import { Offline } from "react-detect-offline";
+import useContexts from "../customHooks/contexts";
+import useGetUsers from "../customHooks/getUsers";
+import useGetFriends from "../customHooks/getFriends";
+import useSidebarPopover from "../customHooks/sidebarPopover";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -39,53 +27,23 @@ function Sidebar(props) {
   // MUI Styles
   const classes = useStyles();
 
-  const [allUsers, setAllUsers] = useState([]);
   const [searchInput, setSearchInput] = useState("");
-  const [friendList, setFriendList] = useState([]);
   const [sidebarPopover, setSidebarPopover] = useState(false);
+  const sidebarPopoverList = useSidebarPopover();
 
   // Contexts
-  const logout = useContext(LogoutContext);
-  const currentUser = useContext(UserContext);
-  const toggleSidebarProfileContext = useContext(ToggleSidebarProfileContext);
-  const toggleSettingsContext = useContext(ToggleSettingsContext);
-  const toggleSidebarContext = useContext(ToggleSidebarContext);
-  const newChatContext = useContext(NewChatContext);
-  const communitiesContext = useContext(CommunitiesContext);
+  const {
+    currentUser,
+    toggleSidebarProfileDispatch,
+    toggleSidebarDispatch,
+    newChatDispatch,
+    communitiesDispatch,
+  } = useContexts();
 
   // Sidebar search ref
   const sidebarSearchRef = useRef();
-
-  var userCollectionRef = db.collection("users");
-
-  var senderFriendListRef = db
-    .collection("FriendList")
-    .doc(currentUser.email)
-    .collection("list");
-
-  // Get all users from database
-  const getAllUsers = useCallback(() => {
-    userCollectionRef.onSnapshot((snapshot) => {
-      setAllUsers(
-        snapshot.docs.filter((doc) => doc.data().email !== currentUser?.email) // Get all users whose email id is not same as the email of current user
-      );
-    });
-    // eslint-disable-next-line
-  }, [allUsers]);
-
-  // Get friends from FriendList databse
-  const getFriends = useCallback(() => {
-    senderFriendListRef.orderBy("timestamp", "desc").onSnapshot((snapshot) => {
-      setFriendList(snapshot.docs);
-    });
-    // eslint-disable-next-line
-  }, [friendList]);
-
-  useEffect(() => {
-    getAllUsers();
-    getFriends();
-    // eslint-disable-next-line
-  }, []);
+  const { allUsers } = useGetUsers();
+  const { friendList } = useGetFriends();
 
   // Return matching users from all users
   const searchedUser = allUsers.filter((user) => {
@@ -131,8 +89,8 @@ function Sidebar(props) {
         <IconButton
           aria-label="avatar"
           onClick={() => {
-            toggleSidebarProfileContext.toggleSidebarProfileDispatch("toggle");
-            toggleSidebarContext.toggleSidebarDispatch("toggle");
+            toggleSidebarProfileDispatch("toggle");
+            toggleSidebarDispatch("toggle");
           }}
         >
           <Avatar src={currentUser.photoURL} alt={currentUser.fullname} />
@@ -141,8 +99,8 @@ function Sidebar(props) {
           <IconButton
             aria-label="communities"
             onClick={() => {
-              toggleSidebarContext.toggleSidebarDispatch("toggle");
-              communitiesContext.communitiesDispatch("toggle");
+              toggleSidebarDispatch("toggle");
+              communitiesDispatch("toggle");
             }}
           >
             <Icons.GroupsRoundedIcon className={classes.icon} />
@@ -155,8 +113,8 @@ function Sidebar(props) {
             aria-label="new-chat"
             className={classes.icon}
             onClick={() => {
-              toggleSidebarContext.toggleSidebarDispatch("toggle");
-              newChatContext.newChatDispatch("toggle");
+              toggleSidebarDispatch("toggle");
+              newChatDispatch("toggle");
             }}
           >
             <Icons.ChatRoundedIcon />
@@ -172,17 +130,13 @@ function Sidebar(props) {
               {sidebarPopover && (
                 <ClickAwayListener onClickAway={handleClickAway}>
                   <div className="sidebar-popover">
-                    <h4>New Group</h4>
-                    <h4>Starred Message</h4>
-                    <h4
-                      onClick={() => {
-                        toggleSettingsContext.toggleSettingsDispatch("toggle");
-                        toggleSidebarContext.toggleSidebarDispatch("toggle");
-                      }}
-                    >
-                      Settings
-                    </h4>
-                    <h4 onClick={logout}>Logout</h4>
+                    {sidebarPopoverList.map((item) => {
+                      return (
+                        <h4 key={item.id} onClick={item.onClick}>
+                          {item.name}
+                        </h4>
+                      );
+                    })}
                   </div>
                 </ClickAwayListener>
               )}

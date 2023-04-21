@@ -1,19 +1,12 @@
-import React, { useContext, useState, useEffect } from "react";
+import React from "react";
 import { IconButton, Avatar } from "@material-ui/core";
 import * as Icons from "../Icons";
-import {
-  ToggleContactInfoContext,
-  DisappearingMessagesContext,
-  SearchMessageContext,
-  UserContext,
-  ChatDetailsContext,
-  EmailContext,
-} from "../../contexts/Context";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import moment from "moment";
-import { deleteChat } from "../../utils/deleteChat";
-import { handleTypingIndicator } from "../../utils/typing";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
+import useContexts from "../../customHooks/contexts";
+import useHandleTypingIndicator from "../../customHooks/handleTypingIndicator";
+import useChatPopover from "../../customHooks/chatPopover";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -27,39 +20,29 @@ function ChatHeader() {
   // MUI styles
   const classes = useStyles();
 
-  // useState
-  const [typingIndicator, setTypingIndicator] = useState();
-  const [chatPopover, setChatPopover] = useState(false);
-
   // useContext
-  const toggleContactInfoContext = useContext(ToggleContactInfoContext);
-  const disappearingMessagesContext = useContext(DisappearingMessagesContext);
-  const searchMessageContext = useContext(SearchMessageContext);
-  const currentUser = useContext(UserContext);
-  const chatDetailsContext = useContext(ChatDetailsContext);
-  const emailId = useContext(EmailContext);
+  const {
+    chatDetailsContext,
+    toggleContactInfoDispatch,
+    searchMessageDispatch,
+    starredMessageDispatch,
+    disappearingMessagesDispatch,
+    encryptionDispatch,
+  } = useContexts();
 
-  useEffect(() => {
-    handleTypingIndicator(setTypingIndicator, emailId, currentUser);
-    // eslint-disable-next-line
-  }, [typingIndicator]);
-
-  // Close chat popover if clicked outside
-  const handleClickAway = () => {
-    setChatPopover(!chatPopover);
-  };
-
-  // Chat Popover
-  const handleChatPopover = () => {
-    setChatPopover(!chatPopover);
-  };
+  const { typingIndicator } = useHandleTypingIndicator();
+  const { chatPropoverList, chatPopover, setChatPopover } = useChatPopover();
 
   return (
     <div className="chat-header">
       <IconButton
         aria-label="avatar"
         onClick={() => {
-          toggleContactInfoContext.toggleContactInfoDispatch("toggle");
+          toggleContactInfoDispatch("toggle");
+
+          starredMessageDispatch("hide");
+          disappearingMessagesDispatch("hide");
+          encryptionDispatch("hide");
         }}
       >
         <Avatar
@@ -86,7 +69,7 @@ function ChatHeader() {
           aria-label="search"
           className={classes.icon}
           onClick={() => {
-            searchMessageContext.searchMessageDispatch("toggle");
+            searchMessageDispatch("toggle");
           }}
         >
           <Icons.SearchOutlinedIcon />
@@ -95,66 +78,21 @@ function ChatHeader() {
         <div className="chat-popover-container">
           <IconButton
             aria-label="more"
-            onClick={handleChatPopover}
+            onClick={() => setChatPopover(!chatPopover)}
             className={classes.icon}
           >
             <Icons.MoreVertRoundedIcon />
           </IconButton>
           {chatPopover && (
-            <ClickAwayListener onClickAway={handleClickAway}>
+            <ClickAwayListener onClickAway={() => setChatPopover(!chatPopover)}>
               <div className="chat-popover">
-                <h4
-                  onClick={() => {
-                    toggleContactInfoContext.toggleContactInfoDispatch(
-                      "toggle"
-                    );
-                    handleChatPopover();
-                  }}
-                >
-                  Contact info
-                </h4>
-                <h4
-                  onClick={() => {
-                    chatDetailsContext.setSelectMessagesUI(
-                      !chatDetailsContext.selectMessagesUI
-                    );
-                    handleChatPopover();
-                  }}
-                >
-                  Select messages
-                </h4>
-                <h4
-                  onClick={() => {
-                    chatDetailsContext.closeChat();
-                    handleClickAway();
-                  }}
-                >
-                  Close chat
-                </h4>
-                <h4>Mute notifications</h4>
-                <h4
-                  onClick={() => {
-                    disappearingMessagesContext.disappearingMessagesDispatch(
-                      "toggle"
-                    );
-                    handleChatPopover();
-                  }}
-                >
-                  Disappearing messages
-                </h4>
-                <h4>Clear messages</h4>
-                <h4
-                  onClick={() => {
-                    deleteChat(
-                      emailId,
-                      currentUser,
-                      chatDetailsContext.setChat
-                    );
-                    handleChatPopover();
-                  }}
-                >
-                  Delete chat
-                </h4>
+                {chatPropoverList.map((item) => {
+                  return (
+                    <h4 key={item.id} onClick={item.onClick}>
+                      {item.name}
+                    </h4>
+                  );
+                })}
               </div>
             </ClickAwayListener>
           )}

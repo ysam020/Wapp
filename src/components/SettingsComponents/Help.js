@@ -1,14 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 import "../../styles/help.css";
-import {
-  ToggleSettingsContext,
-  SettingsHelpContext,
-} from "../../contexts/Context";
-import helpList from "../../data/Helplist";
+import helpList from "../../assets/data/Helplist";
 import { IconButton } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import * as Icons from "../Icons";
 import wappHelp from "../../assets/images/wapp-help.png";
+import useContexts from "../../customHooks/contexts";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -26,8 +23,7 @@ function Help() {
   const classes = useStyles();
 
   // Contexts
-  const toggleSettingsContext = useContext(ToggleSettingsContext);
-  const settingsHelpContext = useContext(SettingsHelpContext);
+  const { toggleSettingsDispatch, settingsHelpDispatch } = useContexts();
 
   return (
     <div className="sidebar-panel">
@@ -37,8 +33,8 @@ function Help() {
             aria-label="back"
             className={classes.backIcon}
             onClick={() => {
-              toggleSettingsContext.toggleSettingsDispatch("toggle");
-              settingsHelpContext.settingsHelpDispatch("toggle");
+              toggleSettingsDispatch("toggle");
+              settingsHelpDispatch("toggle");
             }}
           >
             <Icons.ArrowBackIcon />

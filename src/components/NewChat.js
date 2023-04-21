@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import "../styles/new-chat.css";
-import { ToggleSidebarContext, NewChatContext } from "../contexts/Context";
 import SidebarSearchedUser from "./SidebarSearchedUser";
 import { IconButton } from "@material-ui/core";
 import * as Icons from "./Icons";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import db from "../firebase";
+import useContexts from "../customHooks/contexts";
+import useGetUsers from "../customHooks/getUsers";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -29,29 +29,15 @@ function NewChat(props) {
   const classes = useStyles();
 
   // Contexts
-  const newChatContext = useContext(NewChatContext);
-  const toggleSidebarContext = useContext(ToggleSidebarContext);
+  const { newChatDispatch, toggleSidebarDispatch } = useContexts();
 
   //   useState
   const [searchInput, setSearchInput] = useState("");
-  const [allUsers, setAllUsers] = useState([]);
 
   //  Ref
   const newChatSearchRef = useRef();
 
-  var usersCollectionRef = db.collection("users");
-
-  useEffect(() => {
-    // Get all users
-    const getAllUsers = () => {
-      usersCollectionRef.onSnapshot((snapshot) => {
-        setAllUsers(snapshot.docs);
-      });
-    };
-
-    getAllUsers();
-    // eslint-disable-next-line
-  }, []);
+  const { allUsers } = useGetUsers();
 
   // Return matching users from all users
   const searchedUser = allUsers.filter((user) => {
@@ -87,8 +73,8 @@ function NewChat(props) {
             aria-label="back"
             className={classes.backIcon}
             onClick={() => {
-              newChatContext.newChatDispatch("toggle");
-              toggleSidebarContext.toggleSidebarDispatch("toggle");
+              newChatDispatch("toggle");
+              toggleSidebarDispatch("toggle");
             }}
           >
             <Icons.ArrowBackIcon />
@@ -144,8 +130,8 @@ function NewChat(props) {
                   <div
                     key={id}
                     onClick={() => {
-                      toggleSidebarContext.toggleSidebarDispatch("toggle");
-                      newChatContext.newChatDispatch("toggle");
+                      toggleSidebarDispatch("toggle");
+                      newChatDispatch("toggle");
                     }}
                   >
                     <SidebarSearchedUser

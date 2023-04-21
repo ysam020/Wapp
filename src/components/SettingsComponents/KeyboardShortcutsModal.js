@@ -1,16 +1,17 @@
-import React, { useContext } from "react";
+import React from "react";
 import "../../styles/keyboard-shortcuts.css";
 import Modal from "@mui/material/Modal";
-import keyboardShortcuts from "../../data/KeyboardShortcuts";
-import { ThemeContext } from "../../contexts/Context";
+import keyboardShortcuts from "../../assets/data/KeyboardShortcuts";
+import useContexts from "../../customHooks/contexts";
 
 function KeyboardShortcutsModal(props) {
-  const themeContext = useContext(ThemeContext);
+  const { theme } = useContexts();
+
   return (
     <Modal open={props.openModal} onClose={props.handleCloseModal}>
       <div
         className={
-          themeContext.theme === "light"
+          theme === "light"
             ? "modal-container modal-container-light"
             : "modal-container modal-container-dark"
         }

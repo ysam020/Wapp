@@ -1,7 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import * as Icons from "../Icons";
-import { UserContext } from "../../contexts/Context";
+import useContexts from "../../customHooks/contexts";
+import { urlPattern } from "../../assets/data/urlPattern";
+import { downloadMedia } from "../../utils/downloadMedia";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -35,33 +37,7 @@ function ChatMessage(props) {
   const classes = useStyles();
 
   // Context
-  const currentUser = useContext(UserContext);
-
-  const urlPattern = new RegExp(
-    "^(https?:\\/\\/)?" + // validate protocol
-      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // validate domain name
-      "((\\d{1,3}\\.){3}\\d{1,3}))" + // validate OR ip (v4) address
-      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // validate port and path
-      "(\\?[;&a-z\\d%_.~+=-]*)?" + // validate query string
-      "(\\#[-a-z\\d_]*)?$",
-    "i"
-  ); // validate fragment locator
-
-  const downloadMedia = (photoUrl, fileName) => {
-    fetch(photoUrl)
-      .then((res) => res.blob())
-      .then((blob) => {
-        const url = window.URL.createObjectURL(new Blob([blob]));
-        console.log(url);
-        let downloadBtn = document.getElementById("downloadPhoto");
-        let aTag = document.createElement("a");
-        aTag.href = url;
-        aTag.download = fileName;
-        aTag.click();
-        downloadBtn.appendChild(aTag);
-        aTag.remove();
-      });
-  };
+  const { currentUser } = useContexts();
 
   return (
     <>

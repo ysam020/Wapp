@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 import Checkbox from "@mui/material/Checkbox";
 import ChatMessage from "./ChatMessage";
 import { getTimeAgo } from "../../utils/getTimeAgo";
-import { ChatDetailsContext } from "../../contexts/Context";
+import useContexts from "../../customHooks/contexts";
 
 function SelectMessagesUI(props) {
-  const chatDetailsContext = useContext(ChatDetailsContext);
+  const { chatDetailsContext } = useContexts();
 
   // Check if message timestamp is same as that of previous message timestamp
   const getPreviousMessageDate = (index) => {

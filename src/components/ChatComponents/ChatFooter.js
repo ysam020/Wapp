@@ -1,24 +1,20 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Icons from "../Icons";
 import { IconButton, Tooltip } from "@material-ui/core";
 import { storage } from "../../firebase";
-import {
-  UserContext,
-  EmailContext,
-  ChatDetailsContext,
-} from "../../contexts/Context";
 import { selectFiles } from "../../utils/selectFiles";
 import { sendMessage } from "../../utils/sendMessage";
 
 // MUI styles
 import { createStyles, makeStyles } from "@material-ui/core/styles";
+import useContexts from "../../customHooks/contexts";
+import useSendMediaList from "../../customHooks/sendMediaList";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
     icon: {
       color: "#8696A0",
     },
-    mediaIcon: { color: "#fff" },
   })
 );
 
@@ -31,15 +27,8 @@ function ChatFooter() {
   const [gifButton, setGifButton] = useState(false);
   const [closeButton, setCloseButton] = useState(false);
 
-  // useRef
-  const inputImagesRef = useRef();
-  const inputVideosRef = useRef();
-  const inputDocumentRef = useRef();
-
   // useContext
-  const currentUser = useContext(UserContext);
-  const emailId = useContext(EmailContext);
-  const chatDetailsContext = useContext(ChatDetailsContext);
+  const { currentUser, emailId, chatDetailsContext } = useContexts();
 
   useEffect(() => {
     // Hide emoji box on escape button
@@ -52,6 +41,8 @@ function ChatFooter() {
       }
     });
   });
+
+  const sendMediaListItems = useSendMediaList();
 
   return (
     <div className="chat-footer">
@@ -102,137 +93,65 @@ function ChatFooter() {
       <div>
         {sendMediaList && (
           <ul className="send-media-list">
-            <li
-              style={{
-                backgroundImage:
-                  "linear-gradient(180deg, #ac44cf 25px, #bf59cf 25px)",
-              }}
-            >
-              <Tooltip title="Photos" placement="right">
-                <IconButton
-                  aria-label="photo"
-                  onClick={() => inputImagesRef.current.click()}
-                >
-                  <Icons.InsertPhotoIcon className={classes.mediaIcon} />
-                  <input
-                    accept="image/*"
-                    type="file"
-                    multiple=""
-                    style={{ display: "none" }}
-                    ref={inputImagesRef}
-                    onChange={(e) => {
-                      e.preventDefault();
-                      selectFiles(
-                        e,
-                        storage,
-                        currentUser,
-                        emailId,
-                        chatDetailsContext.chatUser,
-                        chatDetailsContext.message,
-                        chatDetailsContext.chatMessages,
-                        setSendMediaList,
-                        sendMediaList
-                      );
-                    }}
-                  ></input>
-                </IconButton>
-              </Tooltip>
-            </li>
-            <li
-              style={{
-                backgroundImage:
-                  "linear-gradient(180deg, #0162CB 25px, #0070E6 25px)",
-              }}
-            >
-              <Tooltip title="Videos" placement="right">
-                <IconButton
-                  aria-label="video"
-                  onClick={() => inputVideosRef.current.click()}
-                >
-                  <Icons.VideoCameraBackIcon className={classes.mediaIcon} />
-                  <input
-                    accept="video/mp4,video/3gpp,video/quicktime"
-                    type="file"
-                    multiple=""
-                    style={{ display: "none" }}
-                    ref={inputVideosRef}
-                    onChange={(e) => {
-                      e.preventDefault();
-                      selectFiles(
-                        e,
-                        storage,
-                        currentUser,
-                        emailId,
-                        chatDetailsContext.chatUser,
-                        chatDetailsContext.message,
-                        chatDetailsContext.chatMessages,
-                        setSendMediaList,
-                        sendMediaList
-                      );
-                    }}
-                  ></input>
-                </IconButton>
-              </Tooltip>
-            </li>
-            <li
-              style={{
-                backgroundImage:
-                  "linear-gradient(180deg, #0F9186 25px, #04A598 25px)",
-              }}
-            >
-              <Tooltip title="Document" placement="right">
-                <IconButton
-                  aria-label="document"
-                  onClick={() => inputDocumentRef.current.click()}
-                >
-                  <Icons.InsertDriveFileIcon className={classes.mediaIcon} />
-                  <input
-                    accept="*"
-                    type="file"
-                    multiple=""
-                    style={{ display: "none" }}
-                    ref={inputDocumentRef}
-                    onChange={(e) => {
-                      e.preventDefault();
-                      selectFiles(
-                        e,
-                        storage,
-                        currentUser,
-                        emailId,
-                        chatDetailsContext.chatUser,
-                        chatDetailsContext.message,
-                        chatDetailsContext.chatMessages,
-                        setSendMediaList,
-                        sendMediaList
-                      );
-                    }}
-                  ></input>
-                </IconButton>
-              </Tooltip>
-            </li>
-            <li
-              style={{
-                backgroundImage:
-                  "linear-gradient(180deg, #D3396D 25px, #EC407A 25px)",
-              }}
-            >
-              <Tooltip title="Camera" placement="right">
-                <IconButton
-                  aria-label="camera"
-                  onClick={() => {
-                    chatDetailsContext.setShowWebcam(
-                      !chatDetailsContext.showWebcam
-                    );
-                    setSendMediaList(!sendMediaList);
-                    setTimeout(() => {
-                      chatDetailsContext.setCircularProgress(false);
-                    }, 1000);
+            {sendMediaListItems.map((item) => {
+              return (
+                <li
+                  key={item.id}
+                  style={{
+                    backgroundImage: item.backgroundImage,
                   }}
                 >
-                  <Icons.CameraAltRoundedIcon className={classes.mediaIcon} />
-                </IconButton>
-              </Tooltip>
-            </li>
+                  <Tooltip title={item.title} placement="right">
+                    {item.title === "Camera" ? (
+                      <IconButton
+                        aria-label="camera"
+                        onClick={() => {
+                          chatDetailsContext.setShowWebcam(
+                            !chatDetailsContext.showWebcam
+                          );
+                          setSendMediaList(!sendMediaList);
+                          setTimeout(() => {
+                            chatDetailsContext.setCircularProgress(false);
+                          }, 1000);
+                        }}
+                      >
+                        <Icons.CameraAltRoundedIcon
+                          className={classes.mediaIcon}
+                        />
+                      </IconButton>
+                    ) : (
+                      <IconButton
+                        aria-label="photo"
+                        onClick={() => item.ref.current.click()}
+                      >
+                        {item.icon}
+                        <input
+                          accept={item.mediaType}
+                          type="file"
+                          multiple=""
+                          style={{ display: "none" }}
+                          ref={item.ref}
+                          onChange={(e) => {
+                            e.preventDefault();
+                            selectFiles(
+                              e,
+                              storage,
+                              currentUser,
+                              emailId,
+                              chatDetailsContext.chatUser,
+                              chatDetailsContext.message,
+                              chatDetailsContext.chatMessages,
+                              setSendMediaList,
+                              sendMediaList
+                            );
+                          }}
+                        ></input>
+                      </IconButton>
+                    )}
+                  </Tooltip>
+                </li>
+              );
+            })}
           </ul>
         )}
         <IconButton

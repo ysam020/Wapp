@@ -1,18 +1,5 @@
-import React, { useContext } from "react";
+import React from "react";
 import "../../styles/settings.css";
-import {
-  UserContext,
-  ToggleSettingsContext,
-  ToggleSidebarContext,
-  SettingsNotificationContext,
-  SettingsPrivacyContext,
-  SettingsSecurityContext,
-  SettingsAccountInfoContext,
-  SettingsHelpContext,
-  ThemeContext,
-  ToggleChatWallpaperContext,
-  ChatBackgroundContext,
-} from "../../contexts/Context";
 
 import KeyboardShortcutsModal from "./KeyboardShortcutsModal";
 
@@ -27,6 +14,8 @@ import { styled } from "@mui/material/styles";
 
 // Material icons
 import * as Icons from "../Icons";
+import useContexts from "../../customHooks/contexts";
+import useSettingsList from "../../customHooks/settingsList";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -60,102 +49,23 @@ function Settings() {
   // MUI Styles
   const classes = useStyles();
 
-  // UseState
-  const [openModal, setOpenModal] = React.useState(false);
-
   // Contexts
-  const currentUser = useContext(UserContext);
-  const toggleSettingsContext = useContext(ToggleSettingsContext);
-  const toggleSidebarContext = useContext(ToggleSidebarContext);
-  const settingsNotificationContext = useContext(SettingsNotificationContext);
-  const settingsPrivacyContext = useContext(SettingsPrivacyContext);
-  const settingsSecurityContext = useContext(SettingsSecurityContext);
-  const settingsAccountInfoContext = useContext(SettingsAccountInfoContext);
-  const settingsHelpContext = useContext(SettingsHelpContext);
-  const themeContext = useContext(ThemeContext);
-  const toggleChatWallpaperContext = useContext(ToggleChatWallpaperContext);
-  const { setChatBackground } = useContext(ChatBackgroundContext);
+  const {
+    currentUser,
+    toggleSettingsDispatch,
+    toggleSidebarDispatch,
+    theme,
+    toggleTheme,
+    setChatBackground,
+  } = useContexts();
 
-  const settingsList = [
-    {
-      id: 1,
-      name: "Notifications",
-      icon: <Icons.NotificationsRoundedIcon />,
-      style: "settings-list-item settings-list-item-notifications",
-      onClick: () => {
-        settingsNotificationContext.settingsNotificationDispatch("toggle");
-        toggleSettingsContext.toggleSettingsDispatch("toggle");
-      },
-    },
-    {
-      id: 2,
-      name: "Privacy",
-      icon: <Icons.LockRoundedIcon />,
-      style: "settings-list-item settings-list-item-privacy",
-      onClick: () => {
-        settingsPrivacyContext.settingsPrivacyDispatch("toggle");
-        toggleSettingsContext.toggleSettingsDispatch("toggle");
-      },
-    },
-    {
-      id: 3,
-      name: "Security",
-      icon: <Icons.SecurityRoundedIcon />,
-      style: "settings-list-item settings-list-item-security",
-      onClick: () => {
-        settingsSecurityContext.settingsSecurityDispatch("toggle");
-        toggleSettingsContext.toggleSettingsDispatch("toggle");
-      },
-    },
-    {
-      id: 4,
-      name: "Dark theme",
-      icon: <Icons.Brightness6RoundedIcon />,
-      style: "settings-list-item settings-list-item-theme",
-    },
-    {
-      id: 5,
-      name: "Chat Wallpaper",
-      icon: <Icons.WallpaperRoundedIcon />,
-      style: "settings-list-item settings-list-item-chat-wallpaper",
-      onClick: () => {
-        toggleChatWallpaperContext.toggleChatWallpaperDispatch("toggle");
-        toggleSettingsContext.toggleSettingsDispatch("toggle");
-      },
-    },
-    {
-      id: 6,
-      name: "Request Account Info",
-      icon: <Icons.FeedRoundedIcon />,
-      style: "settings-list-item settings-list-item-request-account-info",
-      onClick: () => {
-        settingsAccountInfoContext.settingsAccountInfoDispatch("toggle");
-        toggleSettingsContext.toggleSettingsDispatch("toggle");
-      },
-    },
-    {
-      id: 7,
-      name: "Keyboard Shortcuts",
-      icon: <Icons.BrightnessAutoRoundedIcon />,
-      style: "settings-list-item settings-list-item-keyboard-shortcuts",
-      onClick: () => {
-        handleOpenModal();
-      },
-    },
-    {
-      id: 8,
-      name: "Help",
-      icon: <Icons.HelpRoundedIcon />,
-      style: "settings-list-item settings-list-item-help",
-      onClick: () => {
-        settingsHelpContext.settingsHelpDispatch("toggle");
-        toggleSettingsContext.toggleSettingsDispatch("toggle");
-      },
-    },
-  ];
-
-  const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => setOpenModal(false);
+  const {
+    settingsList,
+    openModal,
+    setOpenModal,
+    handleOpenModal,
+    handleCloseModal,
+  } = useSettingsList();
 
   return (
     <>
@@ -172,8 +82,8 @@ function Settings() {
               aria-label="back"
               className={classes.backIcon}
               onClick={() => {
-                toggleSettingsContext.toggleSettingsDispatch("toggle");
-                toggleSidebarContext.toggleSidebarDispatch("toggle");
+                toggleSettingsDispatch("toggle");
+                toggleSidebarDispatch("toggle");
               }}
             >
               <Icons.ArrowBackIcon />
@@ -213,21 +123,19 @@ function Settings() {
                   {/* Show theme switch button only if name = dark theme when mapping */}
                   {name === "Dark theme" && (
                     <ThemeSwitch
-                      onChange={themeContext.toggleTheme}
+                      onChange={toggleTheme}
                       onClick={() => {
                         setChatBackground(
-                          themeContext.theme === "light" ? "#EFEAE2" : "#0C141A"
+                          theme === "light" ? "#EFEAE2" : "#0C141A"
                         );
                         localStorage.setItem(
                           "chatBackground",
                           JSON.stringify(
-                            themeContext.theme === "light"
-                              ? "#0C141A"
-                              : "#EFEAE2"
+                            theme === "light" ? "#0C141A" : "#EFEAE2"
                           )
                         );
                       }}
-                      checked={themeContext.theme === "dark"}
+                      checked={theme === "dark"}
                       inputProps={{ "aria-label": "controlled" }}
                       sx={{
                         color: "#8696A0",

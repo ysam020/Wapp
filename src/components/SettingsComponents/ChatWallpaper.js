@@ -1,17 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
 import "../../styles/chat-wallpaper.css";
-import {
-  ToggleSettingsContext,
-  ToggleChatWallpaperContext,
-  ChatBackgroundContext,
-  ThemeContext,
-} from "../../contexts/Context";
-import chatWallpaperData from "../../data/ChatWallpaperData";
+import chatWallpaperData from "../../assets/data/ChatWallpaperData";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { IconButton } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import * as Icons from "../Icons";
+import useContexts from "../../customHooks/contexts";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -26,12 +21,14 @@ function ChatWallpaper() {
   const classes = useStyles();
 
   // Contexts
-  const themeContext = useContext(ThemeContext);
-  const toggleSettingsContext = useContext(ToggleSettingsContext);
-  const toggleChatWallpaperContxt = useContext(ToggleChatWallpaperContext);
-  const { setChatBackground, doodle, setDoodle } = useContext(
-    ChatBackgroundContext
-  );
+  const {
+    toggleSettingsDispatch,
+    theme,
+    toggleChatWallpaperDispatch,
+    setChatBackground,
+    doodle,
+    setDoodle,
+  } = useContexts();
 
   return (
     <div className="sidebar-panel">
@@ -41,8 +38,8 @@ function ChatWallpaper() {
             aria-label="back"
             className={classes.backIcon}
             onClick={() => {
-              toggleSettingsContext.toggleSettingsDispatch("toggle");
-              toggleChatWallpaperContxt.toggleChatWallpaperDispatch("toggle");
+              toggleSettingsDispatch("toggle");
+              toggleChatWallpaperDispatch("toggle");
             }}
           >
             <Icons.ArrowBackIcon />
@@ -78,7 +75,7 @@ function ChatWallpaper() {
         </div>
 
         <div className="chat-wallpaper-list">
-          {themeContext.theme === "light"
+          {theme === "light"
             ? chatWallpaperData
                 .filter((theme) => {
                   if (theme.theme === "light") {

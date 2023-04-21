@@ -1,16 +1,12 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import "../styles/sidebar-profile.css";
-import {
-  ToggleSidebarContext,
-  UserContext,
-  ToggleSidebarProfileContext,
-} from "../contexts/Context";
 import { IconButton, Tooltip } from "@material-ui/core";
 import { Avatar } from "@material-ui/core";
 import * as Icons from "./Icons";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import db from "../firebase";
 import { useEffect } from "react";
+import useContexts from "../customHooks/contexts";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -33,9 +29,8 @@ function SidebarProfile() {
   const classes = useStyles();
 
   // Contexts
-  const currentUser = useContext(UserContext);
-  const toggleSidebarProfileContext = useContext(ToggleSidebarProfileContext);
-  const toggleSidebarContext = useContext(ToggleSidebarContext);
+  const { currentUser, toggleSidebarDispatch, toggleSidebarProfileDispatch } =
+    useContexts();
 
   // useState
   const [editNameFocus, setEditNameFocus] = useState(false);
@@ -85,10 +80,8 @@ function SidebarProfile() {
             aria-label="back"
             className={classes.backIcon}
             onClick={() => {
-              toggleSidebarProfileContext.toggleSidebarProfileDispatch(
-                "toggle"
-              );
-              toggleSidebarContext.toggleSidebarDispatch("toggle");
+              toggleSidebarProfileDispatch("toggle");
+              toggleSidebarDispatch("toggle");
             }}
           >
             <Icons.ArrowBackIcon />

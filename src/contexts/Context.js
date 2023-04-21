@@ -1,8 +1,7 @@
 import { createContext, useReducer } from "react";
 import { reducer } from "../contexts/Reducer";
 
-export const LogoutContext = createContext();
-export const LoginContext = createContext();
+export const AuthContext = createContext();
 export const UserContext = createContext();
 export const ToggleSidebarContext = createContext();
 export const ToggleSidebarProfileContext = createContext();

@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import EmojiPicker from "emoji-picker-react";
-import { ChatDetailsContext } from "../../contexts/Context";
+import useContexts from "../../customHooks/contexts";
 
 function EmojiPickerComponent() {
-  const chatDetailsContext = useContext(ChatDetailsContext);
+  const { chatDetailsContext } = useContexts();
 
   return (
     <EmojiPicker

@@ -2,6 +2,8 @@ import db from "../firebase";
 
 const FirebaseRefs = (emailId, currentUser) => {
   const firebaseRef = {
+    usersCollectionRef: db.collection("users"),
+
     chatUserRef: db.collection("users").doc(emailId),
 
     senderMessageCollectionRef: db
@@ -30,6 +32,11 @@ const FirebaseRefs = (emailId, currentUser) => {
       .doc(emailId)
       .collection("list")
       .doc(currentUser.email),
+
+    senderFriendListCollectionRef: db
+      .collection("FriendList")
+      .doc(currentUser.email)
+      .collection("list"),
   };
 
   return firebaseRef;

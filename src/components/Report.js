@@ -1,21 +1,17 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import "../styles/report.css";
 import Modal from "@mui/material/Modal";
-import {
-  ThemeContext,
-  ToggleContactInfoContext,
-  UserContext,
-  EmailContext,
-} from "../contexts/Context";
 import Checkbox from "@mui/material/Checkbox";
 import { deleteChat } from "../utils/deleteChat";
+import useContexts from "../customHooks/contexts";
+import { blockUser } from "../utils/blockUser";
+import useChatUser from "../customHooks/chatUser";
 
 function KeyboardShortcutsModal(props) {
   // Context
-  const themeContext = useContext(ThemeContext);
-  const toggleContactInfoContext = useContext(ToggleContactInfoContext);
-  const currentUser = useContext(UserContext);
-  const emailId = useContext(EmailContext);
+  const { theme, toggleContactInfoDispatch, currentUser, emailId } =
+    useContexts();
+  const { chatUser } = useChatUser();
 
   // useState
   const [checked, setChecked] = useState(true);
@@ -24,7 +20,7 @@ function KeyboardShortcutsModal(props) {
     <Modal open={props.openModal} onClose={props.handleCloseModal}>
       <div
         className={
-          themeContext.theme === "light"
+          theme === "light"
             ? "report-modal-container report-modal-container-light"
             : "report-modal-container report-modal-container-dark"
         }
@@ -81,9 +77,9 @@ function KeyboardShortcutsModal(props) {
             onClick={() => {
               props.setOpenModal(false);
               if (checked === true) {
-                props.blockUser();
+                blockUser(currentUser, chatUser);
                 deleteChat(emailId, currentUser, props.setChat);
-                toggleContactInfoContext.toggleContactInfoDispatch("toggle");
+                toggleContactInfoDispatch("toggle");
               }
             }}
           >

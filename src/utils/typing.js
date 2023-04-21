@@ -3,6 +3,7 @@ import FirebaseRefs from "../components/FirebaseRefs";
 // Update typing to database
 export const handleTyping = (typing, emailId, currentUser) => {
   const firebaseRef = FirebaseRefs(emailId, currentUser);
+
   if (typing === true) {
     firebaseRef.receiverFriendListRef.update({ typing: true });
   } else {
@@ -17,9 +18,9 @@ export const handleTypingIndicator = (
   currentUser
 ) => {
   const firebaseRef = FirebaseRefs(emailId, currentUser);
-
   firebaseRef.senderFriendListRef.onSnapshot((snapshot) => {
-    setTypingIndicator(snapshot.data().typing);
+    setTypingIndicator(snapshot.data()?.typing || "");
   });
+
   // eslint-disable-next-line
 };

@@ -19,93 +19,67 @@ import SearchMessage from "../components/SearchMessage";
 import StarredMessages from "../components/StarredMessages";
 import Encryption from "../components/Encryption";
 import * as Context from "../contexts/Context";
-import db from "../firebase";
-import firebase from "firebase/app";
 import * as Icons from "../components/Icons";
 import { sendMessageToDatabase } from "../utils/sendMessageToDatabase";
 import WappSVG from "../components/WappSVG";
+import useContexts from "../customHooks/contexts";
+import useFriendData from "../customHooks/friendData";
 
 function Home() {
   // Contexts
-  const currentUser = React.useContext(Context.UserContext);
-  const toggleSidebarProfileContext = React.useContext(
-    Context.ToggleSidebarProfileContext
-  );
-  const toggleSettingsContext = React.useContext(Context.ToggleSettingsContext);
-  const toggleSidebarContext = React.useContext(Context.ToggleSidebarContext);
-  const settingsNotificationContext = React.useContext(
-    Context.SettingsNotificationContext
-  );
-  const settingsPrivacyContext = React.useContext(
-    Context.SettingsPrivacyContext
-  );
-  const settingsSecurityContext = React.useContext(
-    Context.SettingsSecurityContext
-  );
-  const settingsAccountInfoContext = React.useContext(
-    Context.SettingsAccountInfoContext
-  );
-  const settingsHelpContext = React.useContext(Context.SettingsHelpContext);
-  const toggleChatWallpaperContext = React.useContext(
-    Context.ToggleChatWallpaperContext
-  );
-  const newChatContext = React.useContext(Context.NewChatContext);
-  const communitiesContext = React.useContext(Context.CommunitiesContext);
-  const toggleContactInfoContext = React.useContext(
-    Context.ToggleContactInfoContext
-  );
-  const searchMessageContext = React.useContext(Context.SearchMessageContext);
-  const encryptionContext = React.useContext(Context.EncryptionContext);
-  const disappearingMessagesContext = React.useContext(
-    Context.DisappearingMessagesContext
-  );
-  const starredMessageContext = React.useContext(Context.StarredMessageContext);
+  const {
+    currentUser,
+    toggleSidebarState,
+    toggleSidebarProfileState,
+    toggleSettingsState,
+    settingsNotificationState,
+    settingsPrivacyState,
+    settingsSecurityState,
+    settingsAccountInfoState,
+    settingsHelpState,
+    newChatState,
+    communitiesState,
+    toggleContactInfoState,
+    searchMessageState,
+    encryptionState,
+    disappearingMessagesState,
+    starredMessageState,
+    toggleChatWallpaperState,
+  } = useContexts();
 
-  // React.useState
-  const [emailId, setEmailId] = React.useState(
-    JSON.parse(localStorage.getItem("chat"))
-  );
-  const [chat, setChat] = React.useState(emailId ? true : false);
-  const [block, setBlock] = React.useState([]);
-  const [starredMessages, setStarredMessages] = React.useState([]);
-
-  // Update last online in user collection
-  React.useEffect(() => {
-    db.collection("users")
-      .doc(currentUser.email)
-      .update({ lastOnline: firebase.firestore.Timestamp.now() });
-  }, [currentUser.email]);
+  const {
+    emailId,
+    setEmailId,
+    chat,
+    setChat,
+    block,
+    setBlock,
+    starredMessages,
+    setStarredMessages,
+  } = useFriendData();
 
   return (
     <Context.EmailContext.Provider value={emailId}>
       <div className="home">
         <div className="home-container">
-          {toggleSidebarContext.toggleSidebarState && (
+          {toggleSidebarState && (
             <Sidebar setChat={setChat} setEmailId={setEmailId} />
           )}
 
-          {toggleSidebarProfileContext.toggleSidebarProfileState && (
-            <SidebarProfile />
-          )}
-          {communitiesContext.communitiesState && <Communities />}
-          {newChatContext.newChatState && (
+          {toggleSidebarProfileState && <SidebarProfile />}
+          {communitiesState && <Communities />}
+          {newChatState && (
             <NewChat setChat={setChat} setEmailId={setEmailId} />
           )}
 
-          {toggleSettingsContext.toggleSettingsState && <Settings />}
+          {toggleSettingsState && <Settings />}
 
-          {settingsNotificationContext.settingsNotificationState && (
-            <Notifications />
-          )}
-          {settingsPrivacyContext.settingsPrivacyState && <Privacy />}
-          {settingsSecurityContext.settingsSecurityState && <Security />}
-          {settingsAccountInfoContext.settingsAccountInfoState && (
-            <AccountInfo />
-          )}
-          {settingsHelpContext.settingsHelpState && <Help />}
-          {toggleChatWallpaperContext.toggleChatWallpaperState && (
-            <ChatWallpaper />
-          )}
+          {settingsNotificationState && <Notifications />}
+          {settingsPrivacyState && <Privacy />}
+          {settingsSecurityState && <Security />}
+          {settingsAccountInfoState && <AccountInfo />}
+          {settingsHelpState && <Help />}
+          {toggleChatWallpaperState && <ChatWallpaper />}
 
           {chat && emailId !== "" ? (
             <div className="chatpage">
@@ -118,19 +92,17 @@ function Home() {
                   setChat={setChat}
                 />
 
-                {toggleContactInfoContext.toggleContactInfoState && (
+                {toggleContactInfoState && (
                   <ContactInfo
                     block={block}
                     setBlock={setBlock}
                     setChat={setChat}
                   />
                 )}
-                {encryptionContext.encryptionState && <Encryption />}
-                {disappearingMessagesContext.disappearingMessagesState && (
-                  <DisappearingMessages />
-                )}
-                {searchMessageContext.searchMessageState && <SearchMessage />}
-                {starredMessageContext.starredMessageState && (
+                {encryptionState && <Encryption />}
+                {disappearingMessagesState && <DisappearingMessages />}
+                {searchMessageState && <SearchMessage />}
+                {starredMessageState && (
                   <StarredMessages
                     starredMessages={starredMessages}
                     setStarredMessages={setStarredMessages}

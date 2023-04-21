@@ -6,8 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Loader from "./components/Loader";
 import Context, {
-  LoginContext,
-  LogoutContext,
+  AuthContext,
   UserContext,
   ThemeContext,
   ChatBackgroundContext,
@@ -121,24 +120,22 @@ function App() {
     >
       <ThemeContext.Provider value={{ theme, toggleTheme }}>
         <UserContext.Provider value={user}>
-          <LoginContext.Provider value={signIn}>
-            <LogoutContext.Provider value={logout}>
-              <Context>
-                <div className="App" id={theme}>
-                  {loading ? <Loader /> : ""}
-                  {!user ? (
-                    <Login />
-                  ) : (
-                    <div className="app-body">
-                      <Routes>
-                        <Route path="/" element={<Home />}></Route>
-                      </Routes>
-                    </div>
-                  )}
-                </div>
-              </Context>
-            </LogoutContext.Provider>
-          </LoginContext.Provider>
+          <AuthContext.Provider value={{ signIn: signIn, logout: logout }}>
+            <Context>
+              <div className="App" id={theme}>
+                {loading ? <Loader /> : ""}
+                {!user ? (
+                  <Login />
+                ) : (
+                  <div className="app-body">
+                    <Routes>
+                      <Route path="/" element={<Home />}></Route>
+                    </Routes>
+                  </div>
+                )}
+              </div>
+            </Context>
+          </AuthContext.Provider>
         </UserContext.Provider>
       </ThemeContext.Provider>
     </ChatBackgroundContext.Provider>

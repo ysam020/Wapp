@@ -1,13 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import "../../styles/privacy.css";
-import {
-  ToggleSettingsContext,
-  SettingsPrivacyContext,
-} from "../../contexts/Context";
 import Checkbox from "@mui/material/Checkbox";
 import { IconButton } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import * as Icons from "../Icons";
+import useContexts from "../../customHooks/contexts";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -23,8 +20,7 @@ function Privacy() {
   const classes = useStyles();
 
   // Contexts
-  const toggleSettingsContext = useContext(ToggleSettingsContext);
-  const settingsPrivacyContext = useContext(SettingsPrivacyContext);
+  const { toggleSettingsDispatch, settingsPrivacyDispatch } = useContexts();
 
   return (
     <div className="sidebar-panel">
@@ -34,8 +30,8 @@ function Privacy() {
             aria-label="back"
             className={classes.backIcon}
             onClick={() => {
-              toggleSettingsContext.toggleSettingsDispatch("toggle");
-              settingsPrivacyContext.settingsPrivacyDispatch("toggle");
+              toggleSettingsDispatch("toggle");
+              settingsPrivacyDispatch("toggle");
             }}
           >
             <Icons.ArrowBackIcon />

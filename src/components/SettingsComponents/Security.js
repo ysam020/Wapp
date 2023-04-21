@@ -1,14 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 import "../../styles/security.css";
-import {
-  ToggleSettingsContext,
-  SettingsSecurityContext,
-} from "../../contexts/Context";
-import securityList from "../../data/SecurityList";
+import securityList from "../../assets/data/SecurityList";
 import Checkbox from "@mui/material/Checkbox";
 import { IconButton } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import * as Icons from "../Icons";
+import useContexts from "../../customHooks/contexts";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -37,8 +34,7 @@ function Security() {
   const classes = useStyles();
 
   // Contexts
-  const toggleSettingsContext = useContext(ToggleSettingsContext);
-  const settingsSecurityContext = useContext(SettingsSecurityContext);
+  const { toggleSettingsDispatch, settingsSecurityDispatch } = useContexts();
 
   return (
     <div className="sidebar-panel">
@@ -48,8 +44,8 @@ function Security() {
             aria-label="back"
             className={classes.backIcon}
             onClick={() => {
-              toggleSettingsContext.toggleSettingsDispatch("toggle");
-              settingsSecurityContext.settingsSecurityDispatch("toggle");
+              toggleSettingsDispatch("toggle");
+              settingsSecurityDispatch("toggle");
             }}
           >
             <Icons.ArrowBackIcon />
