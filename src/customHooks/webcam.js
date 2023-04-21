@@ -1,12 +1,15 @@
-import React from "react";
+import { useState, useEffect, useRef } from "react";
 
+///////////////////////////////////////////////////////////////////
 function useWebcam(block) {
-  const sendMessageRef = React.useRef(null);
+  // useRef
+  const sendMessageRef = useRef(null);
 
-  const [showWebcam, setShowWebcam] = React.useState(false);
-  const [selectMessagesUI, setSelectMessagesUI] = React.useState(false);
+  // useState
+  const [showWebcam, setShowWebcam] = useState(false);
+  const [selectMessagesUI, setSelectMessagesUI] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     // Focus send message input
     if (
       showWebcam === false &&

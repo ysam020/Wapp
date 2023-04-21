@@ -1,34 +1,15 @@
 import React from "react";
+// Styles
 import "../../styles/account-info.css";
+// Components
 import { IconButton } from "@material-ui/core";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
 import * as Icons from "../Icons";
+// Custom hooks
 import useContexts from "../../customHooks/contexts";
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    backIcon: {
-      color: "white",
-    },
-    feedIcon: {
-      color: "#03CF9C",
-      backgroundColor: "#E3F7F1",
-      width: "70px !important",
-      height: "100px !important",
-      borderRadius: "1000px",
-      padding: "5px 20px",
-    },
-    timeIcon: {
-      color: "#8696a0",
-    },
-  })
-);
-
+///////////////////////////////////////////////////////////////////
 function AccountInfo() {
-  // MUI Styles
-  const classes = useStyles();
-
-  // Contexts
+  // Custom hooks
   const { toggleSettingsDispatch, settingsAccountInfoDispatch } = useContexts();
 
   return (
@@ -37,13 +18,12 @@ function AccountInfo() {
         <div className="sidebar-panel-header-container">
           <IconButton
             aria-label="back"
-            className={classes.backIcon}
             onClick={() => {
               toggleSettingsDispatch("toggle");
               settingsAccountInfoDispatch("toggle");
             }}
           >
-            <Icons.ArrowBackIcon />
+            <Icons.ArrowBackIcon color="secondary" />
           </IconButton>
           <h3>Request Account Info</h3>
         </div>
@@ -51,9 +31,16 @@ function AccountInfo() {
 
       <div className="account-info-body">
         <div className="account-info-img">
-          <IconButton aria-label="feed">
-            <Icons.FeedRoundedIcon className={classes.feedIcon} />
-          </IconButton>
+          <Icons.FeedRoundedIcon
+            color="primary"
+            sx={{
+              backgroundColor: "#E3F7F1",
+              width: "70px !important",
+              height: "100px !important",
+              borderRadius: "1000px",
+              padding: "5px 20px",
+            }}
+          />
         </div>
         <div className="account-info-row-1">
           <p>
@@ -65,7 +52,7 @@ function AccountInfo() {
         </div>
 
         <div className="account-info-row-2">
-          <Icons.AccessTimeIcon className={classes.timeIcon} />
+          <Icons.AccessTimeIcon color="primary" />
           <div className="account-info-row-2-container">
             <h5>Request Sent</h5>
             <p>Ready by December 5, 2022</p>

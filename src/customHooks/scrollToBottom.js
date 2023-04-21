@@ -1,11 +1,12 @@
-import React from "react";
+import { useRef, useEffect } from "react";
 
+///////////////////////////////////////////////////////////////////
 function useScrollToBottom(chatMessages) {
   // Ref
-  const chatBox = React.useRef(null);
+  const chatBox = useRef(null);
 
   // Scroll to bottom of chat when message is sent or received
-  React.useEffect(() => {
+  useEffect(() => {
     chatBox.current.addEventListener("DOMNodeInserted", (event) => {
       const { currentTarget: target } = event;
       target.scroll({ top: target.scrollHeight, behavior: "smooth" });

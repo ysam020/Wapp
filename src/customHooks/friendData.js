@@ -1,23 +1,27 @@
-import React from "react";
-import useContexts from "./contexts";
+import { useEffect, useState } from "react";
 import firebase from "firebase/app";
 import db from "../firebase";
+// Custom hooks
+import useContexts from "./contexts";
 
+///////////////////////////////////////////////////////////////////
 function useFriendData() {
   // useState
-  const [emailId, setEmailId] = React.useState(
+  const [emailId, setEmailId] = useState(
     JSON.parse(localStorage.getItem("chat"))
   );
-  const [chat, setChat] = React.useState(emailId ? true : false);
-  const [block, setBlock] = React.useState([]);
-  const [starredMessages, setStarredMessages] = React.useState([]);
+  const [chat, setChat] = useState(emailId ? true : false);
+  const [block, setBlock] = useState([]);
+  const [starredMessages, setStarredMessages] = useState([]);
+
+  // db Ref
   const usersCollectionRef = db.collection("users");
 
-  // Context
+  // Custom hooks
   const { currentUser } = useContexts();
 
   // Update last online in user collection
-  React.useEffect(() => {
+  useEffect(() => {
     if (currentUser) {
       usersCollectionRef
         .doc(currentUser.email)

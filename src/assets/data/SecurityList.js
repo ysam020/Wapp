@@ -8,27 +8,27 @@ const securityList = [
   {
     id: 1,
     text: "Text and voice messages",
-    icon: <ChatBubbleOutlineOutlinedIcon />,
+    icon: <ChatBubbleOutlineOutlinedIcon color="primary" />,
   },
   {
     id: 2,
     text: "Audio and video calls",
-    icon: <LocalPhoneOutlinedIcon />,
+    icon: <LocalPhoneOutlinedIcon color="primary" />,
   },
   {
     id: 3,
     text: "Photos, videos and documents",
-    icon: <AttachFileOutlinedIcon />,
+    icon: <AttachFileOutlinedIcon color="primary" />,
   },
   {
     id: 4,
     text: "Location sharing",
-    icon: <LocationOnOutlinedIcon />,
+    icon: <LocationOnOutlinedIcon color="primary" />,
   },
   {
     id: 5,
     text: "Status updates",
-    icon: <DataSaverOffOutlinedIcon />,
+    icon: <DataSaverOffOutlinedIcon color="primary" />,
   },
 ];
 

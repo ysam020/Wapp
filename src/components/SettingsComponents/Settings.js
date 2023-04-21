@@ -1,55 +1,19 @@
 import React from "react";
+// Styles
 import "../../styles/settings.css";
-
+// Components
 import KeyboardShortcutsModal from "./KeyboardShortcutsModal";
-
-// MUI components
+import * as Icons from "../Icons";
 import { IconButton } from "@material-ui/core";
 import { Avatar } from "@material-ui/core";
 import Switch from "@mui/material/Switch";
-
-// MUI styles
-import { createStyles, makeStyles } from "@material-ui/core/styles";
-import { styled } from "@mui/material/styles";
-
-// Material icons
-import * as Icons from "../Icons";
+// Custom hooks
 import useContexts from "../../customHooks/contexts";
 import useSettingsList from "../../customHooks/settingsList";
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    backIcon: {
-      color: "white",
-    },
-    avatarIcon: {
-      height: "80px",
-      width: "80px",
-    },
-    settingsListIcon: {
-      color: "#8696A0",
-    },
-  })
-);
-
-// Theme Switch Styles
-const ThemeSwitch = styled(Switch)(() => ({
-  "& .MuiSwitch-switchBase.Mui-checked": {
-    color: "#015C4B",
-    "&:hover": {
-      backgroundColor: "#015C4B, theme.palette.action.hoverOpacity)",
-    },
-  },
-  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-    backgroundColor: "#015C4B",
-  },
-}));
-
+///////////////////////////////////////////////////////////////////
 function Settings() {
-  // MUI Styles
-  const classes = useStyles();
-
-  // Contexts
+  // Custom hooks
   const {
     currentUser,
     toggleSettingsDispatch,
@@ -80,13 +44,12 @@ function Settings() {
           <div className="sidebar-panel-header-container">
             <IconButton
               aria-label="back"
-              className={classes.backIcon}
               onClick={() => {
                 toggleSettingsDispatch("toggle");
                 toggleSidebarDispatch("toggle");
               }}
             >
-              <Icons.ArrowBackIcon />
+              <Icons.ArrowBackIcon color="secondary" />
             </IconButton>
             <h3>Settings</h3>
           </div>
@@ -97,7 +60,7 @@ function Settings() {
             <div className="settings-user-info-image"></div>
             <Avatar
               src={currentUser.photoURL}
-              className={classes.avatarIcon}
+              style={{ height: "80px", width: "80px" }}
               alt={currentUser.fullname}
             />
             <div className="settings-user-info-text">
@@ -112,17 +75,12 @@ function Settings() {
 
               return (
                 <div key={id} className={style} onClick={onClick}>
-                  <IconButton
-                    aria-label="settings-list"
-                    className={classes.settingsListIcon}
-                  >
-                    {icon}
-                  </IconButton>
+                  <IconButton aria-label="settings-list">{icon}</IconButton>
                   <h5>{name}</h5>
 
                   {/* Show theme switch button only if name = dark theme when mapping */}
                   {name === "Dark theme" && (
-                    <ThemeSwitch
+                    <Switch
                       onChange={toggleTheme}
                       onClick={() => {
                         setChatBackground(
@@ -137,12 +95,6 @@ function Settings() {
                       }}
                       checked={theme === "dark"}
                       inputProps={{ "aria-label": "controlled" }}
-                      sx={{
-                        color: "#8696A0",
-                        "&.Mui-checked": {
-                          color: "#04A784",
-                        },
-                      }}
                     />
                   )}
                 </div>

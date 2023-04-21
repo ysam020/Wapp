@@ -1,25 +1,16 @@
 import React from "react";
+// Styles
 import "../../styles/privacy.css";
-import Checkbox from "@mui/material/Checkbox";
-import { IconButton } from "@material-ui/core";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
+// Components
 import * as Icons from "../Icons";
+import { IconButton } from "@material-ui/core";
+import Checkbox from "@mui/material/Checkbox";
+// Custom hooks
 import useContexts from "../../customHooks/contexts";
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    backIcon: {
-      color: "white",
-    },
-    icon: { color: "#8696A0" },
-  })
-);
-
+///////////////////////////////////////////////////////////////////
 function Privacy() {
-  // MUI Styles
-  const classes = useStyles();
-
-  // Contexts
+  // Custom hooks
   const { toggleSettingsDispatch, settingsPrivacyDispatch } = useContexts();
 
   return (
@@ -28,13 +19,12 @@ function Privacy() {
         <div className="sidebar-panel-header-container">
           <IconButton
             aria-label="back"
-            className={classes.backIcon}
             onClick={() => {
               toggleSettingsDispatch("toggle");
               settingsPrivacyDispatch("toggle");
             }}
           >
-            <Icons.ArrowBackIcon />
+            <Icons.ArrowBackIcon color="secondary" />
           </IconButton>
           <h3>Privacy</h3>
         </div>
@@ -49,8 +39,8 @@ function Privacy() {
               <h4>Last seen and online</h4>
               <p>Nobody, Everyone</p>
             </div>
-            <IconButton aria-label="right-arrow" className={classes.icon}>
-              <Icons.ChevronRightRoundedIcon />
+            <IconButton aria-label="right-arrow">
+              <Icons.ChevronRightRoundedIcon color="primary" />
             </IconButton>
           </div>
 
@@ -59,8 +49,8 @@ function Privacy() {
               <h4>Profile Photo</h4>
               <p>Nobody, Everyone</p>
             </div>
-            <IconButton aria-label="right-arrow" className={classes.icon}>
-              <Icons.ChevronRightRoundedIcon />
+            <IconButton aria-label="right-arrow">
+              <Icons.ChevronRightRoundedIcon color="primary" />
             </IconButton>
           </div>
 
@@ -69,8 +59,8 @@ function Privacy() {
               <h4>About</h4>
               <p>Nobody, Everyone</p>
             </div>
-            <IconButton aria-label="right-arrow" className={classes.icon}>
-              <Icons.ChevronRightRoundedIcon />
+            <IconButton aria-label="right-arrow">
+              <Icons.ChevronRightRoundedIcon color="primary" />
             </IconButton>
           </div>
 
@@ -82,14 +72,7 @@ function Privacy() {
                 receipts are always sent for group chats.
               </p>
             </div>
-            <Checkbox
-              sx={{
-                color: "#8696A0",
-                "&.Mui-checked": {
-                  color: "#04A784",
-                },
-              }}
-            />
+            <Checkbox />
           </div>
         </div>
 
@@ -100,8 +83,8 @@ function Privacy() {
               <h4>Default message timer</h4>
               <p>Off</p>
             </div>
-            <IconButton aria-label="right-arrow" className={classes.icon}>
-              <Icons.ChevronRightRoundedIcon />
+            <IconButton aria-label="right-arrow">
+              <Icons.ChevronRightRoundedIcon color="primary" />
             </IconButton>
           </div>
         </div>
@@ -113,8 +96,8 @@ function Privacy() {
                 <h4>Groups</h4>
                 <p>0 contacts excluded</p>
               </div>
-              <IconButton aria-label="right-arrow" className={classes.icon}>
-                <Icons.ChevronRightRoundedIcon />
+              <IconButton aria-label="right-arrow">
+                <Icons.ChevronRightRoundedIcon color="primary" />
               </IconButton>
             </div>
 
@@ -123,8 +106,8 @@ function Privacy() {
                 <h4>Blocked contacts</h4>
                 <p>0</p>
               </div>
-              <IconButton aria-label="right-arrow" className={classes.icon}>
-                <Icons.ChevronRightRoundedIcon />
+              <IconButton aria-label="right-arrow">
+                <Icons.ChevronRightRoundedIcon color="primary" />
               </IconButton>
             </div>
           </div>

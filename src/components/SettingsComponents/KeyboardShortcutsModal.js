@@ -1,10 +1,16 @@
 import React from "react";
+// Styles
 import "../../styles/keyboard-shortcuts.css";
+// Components
 import Modal from "@mui/material/Modal";
+// Assets
 import keyboardShortcuts from "../../assets/data/KeyboardShortcuts";
+// Custom hooks
 import useContexts from "../../customHooks/contexts";
 
+///////////////////////////////////////////////////////////////////
 function KeyboardShortcutsModal(props) {
+  // Custom hooks
   const { theme } = useContexts();
 
   return (

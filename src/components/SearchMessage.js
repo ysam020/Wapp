@@ -1,25 +1,18 @@
 import React from "react";
+// Styles
 import "../styles/search-messages.css";
-import { IconButton } from "@material-ui/core";
+// Components
 import * as Icons from "./Icons";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
-import useContexts from "../customHooks/contexts";
+import { IconButton } from "@material-ui/core";
+// Assets
 import { urlPattern } from "../assets/data/urlPattern";
+// Custom hooks
+import useContexts from "../customHooks/contexts";
 import useGetSearchedMessages from "../customHooks/getSearchedMessages";
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    icon: {
-      color: "#8696a0",
-    },
-  })
-);
-
-function SearchMessage(props) {
-  // MUI Styles
-  const classes = useStyles();
-
-  // Contexts
+///////////////////////////////////////////////////////////////////
+function SearchMessage() {
+  // Custom hooks
   const { searchMessageDispatch } = useContexts();
 
   const {
@@ -34,10 +27,9 @@ function SearchMessage(props) {
       <div className="sidebar-panel-right-header">
         <IconButton
           aria-label="close"
-          className={classes.icon}
           onClick={() => searchMessageDispatch("toggle")}
         >
-          <Icons.CloseRoundedIcon />
+          <Icons.CloseRoundedIcon color="primary" />
         </IconButton>
 
         <h3>Search messages</h3>
@@ -47,10 +39,9 @@ function SearchMessage(props) {
         <div className="search-messages-input-container">
           <IconButton
             aria-label="search"
-            className={classes.icon}
             onClick={() => searchMessagesRef.current.focus()}
           >
-            <Icons.SearchOutlinedIcon />
+            <Icons.SearchOutlinedIcon color="primary" />
           </IconButton>
           <input
             placeholder="Search messages"

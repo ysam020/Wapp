@@ -1,24 +1,16 @@
 import React from "react";
+// Styles
 import "../../styles/notifications.css";
-import Checkbox from "@mui/material/Checkbox";
-import { IconButton } from "@material-ui/core";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
+// Components
 import * as Icons from "../Icons";
+import { IconButton } from "@material-ui/core";
+import Checkbox from "@mui/material/Checkbox";
+// Custom hooks
 import useContexts from "../../customHooks/contexts";
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    backIcon: {
-      color: "white",
-    },
-  })
-);
-
+///////////////////////////////////////////////////////////////////
 function Notifications() {
-  // MUI Styles
-  const classes = useStyles();
-
-  // Contexts
+  // Custom hooks
   const { toggleSettingsDispatch, settingsNotificationDispatch } =
     useContexts();
 
@@ -28,13 +20,12 @@ function Notifications() {
         <div className="sidebar-panel-header-container">
           <IconButton
             aria-label="back"
-            className={classes.backIcon}
             onClick={() => {
               settingsNotificationDispatch("toggle");
               toggleSettingsDispatch("toggle");
             }}
           >
-            <Icons.ArrowBackIcon />
+            <Icons.ArrowBackIcon color="secondary" />
           </IconButton>
           <div className="sidebar-profile-text">
             <h3>Notifications</h3>
@@ -50,14 +41,7 @@ function Notifications() {
               <h4>Message notifications</h4>
               <p>Show notifications for new messages</p>
             </div>
-            <Checkbox
-              sx={{
-                color: "#8696A0",
-                "&.Mui-checked": {
-                  color: "#04A784",
-                },
-              }}
-            />
+            <Checkbox />
           </div>
         </div>
 

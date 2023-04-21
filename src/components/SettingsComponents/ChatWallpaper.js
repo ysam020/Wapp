@@ -1,26 +1,19 @@
 import React from "react";
+// Styles
 import "../../styles/chat-wallpaper.css";
-import chatWallpaperData from "../../assets/data/ChatWallpaperData";
+// Components
+import * as Icons from "../Icons";
+import { IconButton } from "@material-ui/core";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import { IconButton } from "@material-ui/core";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
-import * as Icons from "../Icons";
+// Assets
+import chatWallpaperData from "../../assets/data/ChatWallpaperData";
+// Custom hooks
 import useContexts from "../../customHooks/contexts";
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    backIcon: {
-      color: "white",
-    },
-  })
-);
-
+///////////////////////////////////////////////////////////////////
 function ChatWallpaper() {
-  // MUI Styles
-  const classes = useStyles();
-
-  // Contexts
+  // Custom hooks
   const {
     toggleSettingsDispatch,
     theme,
@@ -36,13 +29,12 @@ function ChatWallpaper() {
         <div className="sidebar-panel-header-container">
           <IconButton
             aria-label="back"
-            className={classes.backIcon}
             onClick={() => {
               toggleSettingsDispatch("toggle");
               toggleChatWallpaperDispatch("toggle");
             }}
           >
-            <Icons.ArrowBackIcon />
+            <Icons.ArrowBackIcon color="secondary" />
           </IconButton>
           <h3>Chat Wallpaper</h3>
         </div>
@@ -54,12 +46,6 @@ function ChatWallpaper() {
             control={
               <Checkbox
                 checked={doodle}
-                sx={{
-                  color: "#8696A0",
-                  "&.Mui-checked": {
-                    color: "#04A784",
-                  },
-                }}
                 onChange={(e) => {
                   setDoodle(e.target.checked);
                   localStorage.setItem(
@@ -70,7 +56,6 @@ function ChatWallpaper() {
               />
             }
             label="Add Wapp Doodles"
-            style={{ color: "#667781" }}
           />
         </div>
 

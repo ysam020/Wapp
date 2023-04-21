@@ -1,10 +1,15 @@
 import React from "react";
+// Components
 import Checkbox from "@mui/material/Checkbox";
 import ChatMessage from "./ChatMessage";
+// utils
 import { getTimeAgo } from "../../utils/getTimeAgo";
+// Custom hooks
 import useContexts from "../../customHooks/contexts";
 
+///////////////////////////////////////////////////////////////////
 function SelectMessagesUI(props) {
+  // Custom hooks
   const { chatDetailsContext } = useContexts();
 
   // Check if message timestamp is same as that of previous message timestamp
@@ -47,7 +52,7 @@ function SelectMessagesUI(props) {
             if (event.target.checked) {
               chatDetailsContext.setSelectedMessages([
                 ...chatDetailsContext.selectedMessages,
-                chatDetailsContext.message.messageId,
+                props.message.messageId,
               ]);
             } else {
               chatDetailsContext.setSelectedMessages(

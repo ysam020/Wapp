@@ -1,6 +1,8 @@
 import * as React from "react";
+// Contexts
 import * as Context from "../contexts/Context";
 
+///////////////////////////////////////////////////////////////////
 function useContexts() {
   // Auth
   const { signIn, logout } = React.useContext(Context.AuthContext);

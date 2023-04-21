@@ -1,9 +1,14 @@
 import React from "react";
+// Components
 import Tenor from "react-tenor";
+// utils
 import { selectGif } from "../../utils/selectGIF";
+// Custom hooks
 import useContexts from "../../customHooks/contexts";
 
-function GifPickerComponent(props) {
+///////////////////////////////////////////////////////////////////
+function GifPickerComponent() {
+  // Custom hooks
   const { currentUser, emailId, chatDetailsContext } = useContexts();
 
   return (

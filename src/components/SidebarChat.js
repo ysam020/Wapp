@@ -1,33 +1,11 @@
 import React from "react";
+// Components
 import { Avatar } from "@material-ui/core";
 import * as Icons from "./Icons";
 import Tooltip from "@mui/material/Tooltip";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    sidebarChatIcon: {
-      width: "15px !important",
-      color: "#8696A0",
-      marginRight: "5px",
-    },
-    unreadIcon: {
-      width: "20px !important",
-      color: "#8696A0",
-      marginRight: "5px",
-    },
-    readIcon: {
-      width: "20px !important",
-      color: "#53bdeb",
-      marginRight: "5px",
-    },
-  })
-);
-
+///////////////////////////////////////////////////////////////////
 function SidebarChat(props) {
-  // MUI Styles
-  const classes = useStyles();
-
   // Classify timestamp based on time ago
   const getTimeAgo = () => {
     const currentDate = new Date();
@@ -107,16 +85,16 @@ function SidebarChat(props) {
                 >
                   {props.messageSent === true ? (
                     <Icons.DoneAllIcon
-                      className={
-                        props.messageRead === false
-                          ? classes.unreadIcon
-                          : classes.readIcon
-                      }
+                      color={props.messageRead ? "info" : "primary"}
+                      style={{ marginRight: "5px", width: "18px" }}
                     />
                   ) : (
                     ""
                   )}
-                  <Icons.PhotoCameraIcon className={classes.sidebarChatIcon} />
+                  <Icons.PhotoCameraIcon
+                    color="primary"
+                    sx={{ width: "15px", marginRight: "5px" }}
+                  />
                   <p>Photo</p>
                 </div>
               ) : props.messageType === "Gif" ? (
@@ -129,16 +107,16 @@ function SidebarChat(props) {
                 >
                   {props.messageSent === true ? (
                     <Icons.DoneAllIcon
-                      className={
-                        props.messageRead === false
-                          ? classes.unreadIcon
-                          : classes.readIcon
-                      }
+                      color={props.messageRead ? "info" : "primary"}
+                      style={{ marginRight: "5px", width: "18px" }}
                     />
                   ) : (
                     ""
                   )}
-                  <Icons.GifBoxIcon className={classes.sidebarChatIcon} />
+                  <Icons.GifBoxIcon
+                    color="primary"
+                    sx={{ width: "15px", marginRight: "5px" }}
+                  />
                   <p>Gif</p>
                 </div>
               ) : props.messageType === "Video" ? (
@@ -151,17 +129,15 @@ function SidebarChat(props) {
                 >
                   {props.messageSent === true ? (
                     <Icons.DoneAllIcon
-                      className={
-                        props.messageRead === false
-                          ? classes.unreadIcon
-                          : classes.readIcon
-                      }
+                      color={props.messageRead ? "info" : "primary"}
+                      style={{ marginRight: "5px", width: "18px" }}
                     />
                   ) : (
                     ""
                   )}
                   <Icons.VideoCameraBackIcon
-                    className={classes.sidebarChatIcon}
+                    color="primary"
+                    sx={{ width: "15px", marginRight: "5px" }}
                   />
                   <p>Video</p>
                 </div>
@@ -175,17 +151,15 @@ function SidebarChat(props) {
                 >
                   {props.messageSent === true ? (
                     <Icons.DoneAllIcon
-                      className={
-                        props.messageRead === false
-                          ? classes.unreadIcon
-                          : classes.readIcon
-                      }
+                      color={props.messageRead ? "info" : "primary"}
+                      style={{ marginRight: "5px", width: "18px" }}
                     />
                   ) : (
                     ""
                   )}
                   <Icons.InsertDriveFileIcon
-                    className={classes.sidebarChatIcon}
+                    color="primary"
+                    sx={{ width: "15px", marginRight: "5px" }}
                   />
                   <p>Document</p>
                 </div>
@@ -199,11 +173,8 @@ function SidebarChat(props) {
                 >
                   {props.messageSent === true ? (
                     <Icons.DoneAllIcon
-                      className={
-                        props.messageRead === false
-                          ? classes.unreadIcon
-                          : classes.readIcon
-                      }
+                      color={props.messageRead ? "info" : "primary"}
+                      style={{ marginRight: "5px", width: "18px" }}
                     />
                   ) : (
                     ""

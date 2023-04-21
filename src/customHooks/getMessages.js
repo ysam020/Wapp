@@ -1,12 +1,18 @@
-import React from "react";
+import { useEffect, useState } from "react";
+// utils
 import { getMessages } from "../utils/getMessages";
+// Custom hooks
 import useContexts from "./contexts";
 
+///////////////////////////////////////////////////////////////////
 function useGetMessages(setStarredMessages) {
-  const [chatMessages, setChatMessages] = React.useState([]);
+  // useState
+  const [chatMessages, setChatMessages] = useState([]);
+
+  // Custom hooks
   const { currentUser, emailId } = useContexts();
 
-  React.useEffect(() => {
+  useEffect(() => {
     getMessages(currentUser, emailId, setStarredMessages, setChatMessages);
     // eslint-disable-next-line
   }, [emailId]);

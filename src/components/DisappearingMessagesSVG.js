@@ -1,7 +1,10 @@
 import React from "react";
+// Custom hooks
 import useContexts from "../customHooks/contexts";
 
+///////////////////////////////////////////////////////////////////
 function DisappearingMessagesSVG() {
+  // Custom hooks
   const { theme } = useContexts();
 
   return (

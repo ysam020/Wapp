@@ -1,7 +1,10 @@
 import { useRef } from "react";
+// Components
 import * as Icons from "../components/Icons";
 
+///////////////////////////////////////////////////////////////////
 function useSendMediaList() {
+  // useRef
   const inputImagesRef = useRef();
   const inputVideosRef = useRef();
   const inputDocumentRef = useRef();
@@ -14,7 +17,7 @@ function useSendMediaList() {
       mediaType: "image/*",
       ref: inputImagesRef,
       label: "photo",
-      icon: <Icons.InsertPhotoIcon sx={{ color: "#fff" }} />,
+      icon: <Icons.InsertPhotoIcon color="secondary" />,
     },
     {
       id: 2,
@@ -23,7 +26,7 @@ function useSendMediaList() {
       mediaType: "video/mp4,video/3gpp,video/quicktime",
       ref: inputVideosRef,
       label: "video",
-      icon: <Icons.VideoCameraBackIcon sx={{ color: "#fff" }} />,
+      icon: <Icons.VideoCameraBackIcon color="secondary" />,
     },
     {
       id: 3,
@@ -32,7 +35,7 @@ function useSendMediaList() {
       mediaType: "*",
       label: "document",
       ref: inputDocumentRef,
-      icon: <Icons.InsertDriveFileIcon sx={{ color: "#fff" }} />,
+      icon: <Icons.InsertDriveFileIcon color="secondary" />,
     },
     {
       id: 4,

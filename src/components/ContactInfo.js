@@ -1,61 +1,29 @@
 import React, { useState } from "react";
+// Styles
 import "../styles/contact-info.css";
-
-// MUI components
-import { Avatar, IconButton, Tooltip } from "@material-ui/core";
-import { styled } from "@mui/material/styles";
-import Switch from "@mui/material/Switch";
-
-// MUI styles
-import { createStyles, makeStyles } from "@material-ui/core/styles";
-
-// Material icons
-import * as Icons from "./Icons";
-
+// Components
 import Report from "./Report";
+import * as Icons from "./Icons";
+import { Avatar, IconButton, Tooltip } from "@material-ui/core";
+import Switch from "@mui/material/Switch";
+// Custom hooks
 import useContexts from "../customHooks/contexts";
 import useContactInfoActions from "../customHooks/contactInfoActions";
 import useContactInfoList from "../customHooks/contactInfoList";
 import useChatUser from "../customHooks/chatUser";
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    avatarIcon: {
-      height: "200px",
-      width: "200px",
-      margin: "auto",
-    },
-    icon: { color: "#8696A0" },
-  })
-);
-
-// Contact Info Switch Button
-const ThemeSwitch = styled(Switch)(({ theme }) => ({
-  "& .MuiSwitch-switchBase.Mui-checked": {
-    color: "#015C4B",
-    "&:hover": {
-      backgroundColor: "#015C4B, theme.palette.action.hoverOpacity",
-    },
-  },
-  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-    backgroundColor: "#015C4B",
-  },
-}));
-
+///////////////////////////////////////////////////////////////////
 function ContactInfo(props) {
-  // MUI Styles
-  const classes = useStyles();
-
   // UseState
   const [openModal, setOpenModal] = useState(false);
 
-  // Contexts
-  const { toggleContactInfoDispatch } = useContexts();
-
+  // Keyborard shortcuts modal
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
 
   // Custom hooks
+  const { toggleContactInfoDispatch } = useContexts();
+
   const contactInfoActions = useContactInfoActions(
     props.setChat,
     props.block.length,
@@ -70,12 +38,11 @@ function ContactInfo(props) {
         <div className="sidebar-panel-right-header">
           <IconButton
             aria-label="close"
-            className={classes.icon}
             onClick={() => {
               toggleContactInfoDispatch("hide");
             }}
           >
-            <Icons.CloseRoundedIcon />
+            <Icons.CloseRoundedIcon color="primary" />
           </IconButton>
           <h3>Contact info</h3>
         </div>
@@ -83,7 +50,7 @@ function ContactInfo(props) {
         <div className="contact-info-img">
           <Avatar
             src={chatUser.photoURL}
-            className={classes.avatarIcon}
+            style={{ height: "200px", width: "200px", margin: "auto" }}
             alt={chatUser.fullname}
           />
           <h3>{chatUser.email}</h3>
@@ -98,8 +65,8 @@ function ContactInfo(props) {
           <h5>Media, links and documents</h5>
           <div className="media-right-container">
             <p>0</p>
-            <IconButton aria-label="right-arrow" className={classes.icon}>
-              <Icons.KeyboardArrowRightRoundedIcon />
+            <IconButton aria-label="right-arrow">
+              <Icons.KeyboardArrowRightRoundedIcon color="primary" />
             </IconButton>
           </div>
         </div>
@@ -114,9 +81,7 @@ function ContactInfo(props) {
                   item.onClick();
                 }}
               >
-                <IconButton aria-label="star-messages" className={classes.icon}>
-                  {item.icon}
-                </IconButton>
+                <IconButton aria-label="star-messages">{item.icon}</IconButton>
 
                 {item.title === "Disappearing messages" ? (
                   <div className="disappearing-messages-text">
@@ -133,14 +98,11 @@ function ContactInfo(props) {
                 )}
 
                 {item.title === "Mute notifications" ? (
-                  <ThemeSwitch />
+                  <Switch />
                 ) : (
                   item.title !== "Encryption" && (
-                    <IconButton
-                      aria-label="right-arrow"
-                      className={classes.icon}
-                    >
-                      <Icons.KeyboardArrowRightRoundedIcon />
+                    <IconButton aria-label="right-arrow">
+                      <Icons.KeyboardArrowRightRoundedIcon color="primary" />
                     </IconButton>
                   )
                 )}

@@ -1,36 +1,22 @@
 import React from "react";
+// Styles
 import "../styles/disappearing-messages.css";
-import { disappearingMessagesOptions } from "../assets/data/disappearingMessagesOptions";
-
-// MUI components
+// Components
+import DisappearingMessagesSVG from "./DisappearingMessagesSVG";
+import * as Icons from "./Icons";
+import { IconButton } from "@material-ui/core";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
-import { IconButton } from "@material-ui/core";
-
-// MUI styles
-import { createStyles, makeStyles } from "@material-ui/core/styles";
-
-// Material icons
-import * as Icons from "./Icons";
+// Assets
+import { disappearingMessagesOptions } from "../assets/data/disappearingMessagesOptions";
+// Custom hooks
 import useContexts from "../customHooks/contexts";
-import DisappearingMessagesSVG from "./DisappearingMessagesSVG";
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    icon: { color: "#8696A0" },
-    radioTextLight: { color: "#fff" },
-    radioTextDark: { color: "#000" },
-    radioIcon: { color: "#118C7E" },
-  })
-);
-
+///////////////////////////////////////////////////////////////////
 function DisappearingMessages() {
-  // MUI Styles
-  const classes = useStyles();
-
-  // Contexts
+  // Custom hooks
   const { disappearingMessagesDispatch, theme } = useContexts();
 
   return (
@@ -38,12 +24,11 @@ function DisappearingMessages() {
       <div className="sidebar-panel-right-header">
         <IconButton
           aria-label="close"
-          className={classes.icon}
           onClick={() => {
             disappearingMessagesDispatch("toggle");
           }}
         >
-          <Icons.CloseRoundedIcon />
+          <Icons.CloseRoundedIcon color="primary" />
         </IconButton>
         <h3>Disappaering messages</h3>
       </div>
@@ -79,15 +64,11 @@ function DisappearingMessages() {
                     value={item.name}
                     control={<Radio size="small" />}
                     label={item.name}
-                    className={
-                      theme === "dark"
-                        ? classes.radioTextLight
-                        : classes.radioTextDark
-                    }
                     sx={{
                       "& .MuiSvgIcon-root": {
                         color: "#118C7E",
                       },
+                      color: theme === "dark" ? "#fff" : "#000",
                     }}
                   />
                 );

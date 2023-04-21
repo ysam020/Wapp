@@ -1,37 +1,17 @@
-import React, { useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
+// Styles
 import "../styles/sidebar-profile.css";
+// Components
+import * as Icons from "./Icons";
 import { IconButton, Tooltip } from "@material-ui/core";
 import { Avatar } from "@material-ui/core";
-import * as Icons from "./Icons";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
-import db from "../firebase";
-import { useEffect } from "react";
+// utils
+import FirebaseRefs from "./FirebaseRefs";
+// Custom hooks
 import useContexts from "../customHooks/contexts";
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    backIcon: {
-      color: "white",
-    },
-    avatarIcon: {
-      height: "200px",
-      width: "200px",
-      margin: "auto",
-    },
-    editIcon: {
-      color: "#8696A0",
-    },
-  })
-);
-
+///////////////////////////////////////////////////////////////////
 function SidebarProfile() {
-  // MUI Styles
-  const classes = useStyles();
-
-  // Contexts
-  const { currentUser, toggleSidebarDispatch, toggleSidebarProfileDispatch } =
-    useContexts();
-
   // useState
   const [editNameFocus, setEditNameFocus] = useState(false);
   const [editAboutFocus, setEditAboutFocus] = useState(false);
@@ -44,21 +24,34 @@ function SidebarProfile() {
   const editNameInputRef = useRef();
   const editAboutInputRef = useRef();
 
-  var userRef = db.collection("users").doc(currentUser.email);
+  // Custom hooks
+  const {
+    currentUser,
+    emailId,
+    toggleSidebarDispatch,
+    toggleSidebarProfileDispatch,
+  } = useContexts();
+
+  const firebaseRef = FirebaseRefs(emailId, currentUser);
+  // var userRef = db.collection("users").doc(currentUser.email);
 
   const updateName = () => {
-    userRef.update({ fullname: editNameInputRef.current.value });
+    firebaseRef.userRef.update({ fullname: editNameInputRef.current.value });
     setEditNameFocus(false);
   };
 
   const updateAbout = () => {
-    userRef.update({ about: editAboutInputRef.current.value });
+    firebaseRef.userRef.update({ about: editAboutInputRef.current.value });
     setEditAboutFocus(false);
   };
 
   useEffect(() => {
-    userRef.onSnapshot((snapshot) => setFullname(snapshot.data().fullname));
-    userRef.onSnapshot((snapshot) => setAbout(snapshot.data().about));
+    firebaseRef.userRef.onSnapshot((snapshot) =>
+      setFullname(snapshot.data().fullname)
+    );
+    firebaseRef.userRef.onSnapshot((snapshot) =>
+      setAbout(snapshot.data().about)
+    );
 
     editNameInputRef.current.setSelectionRange(
       editNameInputRef.current.value.length,
@@ -78,13 +71,12 @@ function SidebarProfile() {
         <div className="sidebar-panel-header-container">
           <IconButton
             aria-label="back"
-            className={classes.backIcon}
             onClick={() => {
               toggleSidebarProfileDispatch("toggle");
               toggleSidebarDispatch("toggle");
             }}
           >
-            <Icons.ArrowBackIcon />
+            <Icons.ArrowBackIcon color="secondary" />
           </IconButton>
           <h3>Profile</h3>
         </div>
@@ -93,7 +85,7 @@ function SidebarProfile() {
       <div className="sidebar-profile-image">
         <Avatar
           src={currentUser.photoURL}
-          className={classes.avatarIcon}
+          style={{ height: "200px", width: "200px", margin: "auto" }}
           alt={currentUser.fullname}
         />
       </div>
@@ -120,13 +112,13 @@ function SidebarProfile() {
                   aria-label="edit-name"
                   onClick={() => editNameInputRef.current.focus()}
                 >
-                  <Icons.ModeEditOutlineIcon className={classes.editIcon} />
+                  <Icons.ModeEditOutlineIcon color="primary" />
                 </IconButton>
               </Tooltip>
             ) : (
               <Tooltip title="Click to save" enterDelay={1000}>
                 <IconButton aria-label="save-name" onClick={updateName}>
-                  <Icons.DoneIcon className={classes.editIcon} />
+                  <Icons.DoneIcon color="primary" />
                 </IconButton>
               </Tooltip>
             )}
@@ -161,13 +153,13 @@ function SidebarProfile() {
                   aria-label="edit-about"
                   onClick={() => editAboutInputRef.current.focus()}
                 >
-                  <Icons.ModeEditOutlineIcon className={classes.editIcon} />
+                  <Icons.ModeEditOutlineIcon color="primary" />
                 </IconButton>
               </Tooltip>
             ) : (
               <Tooltip title="Click to save" enterDelay={1000}>
                 <IconButton aria-label="save-about" onClick={updateAbout}>
-                  <Icons.DoneIcon className={classes.editIcon} />
+                  <Icons.DoneIcon color="primary" />
                 </IconButton>
               </Tooltip>
             )}

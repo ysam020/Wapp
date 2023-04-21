@@ -1,8 +1,12 @@
 import React from "react";
+// Components
 import EmojiPicker from "emoji-picker-react";
+// Custom hooks
 import useContexts from "../../customHooks/contexts";
 
+///////////////////////////////////////////////////////////////////
 function EmojiPickerComponent() {
+  // Custom hooks
   const { chatDetailsContext } = useContexts();
 
   return (

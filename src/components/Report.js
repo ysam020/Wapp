@@ -1,20 +1,25 @@
 import React, { useState } from "react";
+// Styles
 import "../styles/report.css";
+// Components
 import Modal from "@mui/material/Modal";
 import Checkbox from "@mui/material/Checkbox";
+// utils
 import { deleteChat } from "../utils/deleteChat";
-import useContexts from "../customHooks/contexts";
 import { blockUser } from "../utils/blockUser";
+// Custom hooks
+import useContexts from "../customHooks/contexts";
 import useChatUser from "../customHooks/chatUser";
 
-function KeyboardShortcutsModal(props) {
-  // Context
+///////////////////////////////////////////////////////////////////
+function ReportShortcutsModal(props) {
+  // useState
+  const [checked, setChecked] = useState(true);
+
+  // Custom hooks
   const { theme, toggleContactInfoDispatch, currentUser, emailId } =
     useContexts();
   const { chatUser } = useChatUser();
-
-  // useState
-  const [checked, setChecked] = useState(true);
 
   return (
     <Modal open={props.openModal} onClose={props.handleCloseModal}>
@@ -91,4 +96,4 @@ function KeyboardShortcutsModal(props) {
   );
 }
 
-export default React.memo(KeyboardShortcutsModal);
+export default React.memo(ReportShortcutsModal);

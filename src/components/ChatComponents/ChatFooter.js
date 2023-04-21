@@ -1,47 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { storage } from "../../firebase";
+// Components
 import * as Icons from "../Icons";
 import { IconButton, Tooltip } from "@material-ui/core";
-import { storage } from "../../firebase";
+// utils
 import { selectFiles } from "../../utils/selectFiles";
 import { sendMessage } from "../../utils/sendMessage";
-
-// MUI styles
-import { createStyles, makeStyles } from "@material-ui/core/styles";
+// Custom hooks
 import useContexts from "../../customHooks/contexts";
 import useSendMediaList from "../../customHooks/sendMediaList";
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    icon: {
-      color: "#8696A0",
-    },
-  })
-);
-
+///////////////////////////////////////////////////////////////////
 function ChatFooter() {
-  // MUI styles
-  const classes = useStyles();
-
   // useState
   const [sendMediaList, setSendMediaList] = useState(false);
   const [gifButton, setGifButton] = useState(false);
   const [closeButton, setCloseButton] = useState(false);
 
-  // useContext
+  // Custom hooks
   const { currentUser, emailId, chatDetailsContext } = useContexts();
-
-  useEffect(() => {
-    // Hide emoji box on escape button
-    document.addEventListener("keydown", (e) => {
-      if (e.keyCode === 27) {
-        chatDetailsContext.setEmojiBox(false);
-        setCloseButton(false);
-        setGifButton(false);
-        chatDetailsContext.setGifBox(false);
-      }
-    });
-  });
-
   const sendMediaListItems = useSendMediaList();
 
   return (
@@ -49,7 +26,6 @@ function ChatFooter() {
       {closeButton && (
         <IconButton
           aria-label="close"
-          className={classes.icon}
           onClick={() => {
             chatDetailsContext.setEmojiBox(false);
             setCloseButton(!closeButton);
@@ -58,13 +34,12 @@ function ChatFooter() {
             chatDetailsContext.sendMessageRef.current.focus();
           }}
         >
-          <Icons.CloseOutlinedIcon />
+          <Icons.CloseOutlinedIcon color="primary" />
         </IconButton>
       )}
 
       <IconButton
         aria-label="emoji"
-        className={classes.icon}
         onClick={() => {
           chatDetailsContext.setEmojiBox(true);
           setCloseButton(true);
@@ -74,19 +49,18 @@ function ChatFooter() {
           chatDetailsContext.sendMessageRef.current.focus();
         }}
       >
-        <Icons.InsertEmoticonOutlinedIcon />
+        <Icons.InsertEmoticonOutlinedIcon color="primary" />
       </IconButton>
 
       {gifButton && (
         <IconButton
           aria-label="gif"
-          className={classes.icon}
           onClick={() => {
             chatDetailsContext.setGifBox(true);
             chatDetailsContext.setEmojiBox(false);
           }}
         >
-          <Icons.GifBoxOutlinedIcon />
+          <Icons.GifBoxOutlinedIcon color="primary" />
         </IconButton>
       )}
 
@@ -104,7 +78,7 @@ function ChatFooter() {
                   <Tooltip title={item.title} placement="right">
                     {item.title === "Camera" ? (
                       <IconButton
-                        aria-label="camera"
+                        aria-label={item.label}
                         onClick={() => {
                           chatDetailsContext.setShowWebcam(
                             !chatDetailsContext.showWebcam
@@ -115,13 +89,11 @@ function ChatFooter() {
                           }, 1000);
                         }}
                       >
-                        <Icons.CameraAltRoundedIcon
-                          className={classes.mediaIcon}
-                        />
+                        <Icons.CameraAltRoundedIcon color="secondary" />
                       </IconButton>
                     ) : (
                       <IconButton
-                        aria-label="photo"
+                        aria-label={item.label}
                         onClick={() => item.ref.current.click()}
                       >
                         {item.icon}
@@ -156,11 +128,10 @@ function ChatFooter() {
         )}
         <IconButton
           aria-label="send-media"
-          className={classes.icon}
           onClick={() => setSendMediaList(!sendMediaList)}
           style={{ transform: "rotate(45deg)" }}
         >
-          <Icons.AttachFileOutlinedIcon />
+          <Icons.AttachFileOutlinedIcon color="primary" />
         </IconButton>
       </div>
 
@@ -193,8 +164,8 @@ function ChatFooter() {
         <button type="submit">Send Message</button>
       </form>
 
-      <IconButton aria-label="audio" className={classes.icon}>
-        <Icons.MicOutlinedIcon />
+      <IconButton aria-label="audio">
+        <Icons.MicOutlinedIcon color="primary" />
       </IconButton>
     </div>
   );

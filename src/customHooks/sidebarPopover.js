@@ -1,6 +1,9 @@
+// Custom hooks
 import useContexts from "./contexts";
 
+///////////////////////////////////////////////////////////////////
 function useSidebarPopover() {
+  // Custom hooks
   const { toggleSettingsDispatch, toggleSidebarDispatch, logout } =
     useContexts();
 

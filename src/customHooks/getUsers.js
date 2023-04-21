@@ -1,11 +1,18 @@
 import { useEffect, useState } from "react";
 import db from "../firebase";
+// Custom hooks
 import useContexts from "./contexts";
 
+///////////////////////////////////////////////////////////////////
 function useGetUsers() {
+  // useState
   const [allUsers, setAllUsers] = useState([]);
-  const { currentUser } = useContexts();
+
+  // db Ref
   const usersCollectionRef = db.collection("users");
+
+  // Custom hooks
+  const { currentUser } = useContexts();
 
   useEffect(() => {
     // Get all users

@@ -1,281 +1,157 @@
-import React, { useState, useEffect, useCallback } from "react";
-import "../styles/starred-messages.css";
-import { Avatar, IconButton } from "@material-ui/core";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
+import React from "react";
 import { auth } from "../firebase";
+// Styles
+import "../styles/starred-messages.css";
+// Components
 import * as Icons from "./Icons";
-import db from "../firebase";
-import useContexts from "../customHooks/contexts";
+import { Avatar, IconButton } from "@material-ui/core";
+// Assets
 import { urlPattern } from "../assets/data/urlPattern";
+// Custom hooks
+import useContexts from "../customHooks/contexts";
+import useChatUser from "../customHooks/chatUser";
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    unreadIcon: {
-      width: "20px !important",
-      color: "#8696A0",
-    },
-    readIcon: {
-      width: "20px !important",
-      color: "#53bdeb",
-    },
-    avatarIcon: {
-      height: "30px",
-      width: "30px",
-    },
-    icon: { color: "#8696A0" },
-  })
-);
-
+///////////////////////////////////////////////////////////////////
 function StarredMessages(props) {
-  // MUI Styles
-  const classes = useStyles();
+  // Custom hooks
+  const { currentUser, starredMessageDispatch } = useContexts();
+  const { chatUser } = useChatUser();
 
-  // Contexts
-  const { currentUser, emailId, starredMessageDispatch } = useContexts();
-
-  //   useState
-  const [chatUser, setChatUser] = useState({});
-
-  var userCollectionref = db.collection("users");
-
-  const getUser = useCallback(() => {
-    userCollectionref.doc(emailId).onSnapshot((snapshot) => {
-      setChatUser(snapshot.data());
-    });
-    // eslint-disable-next-line
-  }, [chatUser]);
-
-  useEffect(() => {
-    getUser();
-    // eslint-disable-next-line
-  }, []);
+  // Filter starred messages for current user
+  const starredMessages = props.starredMessages.filter((message) => {
+    return (
+      (message.data().receiverEmail === currentUser.email ||
+        message.data().senderEmail === currentUser.email) &&
+      (message.data().receiverEmail === chatUser.email ||
+        message.data().senderEmail === chatUser.email)
+    );
+  });
 
   return (
-    <>
-      <div className="sidebar-panel-right">
-        <div className="sidebar-panel-right-header">
-          <IconButton
-            aria-label="close"
-            className={classes.icon}
-            onClick={() => starredMessageDispatch("hide")}
-          >
-            <Icons.CloseRoundedIcon />
-          </IconButton>
-          <h3>Starred messages</h3>
-        </div>
+    <div className="sidebar-panel-right">
+      <div className="sidebar-panel-right-header">
+        <IconButton
+          aria-label="close"
+          onClick={() => starredMessageDispatch("hide")}
+        >
+          <Icons.CloseRoundedIcon color="primary" />
+        </IconButton>
+        <h3>Starred messages</h3>
+      </div>
 
-        <div className="starred-messages-body">
-          {props.starredMessages.map((message, id) => {
-            return (
-              <div key={id} className="starred-message">
-                <div className="starred-message-row-1">
-                  <Avatar
-                    src={
-                      message.data().senderEmail === chatUser.email
-                        ? chatUser.photoURL
-                        : currentUser.photoURL
-                    }
-                    className={classes.avatarIcon}
-                    alt={
-                      message.data().senderEmail === chatUser.email
-                        ? chatUser.photoURL
-                        : currentUser.photoURL
-                    }
-                  />
-                  <p>
-                    {message.data().senderEmail} <Icons.ArrowRightRoundedIcon />
-                    {message.data().receiverEmail}
-                  </p>
-                </div>
-                <div className="starred-message-row-2">
-                  {" "}
-                  <div
-                    className={
-                      message.data().senderEmail === auth?.currentUser?.email
-                        ? "chat-message chat-message-sent"
-                        : "chat-message chat-message-received"
-                    }
-                  >
-                    {message.data().text.match(urlPattern) ? (
-                      <>
-                        <div className="message-text">
-                          <a href={message.text} target="blank">
-                            {message.text}
-                          </a>
-                        </div>
-                        <span className="chat-timestamp">
-                          <p>
-                            {new Date(
-                              message.data().timestamp.toDate()
-                            ).toLocaleTimeString()}
-                          </p>
-                          {message.data().senderEmail ===
-                            auth?.currentUser.email && (
-                            <Icons.DoneAllIcon
-                              className={
-                                message.data().senderEmail ===
-                                  auth?.currentUser.email &&
-                                message.data().raed === true
-                                  ? `${classes.readIcon}`
-                                  : message.data().senderEmail ===
-                                    auth?.currentUser.email
-                                  ? `${classes.unreadIcon}`
-                                  : ""
-                              }
-                            />
-                          )}
-                        </span>
-                      </>
-                    ) : message.data().imageURL ? (
-                      <>
-                        <div className="message-text">
-                          <a
-                            href={message.data().imageURL}
-                            target="_blank"
-                            rel="noreferrer"
-                            download
-                          >
-                            <img
-                              src={message.data().imageURL}
-                              width={300}
-                              alt="img"
-                            />
-                          </a>
-                        </div>
-                        <span className="chat-timestamp">
-                          <p>
-                            {new Date(
-                              message.data().timestamp.toDate()
-                            ).toLocaleTimeString()}
-                          </p>
-                          {message.data().senderEmail ===
-                            auth?.currentUser.email && (
-                            <Icons.DoneAllIcon
-                              className={
-                                message.data().senderEmail ===
-                                  auth?.currentUser.email &&
-                                message.data().raed === true
-                                  ? `${classes.readIcon} media-delivered-icon`
-                                  : message.data().senderEmail ===
-                                    auth?.currentUser.email
-                                  ? `${classes.unreadIcon} media-delivered-icon`
-                                  : ""
-                              }
-                            />
-                          )}
-                        </span>
-                      </>
-                    ) : message.data().videoURL ? (
-                      <>
-                        <div className="message-text">
-                          <video
-                            src={message.data().videoURL}
-                            controls={true}
-                            width={300}
-                            style={{ outline: "none" }}
-                          ></video>
-                        </div>
-                        <span className="chat-timestamp">
-                          <p>
-                            {new Date(
-                              message.data().timestamp.toDate()
-                            ).toLocaleTimeString()}
-                          </p>
-                          {message.data().senderEmail ===
-                            auth?.currentUser.email && (
-                            <Icons.DoneAllIcon
-                              className={
-                                message.data().senderEmail ===
-                                  auth?.currentUser.email &&
-                                message.data().raed === true
-                                  ? `${classes.readIcon} media-delivered-icon`
-                                  : message.data().senderEmail ===
-                                    auth?.currentUser.email
-                                  ? `${classes.unreadIcon} media-delivered-icon`
-                                  : ""
-                              }
-                            />
-                          )}
-                        </span>
-                      </>
-                    ) : message.data().fileURL ? (
-                      <>
-                        <div className="message-text-document">
-                          <div className="file-container">
-                            <a
-                              href={message.data().fileURL}
-                              target="_blank"
-                              rel="noreferrer"
-                              download
-                            >
-                              <div className="file-inner-container">
-                                <Icons.InsertDriveFileIcon />
-                                <p>{message.data().fileName}</p>
-                                <Icons.FileDownloadIcon />
-                              </div>
-                            </a>
+      <div className="starred-messages-body">
+        {starredMessages.map((message, id) => {
+          return (
+            <div key={id} className="starred-message">
+              <div className="starred-message-row-1">
+                <Avatar
+                  src={
+                    message.data().senderEmail === chatUser.email
+                      ? chatUser.photoURL
+                      : currentUser.photoURL
+                  }
+                  style={{ height: "30px", width: "30px" }}
+                  alt={
+                    message.data().senderEmail === chatUser.email
+                      ? chatUser.photoURL
+                      : currentUser.photoURL
+                  }
+                />
+                <p>
+                  {message.data().senderEmail} <Icons.ArrowRightRoundedIcon />
+                  {message.data().receiverEmail}
+                </p>
+              </div>
+              <div className="starred-message-row-2">
+                <div
+                  className={
+                    message.data().senderEmail === auth?.currentUser?.email
+                      ? "chat-message chat-message-sent"
+                      : "chat-message chat-message-received"
+                  }
+                >
+                  {message.data().text.match(urlPattern) ? (
+                    <a
+                      href={message.text}
+                      target="blank"
+                      className="message-text"
+                    >
+                      {message.text}
+                    </a>
+                  ) : message.data().imageURL ? (
+                    <a
+                      href={message.data().imageURL}
+                      target="_blank"
+                      rel="noreferrer"
+                      download
+                      className="message-text"
+                    >
+                      <img
+                        src={message.data().imageURL}
+                        width={300}
+                        alt="img"
+                      />
+                    </a>
+                  ) : message.data().videoURL ? (
+                    <video
+                      src={message.data().videoURL}
+                      controls={true}
+                      width={300}
+                      style={{ outline: "none" }}
+                      className="message-text"
+                    ></video>
+                  ) : message.data().fileURL ? (
+                    <div className="message-text-document">
+                      <div className="file-container">
+                        <a
+                          href={message.data().fileURL}
+                          target="_blank"
+                          rel="noreferrer"
+                          download
+                        >
+                          <div className="file-inner-container">
+                            <Icons.InsertDriveFileIcon />
+                            <p>{message.data().fileName}</p>
+                            <Icons.FileDownloadIcon />
                           </div>
-                        </div>
-                        <span className="chat-timestamp">
-                          <p>
-                            {new Date(
-                              message.data().timestamp.toDate()
-                            ).toLocaleTimeString()}
-                          </p>
-                          {message.data().senderEmail ===
-                            auth?.currentUser.email && (
-                            <Icons.DoneAllIcon
-                              className={
-                                message.data().senderEmail ===
-                                  auth?.currentUser.email &&
-                                message.data().raed === true
-                                  ? `${classes.readIcon} delivered-icon`
-                                  : message.data().senderEmail ===
-                                    auth?.currentUser.email
-                                  ? `${classes.unreadIcon} delivered-icon`
-                                  : ""
-                              }
-                            />
-                          )}
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <div className="message-text">
-                          <p>{message.data().text}</p>
-                        </div>
-                        <span className="chat-timestamp">
-                          <p>
-                            {new Date(
-                              message.data().timestamp.toDate()
-                            ).toLocaleTimeString()}
-                          </p>
-                          {message.data().senderEmail ===
-                            auth?.currentUser.email && (
-                            <Icons.DoneAllIcon
-                              className={
-                                message.data().senderEmail ===
-                                  auth?.currentUser.email &&
-                                message.data().raed === true
-                                  ? `${classes.readIcon} delivered-icon`
-                                  : message.data().senderEmail ===
-                                    auth?.currentUser.email
-                                  ? `${classes.unreadIcon} delivered-icon`
-                                  : ""
-                              }
-                            />
-                          )}
-                        </span>
-                      </>
+                        </a>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="message-text">
+                      <p>{message.data().text}</p>
+                    </div>
+                  )}
+
+                  <span className="chat-timestamp">
+                    <p>
+                      {new Date(
+                        message.data().timestamp.toDate()
+                      ).toLocaleTimeString()}
+                    </p>
+                    {message.data().senderEmail === auth?.currentUser.email && (
+                      <Icons.DoneAllIcon
+                        color={
+                          message.data().senderEmail ===
+                            auth?.currentUser.email &&
+                          message.data().read === true
+                            ? "info"
+                            : message.data().senderEmail ===
+                              auth?.currentUser.email
+                            ? "primary"
+                            : ""
+                        }
+                        sx={{ width: "20px !important" }}
+                      />
                     )}
-                  </div>
+                  </span>
                 </div>
               </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
       </div>
-    </>
+    </div>
   );
 }
 

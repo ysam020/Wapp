@@ -1,11 +1,15 @@
-import React from "react";
+import { useState } from "react";
+// Components
 import * as Icons from "../components/Icons";
+// Custom hooks
 import useContexts from "./contexts";
 
+///////////////////////////////////////////////////////////////////
 function useSettingsList() {
-  // UseState
-  const [openModal, setOpenModal] = React.useState(false);
+  // useState
+  const [openModal, setOpenModal] = useState(false);
 
+  // Custom hooks
   const {
     toggleSettingsDispatch,
     settingsNotificationDispatch,
@@ -23,7 +27,7 @@ function useSettingsList() {
     {
       id: 1,
       name: "Notifications",
-      icon: <Icons.NotificationsRoundedIcon />,
+      icon: <Icons.NotificationsRoundedIcon color="primary" />,
       style: "settings-list-item settings-list-item-notifications",
       onClick: () => {
         settingsNotificationDispatch("toggle");
@@ -33,7 +37,7 @@ function useSettingsList() {
     {
       id: 2,
       name: "Privacy",
-      icon: <Icons.LockRoundedIcon />,
+      icon: <Icons.LockRoundedIcon color="primary" />,
       style: "settings-list-item settings-list-item-privacy",
       onClick: () => {
         settingsPrivacyDispatch("toggle");
@@ -43,7 +47,7 @@ function useSettingsList() {
     {
       id: 3,
       name: "Security",
-      icon: <Icons.SecurityRoundedIcon />,
+      icon: <Icons.SecurityRoundedIcon color="primary" />,
       style: "settings-list-item settings-list-item-security",
       onClick: () => {
         settingsSecurityDispatch("toggle");
@@ -53,13 +57,13 @@ function useSettingsList() {
     {
       id: 4,
       name: "Dark theme",
-      icon: <Icons.Brightness6RoundedIcon />,
+      icon: <Icons.Brightness6RoundedIcon color="primary" />,
       style: "settings-list-item settings-list-item-theme",
     },
     {
       id: 5,
       name: "Chat Wallpaper",
-      icon: <Icons.WallpaperRoundedIcon />,
+      icon: <Icons.WallpaperRoundedIcon color="primary" />,
       style: "settings-list-item settings-list-item-chat-wallpaper",
       onClick: () => {
         toggleChatWallpaperDispatch("toggle");
@@ -69,7 +73,7 @@ function useSettingsList() {
     {
       id: 6,
       name: "Request Account Info",
-      icon: <Icons.FeedRoundedIcon />,
+      icon: <Icons.FeedRoundedIcon color="primary" />,
       style: "settings-list-item settings-list-item-request-account-info",
       onClick: () => {
         settingsAccountInfoDispatch("toggle");
@@ -79,7 +83,7 @@ function useSettingsList() {
     {
       id: 7,
       name: "Keyboard Shortcuts",
-      icon: <Icons.BrightnessAutoRoundedIcon />,
+      icon: <Icons.BrightnessAutoRoundedIcon color="primary" />,
       style: "settings-list-item settings-list-item-keyboard-shortcuts",
       onClick: () => {
         handleOpenModal();
@@ -88,7 +92,7 @@ function useSettingsList() {
     {
       id: 8,
       name: "Help",
-      icon: <Icons.HelpRoundedIcon />,
+      icon: <Icons.HelpRoundedIcon color="primary" />,
       style: "settings-list-item settings-list-item-help",
       onClick: () => {
         settingsHelpDispatch("toggle");

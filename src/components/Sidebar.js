@@ -1,37 +1,30 @@
 import React, { useState, useRef } from "react";
+// Styles
 import "../styles/sidebar.css";
-import { Avatar } from "@material-ui/core";
+// Components
 import SidebarChat from "./SidebarChat";
 import SidebarSearchedUser from "./SidebarSearchedUser";
 import * as Icons from "./Icons";
+import { Avatar } from "@material-ui/core";
 import { IconButton } from "@material-ui/core";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import { Offline } from "react-detect-offline";
+// Custom hooks
 import useContexts from "../customHooks/contexts";
 import useGetUsers from "../customHooks/getUsers";
 import useGetFriends from "../customHooks/getFriends";
 import useSidebarPopover from "../customHooks/sidebarPopover";
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    icon: {
-      color: "#8696A0",
-    },
-    rightArrowIcon: { width: "12px !important", color: "#8696A0" },
-    wifiIcon: { color: "#FFD279" },
-  })
-);
-
+///////////////////////////////////////////////////////////////////
 function Sidebar(props) {
-  // MUI Styles
-  const classes = useStyles();
-
+  // useState
   const [searchInput, setSearchInput] = useState("");
   const [sidebarPopover, setSidebarPopover] = useState(false);
-  const sidebarPopoverList = useSidebarPopover();
 
-  // Contexts
+  // useRef
+  const sidebarSearchRef = useRef();
+
+  // Custom hooks
   const {
     currentUser,
     toggleSidebarProfileDispatch,
@@ -40,8 +33,7 @@ function Sidebar(props) {
     communitiesDispatch,
   } = useContexts();
 
-  // Sidebar search ref
-  const sidebarSearchRef = useRef();
+  const sidebarPopoverList = useSidebarPopover();
   const { allUsers } = useGetUsers();
   const { friendList } = useGetFriends();
 
@@ -103,30 +95,29 @@ function Sidebar(props) {
               communitiesDispatch("toggle");
             }}
           >
-            <Icons.GroupsRoundedIcon className={classes.icon} />
+            <Icons.GroupsRoundedIcon color="primary" />
           </IconButton>
-          <IconButton aria-label="status" className={classes.icon}>
-            <Icons.DonutLargeSharpIcon />
+          <IconButton aria-label="status">
+            <Icons.DonutLargeSharpIcon color="primary" />
           </IconButton>
 
           <IconButton
             aria-label="new-chat"
-            className={classes.icon}
             onClick={() => {
               toggleSidebarDispatch("toggle");
               newChatDispatch("toggle");
             }}
           >
-            <Icons.ChatRoundedIcon />
+            <Icons.ChatRoundedIcon color="primary" />
           </IconButton>
 
           <div className="sidebar-popover-container">
             <IconButton
               aria-label="more"
               onClick={handleSidebarPopover}
-              className={classes.icon}
+              color="primary"
             >
-              <Icons.MoreVertRoundedIcon />
+              <Icons.MoreVertRoundedIcon color="primary" />
               {sidebarPopover && (
                 <ClickAwayListener onClickAway={handleClickAway}>
                   <div className="sidebar-popover">
@@ -154,7 +145,7 @@ function Sidebar(props) {
             <div className="sidebar-network-icon">
               <div className="sidebar-network-wifi-icon-container">
                 <IconButton aria-label="network-icon">
-                  <Icons.WifiOffIcon className={classes.wifiIcon} />
+                  <Icons.WifiOffIcon color="warning" />
                 </IconButton>
               </div>
             </div>
@@ -166,7 +157,10 @@ function Sidebar(props) {
                 style={{ display: "flex", alignItems: "center" }}
               >
                 <a href="/#">Reconnect</a>
-                <Icons.ArrowForwardIosIcon className={classes.rightArrowIcon} />
+                <Icons.ArrowForwardIosIcon
+                  sx={{ width: "12px !important" }}
+                  color="primary"
+                />
               </div>
             </div>
           </div>
@@ -177,10 +171,9 @@ function Sidebar(props) {
         <div className="sidebar-search-container">
           <IconButton
             aria-label="search"
-            className={classes.icon}
             onClick={() => sidebarSearchRef.current.focus()}
           >
-            <Icons.SearchOutlinedIcon />
+            <Icons.SearchOutlinedIcon color="primary" />
           </IconButton>
           <input
             placeholder="Search or start a new chat"
@@ -189,8 +182,8 @@ function Sidebar(props) {
             ref={sidebarSearchRef}
           />
         </div>
-        <IconButton aria-label="filter" className={classes.icon}>
-          <Icons.FilterListRoundedIcon />
+        <IconButton aria-label="filter">
+          <Icons.FilterListRoundedIcon color="primary" />
         </IconButton>
       </div>
 

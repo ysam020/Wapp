@@ -1,24 +1,18 @@
 import React from "react";
+// Styles
 import "../styles/encyption.css";
+// Components
 import ButtonPrimary from "./ButtonPrimary";
-import { IconButton } from "@mui/material";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
 import * as Icons from "./Icons";
+import { IconButton } from "@mui/material";
 import cryptoRandomString from "crypto-random-string";
 import QRCode from "react-qr-code";
+// Custom hooks
 import useContexts from "../customHooks/contexts";
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    icon: { color: "#8696A0 !important" },
-  })
-);
-
+///////////////////////////////////////////////////////////////////
 function Encryption() {
-  // MUI Styles
-  const classes = useStyles();
-
-  // Contexts
+  // Custom hooks
   const { currentUser, toggleContactInfoDispatch, encryptionDispatch } =
     useContexts();
 
@@ -30,13 +24,12 @@ function Encryption() {
       <div className="sidebar-panel-right-header">
         <IconButton
           aria-label="close"
-          className={classes.icon}
           onClick={() => {
             toggleContactInfoDispatch("toggle");
             encryptionDispatch("toggle");
           }}
         >
-          <Icons.CloseRoundedIcon />
+          <Icons.CloseRoundedIcon color="primary" />
         </IconButton>
         <div>
           <h3>Verify Security Code</h3>

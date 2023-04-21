@@ -1,13 +1,18 @@
-import React from "react";
-import useContexts from "./contexts";
+import { useState, useEffect } from "react";
+// Assets
 import chatDoodle from "../assets/images/chat-doodle.png";
+// Custom hooks
+import useContexts from "./contexts";
 
+///////////////////////////////////////////////////////////////////
 function useChatWallpaper() {
-  const [chatWallpaper, setChatWallpaper] = React.useState("");
+  // useState
+  const [chatWallpaper, setChatWallpaper] = useState("");
+  // Custom hooks
   const { doodle } = useContexts();
 
   // Wallpaper doodles
-  React.useEffect(() => {
+  useEffect(() => {
     if (doodle) {
       setChatWallpaper(chatDoodle);
     } else {

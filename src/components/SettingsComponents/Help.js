@@ -1,28 +1,18 @@
 import React from "react";
+// Styles
 import "../../styles/help.css";
-import helpList from "../../assets/data/Helplist";
+// Components
 import { IconButton } from "@material-ui/core";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
 import * as Icons from "../Icons";
+// Assets
+import helpList from "../../assets/data/Helplist";
 import wappHelp from "../../assets/images/wapp-help.png";
+// Custom hooks
 import useContexts from "../../customHooks/contexts";
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    backIcon: {
-      color: "white",
-    },
-    helpListIcon: {
-      color: "#8696A0",
-    },
-  })
-);
-
+///////////////////////////////////////////////////////////////////
 function Help() {
-  // MUI Styles
-  const classes = useStyles();
-
-  // Contexts
+  // Custom hooks
   const { toggleSettingsDispatch, settingsHelpDispatch } = useContexts();
 
   return (
@@ -31,13 +21,12 @@ function Help() {
         <div className="sidebar-panel-header-container">
           <IconButton
             aria-label="back"
-            className={classes.backIcon}
             onClick={() => {
               toggleSettingsDispatch("toggle");
               settingsHelpDispatch("toggle");
             }}
           >
-            <Icons.ArrowBackIcon />
+            <Icons.ArrowBackIcon color="secondary" />
           </IconButton>
           <h3>Help</h3>
         </div>
@@ -62,12 +51,7 @@ function Help() {
 
             return (
               <div key={id} className="help-list-item">
-                <IconButton
-                  aria-label="help-icon"
-                  className={classes.helpListIcon}
-                >
-                  {icon}
-                </IconButton>
+                <IconButton aria-label="help-icon">{icon}</IconButton>
                 <h4>{name}</h4>
               </div>
             );

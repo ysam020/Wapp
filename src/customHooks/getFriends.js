@@ -1,11 +1,17 @@
 import { useState, useCallback, useEffect } from "react";
 import db from "../firebase";
+// Custom hooks
 import useContexts from "./contexts";
 
+///////////////////////////////////////////////////////////////////
 function useGetFriends() {
+  // useState
   const [friendList, setFriendList] = useState([]);
+
+  // Custom hooks
   const { currentUser } = useContexts();
 
+  // db Ref
   var senderFriendListCollectionRef = db
     .collection("FriendList")
     .doc(currentUser.email)

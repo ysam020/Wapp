@@ -1,12 +1,22 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import useContexts from "./contexts";
+// utils
 import FirebaseRefs from "../components/FirebaseRefs";
+// Custom hooks
+import useContexts from "./contexts";
 
+///////////////////////////////////////////////////////////////////
 function useGetSearchedMessages() {
+  // useState
   const [searchedMessage, setSearchedMessage] = useState([]);
   const [searchedMessageInput, setSearchedMessageInput] = useState("");
+
+  // useRef
   const searchMessagesRef = useRef();
+
+  // Custom hooks
   const { currentUser, emailId } = useContexts();
+
+  // db ref
   const firebaseRef = FirebaseRefs(emailId, currentUser);
 
   // Get chats from database

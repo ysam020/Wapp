@@ -1,26 +1,17 @@
 import React from "react";
+import moment from "moment";
+// Components
 import { IconButton, Avatar } from "@material-ui/core";
 import * as Icons from "../Icons";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
-import moment from "moment";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
+// Custom hooks
 import useContexts from "../../customHooks/contexts";
 import useHandleTypingIndicator from "../../customHooks/handleTypingIndicator";
 import useChatPopover from "../../customHooks/chatPopover";
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    icon: {
-      color: "#8696A0",
-    },
-  })
-);
-
+///////////////////////////////////////////////////////////////////
 function ChatHeader() {
-  // MUI styles
-  const classes = useStyles();
-
-  // useContext
+  // Custom hooks
   const {
     chatDetailsContext,
     toggleContactInfoDispatch,
@@ -67,21 +58,19 @@ function ChatHeader() {
       <div className="chat-header-right">
         <IconButton
           aria-label="search"
-          className={classes.icon}
           onClick={() => {
             searchMessageDispatch("toggle");
           }}
         >
-          <Icons.SearchOutlinedIcon />
+          <Icons.SearchOutlinedIcon color="primary" />
         </IconButton>
 
         <div className="chat-popover-container">
           <IconButton
             aria-label="more"
             onClick={() => setChatPopover(!chatPopover)}
-            className={classes.icon}
           >
-            <Icons.MoreVertRoundedIcon />
+            <Icons.MoreVertRoundedIcon color="primary" />
           </IconButton>
           {chatPopover && (
             <ClickAwayListener onClickAway={() => setChatPopover(!chatPopover)}>

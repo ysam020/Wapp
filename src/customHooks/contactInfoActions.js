@@ -1,16 +1,22 @@
-import React from "react";
+// Components
 import * as Icons from "../components/Icons";
+// utils
 import { deleteChat } from "../utils/deleteChat";
-import useContexts from "./contexts";
-import FirebaseRefs from "../components/FirebaseRefs";
 import { blockUser } from "../utils/blockUser";
 import { unblockUser } from "../utils/unblockUser";
+import FirebaseRefs from "../components/FirebaseRefs";
+// Custom hooks
+import useContexts from "./contexts";
 import useChatUser from "./chatUser";
 
+///////////////////////////////////////////////////////////////////
 function useContactInfoActions(setChat, blockLength, handleOpenModal) {
+  // Custom hooks
   const { currentUser, emailId } = useContexts();
-  const firebaseRef = FirebaseRefs(emailId, currentUser);
   const { chatUser } = useChatUser();
+
+  // db Ref
+  const firebaseRef = FirebaseRefs(emailId, currentUser);
 
   const contactInfoActions = [
     {

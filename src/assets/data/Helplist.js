@@ -6,17 +6,17 @@ const helpList = [
   {
     id: 1,
     name: "Help Center",
-    icon: <HelpIcon />,
+    icon: <HelpIcon color="primary" />,
   },
   {
     id: 2,
     name: "Contact us",
-    icon: <GroupsIcon />,
+    icon: <GroupsIcon color="primary" />,
   },
   {
     id: 3,
     name: "Terms and Privacy Policy",
-    icon: <FeedIcon />,
+    icon: <FeedIcon color="primary" />,
   },
 ];
 

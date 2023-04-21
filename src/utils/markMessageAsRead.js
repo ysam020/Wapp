@@ -21,4 +21,6 @@ export function markMessageAsread(emailId, currentUser) {
         });
       });
     });
+
+  firebaseRef.receiverFriendListRef.update({ messageRead: true });
 }

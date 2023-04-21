@@ -1,7 +1,11 @@
+// Components
 import * as Icons from "../components/Icons";
+// Custom hooks
 import useContexts from "./contexts";
 
+///////////////////////////////////////////////////////////////////
 function useContactInfoList() {
+  // Custom hooks
   const {
     toggleContactInfoDispatch,
     starredMessageDispatch,
@@ -14,7 +18,7 @@ function useContactInfoList() {
       id: 1,
       title: "Starred messages",
       desc: "",
-      icon: <Icons.StarRateRoundedIcon />,
+      icon: <Icons.StarRateRoundedIcon color="primary" />,
       className: "starred-messages",
       onClick: () => {
         toggleContactInfoDispatch("toggle");
@@ -25,7 +29,7 @@ function useContactInfoList() {
       id: 2,
       title: "Mute notifications",
       desc: "",
-      icon: <Icons.NotificationsRoundedIcon />,
+      icon: <Icons.NotificationsRoundedIcon color="primary" />,
       className: "mute-notification",
       onClick: () => {},
     },
@@ -33,7 +37,7 @@ function useContactInfoList() {
       id: 3,
       title: "Disappearing messages",
       desc: "Off",
-      icon: <Icons.HistoryIcon />,
+      icon: <Icons.HistoryIcon color="primary" />,
       className: "disappearing-messages",
       onClick: () => {
         toggleContactInfoDispatch("toggle");
@@ -44,7 +48,7 @@ function useContactInfoList() {
       id: 4,
       title: "Encryption",
       desc: "Messages are end-to-end encrypted. Click to verify.",
-      icon: <Icons.LockIcon />,
+      icon: <Icons.LockIcon color="primary" />,
       className: "encryption",
       onClick: () => {
         toggleContactInfoDispatch("toggle");

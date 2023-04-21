@@ -4,6 +4,8 @@ const FirebaseRefs = (emailId, currentUser) => {
   const firebaseRef = {
     usersCollectionRef: db.collection("users"),
 
+    userRef: db.collection("users").doc(currentUser.email),
+
     chatUserRef: db.collection("users").doc(emailId),
 
     senderMessageCollectionRef: db

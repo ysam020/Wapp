@@ -1,11 +1,15 @@
 import { useState } from "react";
-import useContexts from "./contexts";
+// utils
 import { deleteChat } from "../utils/deleteChat";
+// Custom hooks
+import useContexts from "./contexts";
 
+///////////////////////////////////////////////////////////////////
 function useChatPopover() {
   // useState
   const [chatPopover, setChatPopover] = useState(false);
 
+  // Custom hooks
   const {
     toggleContactInfoDispatch,
     chatDetailsContext,

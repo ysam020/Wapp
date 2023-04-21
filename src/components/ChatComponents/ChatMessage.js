@@ -1,41 +1,14 @@
 import React from "react";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
 import * as Icons from "../Icons";
-import useContexts from "../../customHooks/contexts";
+// Assets
 import { urlPattern } from "../../assets/data/urlPattern";
+// utils
 import { downloadMedia } from "../../utils/downloadMedia";
+// Custom hooks
+import useContexts from "../../customHooks/contexts";
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    unreadIcon: {
-      width: "20px !important",
-      color: "#8696A0",
-    },
-    readIcon: {
-      width: "20px !important",
-      color: "#53bdeb",
-    },
-    starIcon: { width: "20px !important", color: "#8696A0" },
-    fileIcon: {
-      width: "50px !important",
-      height: "40px !important",
-      color: "#7A8F9B",
-    },
-    downloadIcon: {
-      width: "20px !important",
-      height: "20px !important",
-      color: "#7A8F9B",
-      border: "1px solid #7A8F9B",
-      borderRadius: "50%",
-      padding: "5px",
-    },
-  })
-);
-
+///////////////////////////////////////////////////////////////////
 function ChatMessage(props) {
-  // MUI Styles
-  const classes = useStyles();
-
   // Context
   const { currentUser } = useContexts();
 
@@ -49,64 +22,67 @@ function ChatMessage(props) {
         }
       >
         {props.message.match(urlPattern) ? (
-          <>
-            <div className="message-text">
-              <a href={props.message} target="blank">
-                {props.message}
-              </a>
-            </div>
-          </>
+          <a href={props.message} target="blank" className="message-text">
+            {props.message}
+          </a>
         ) : props.imageURL ? (
-          <>
-            <div
-              className="message-text"
-              onClick={() => downloadMedia(props.imageURL, props.fileName)}
-              id="downloadPhoto"
-              style={{ cursor: "pointer" }}
-            >
-              <img alt="img" src={props.imageURL} />
-            </div>
-          </>
+          <img
+            alt="img"
+            src={props.imageURL}
+            className="message-text"
+            onClick={() => downloadMedia(props.imageURL, props.fileName)}
+            id="downloadPhoto"
+            style={{ cursor: "pointer" }}
+          />
         ) : props.videoURL ? (
-          <>
-            <div className="message-text">
-              <video
-                src={props.videoURL}
-                controls={true}
-                height="auto"
-                style={{ outline: "none", cursor: "pointer" }}
-                onClick={() => downloadMedia(props.videoURL, props.fileName)}
-                id="downloadVideo"
-              ></video>
-            </div>
-          </>
+          <video
+            src={props.videoURL}
+            controls={true}
+            height="auto"
+            className="message-text"
+            style={{ outline: "none", cursor: "pointer" }}
+            onClick={() => downloadMedia(props.videoURL, props.fileName)}
+            id="downloadVideo"
+          />
         ) : props.fileURL ? (
-          <>
-            <div
-              className="message-text-document"
-              onClick={() => downloadMedia(props.fileURL, props.fileName)}
-              id="downloadFile"
-              style={{ cursor: "pointer" }}
-            >
-              <div className="file-container">
-                <div className="file-inner-container">
-                  <Icons.InsertDriveFileIcon className={classes.fileIcon} />
-                  <p>{props.fileName}</p>
-                  <Icons.FileDownloadIcon className={classes.downloadIcon} />
-                </div>
+          <div
+            className="message-text-document"
+            onClick={() => downloadMedia(props.fileURL, props.fileName)}
+            id="downloadFile"
+            style={{ cursor: "pointer" }}
+          >
+            <div className="file-container">
+              <div className="file-inner-container">
+                <Icons.InsertDriveFileIcon
+                  color="primary"
+                  sx={{ width: "50px !important", height: "40px !important" }}
+                />
+                <p>{props.fileName}</p>
+                <Icons.FileDownloadIcon
+                  color="primary"
+                  sx={{
+                    width: "20px !important",
+                    height: "20px !important",
+                    border: "1px solid #7A8F9B",
+                    borderRadius: "50%",
+                    padding: "5px",
+                  }}
+                />
               </div>
             </div>
-          </>
+          </div>
         ) : (
-          <>
-            <div className="message-text">
-              <p>{props.message}</p>
-            </div>
-          </>
+          <div className="message-text">
+            <p>{props.message}</p>
+          </div>
         )}
+
         <span className="chat-timestamp">
           {props.starredMessage === true && (
-            <Icons.StarRateRoundedIcon className={classes.starIcon} />
+            <Icons.StarRateRoundedIcon
+              color="primary"
+              sx={{ width: "20px !important" }}
+            />
           )}
           <p>
             {new Date(props.time.toDate()).toLocaleTimeString([], {
@@ -116,13 +92,14 @@ function ChatMessage(props) {
           </p>
           {props.sender === currentUser.email && (
             <Icons.DoneAllIcon
-              className={
+              color={
                 props.sender === currentUser.email && props.read === true
-                  ? `${classes.readIcon} delivered-icon`
+                  ? "info"
                   : props.sender === currentUser.email
-                  ? `${classes.unreadIcon} delivered-icon`
+                  ? "primary"
                   : ""
               }
+              sx={{ width: "20px !important" }}
             />
           )}
         </span>

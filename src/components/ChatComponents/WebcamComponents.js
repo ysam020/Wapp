@@ -1,37 +1,18 @@
 import React, { useRef } from "react";
-import { IconButton } from "@material-ui/core";
+import { storage } from "../../firebase";
+// Components
 import * as Icons from "../Icons";
+import { IconButton } from "@material-ui/core";
 import Webcam from "react-webcam";
 import CircularProgress from "@mui/material/CircularProgress";
+// utils
 import { clickImage } from "../../utils/clickImage";
-import { storage } from "../../firebase";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
+// Custom hooks
 import useContexts from "../../customHooks/contexts";
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    webcamCameraIcon: {
-      color: "#fff",
-      backgroundColor: "#04A784",
-      padding: "20px",
-      borderRadius: "50%",
-      transform: "translateY(-30px)",
-      cursor: "pointer",
-    },
-    webcamCloseIcon: { color: "#fff" },
-    circularProgressIcon: {
-      width: "60px !important",
-      height: "60px !important",
-      color: "#8696A0 !important",
-    },
-  })
-);
-
+///////////////////////////////////////////////////////////////////
 function WebcamComponents() {
-  // MUI Styles
-  const classes = useStyles();
-
-  // useContext
+  // Custom hooks
   const { currentUser, emailId, chatDetailsContext } = useContexts();
 
   // useRef
@@ -47,7 +28,7 @@ function WebcamComponents() {
             chatDetailsContext.setCircularProgress(true);
           }}
         >
-          <Icons.CloseOutlinedIcon className={classes.webcamCloseIcon} />
+          <Icons.CloseOutlinedIcon color="secondary" />
         </IconButton>
         <h3>Take Photo</h3>
       </div>
@@ -55,7 +36,14 @@ function WebcamComponents() {
         <>
           <Webcam className="webcam" ref={webcamRef} />
           <Icons.CameraAltRoundedIcon
-            className={classes.webcamCameraIcon}
+            color="secondary"
+            sx={{
+              backgroundColor: "#04A784",
+              padding: "20px",
+              borderRadius: "50%",
+              transform: "translateY(-30px)",
+              cursor: "pointer",
+            }}
             onClick={() =>
               clickImage(
                 webcamRef,
@@ -73,7 +61,13 @@ function WebcamComponents() {
         </>
       ) : (
         <div className="webcam-body">
-          <CircularProgress className={classes.circularProgressIcon} />
+          <CircularProgress
+            color="primary"
+            sx={{
+              width: "60px !important",
+              height: "60px !important",
+            }}
+          />
         </div>
       )}
     </div>

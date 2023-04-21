@@ -1,12 +1,14 @@
-import React, { useContext } from "react";
-import { ThemeContext } from "@emotion/react";
+// Custom hooks
+import useContexts from "../customHooks/contexts";
 
+///////////////////////////////////////////////////////////////////
 function WappSVG() {
-  const themeContext = useContext(ThemeContext);
+  // Custom hooks
+  const theme = useContexts();
 
   return (
     <div>
-      {themeContext.theme === "dark" ? (
+      {theme === "dark" ? (
         <span
           data-testid="intro-md-beta-logo-dark"
           data-icon="intro-md-beta-logo-dark"

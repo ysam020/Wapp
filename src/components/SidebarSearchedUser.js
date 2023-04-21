@@ -1,6 +1,8 @@
 import React from "react";
+// Components
 import { Avatar } from "@material-ui/core";
 
+///////////////////////////////////////////////////////////////////
 function SidebarSearchedUser(props) {
   return (
     <div

@@ -1,38 +1,17 @@
 import React from "react";
+// Styles
 import "../../styles/security.css";
-import securityList from "../../assets/data/SecurityList";
-import Checkbox from "@mui/material/Checkbox";
-import { IconButton } from "@material-ui/core";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
+// Components
 import * as Icons from "../Icons";
+import { IconButton } from "@material-ui/core";
+import Checkbox from "@mui/material/Checkbox";
+// Assets
+import securityList from "../../assets/data/SecurityList";
+// Custom hooks
 import useContexts from "../../customHooks/contexts";
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    backIcon: {
-      color: "white",
-    },
-    lockIcon: {
-      color: "white",
-      backgroundColor: "#02CD9E",
-      width: "40px !important",
-      height: "40px !important",
-      borderRadius: "1000px",
-      padding: "20px",
-    },
-    securityListIcon: {
-      color: "#8696a0",
-      paddingRight: "20px",
-      cursor: "default",
-      padding: "5px",
-    },
-  })
-);
-
+///////////////////////////////////////////////////////////////////
 function Security() {
-  // MUI Styles
-  const classes = useStyles();
-
   // Contexts
   const { toggleSettingsDispatch, settingsSecurityDispatch } = useContexts();
 
@@ -42,13 +21,12 @@ function Security() {
         <div className="sidebar-panel-header-container">
           <IconButton
             aria-label="back"
-            className={classes.backIcon}
             onClick={() => {
               toggleSettingsDispatch("toggle");
               settingsSecurityDispatch("toggle");
             }}
           >
-            <Icons.ArrowBackIcon />
+            <Icons.ArrowBackIcon color="secondary" />
           </IconButton>
           <h3>Security</h3>
         </div>
@@ -57,7 +35,16 @@ function Security() {
       <div className="security-body">
         <div className="security-img">
           <IconButton aria-label="lock">
-            <Icons.LockIcon className={classes.lockIcon} />
+            <Icons.LockIcon
+              color="secondary"
+              sx={{
+                backgroundColor: "#02CD9E",
+                width: "40px !important",
+                height: "40px !important",
+                borderRadius: "1000px",
+                padding: "20px",
+              }}
+            />
           </IconButton>
         </div>
         <div className="security-row-1">
@@ -75,8 +62,12 @@ function Security() {
                 <div key={id} className="security-list-item">
                   <IconButton
                     aria-label="security-list"
-                    className={classes.securityListIcon}
                     disableRipple={true}
+                    sx={{
+                      paddingRight: "20px",
+                      cursor: "default",
+                      padding: "5px",
+                    }}
                   >
                     {icon}
                   </IconButton>

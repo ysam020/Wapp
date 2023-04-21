@@ -1,16 +1,10 @@
 import * as React from "react";
-import "../../styles/chat.css";
 import * as Context from "../../contexts/Context";
-
-// MUI components
-import { IconButton } from "@material-ui/core";
-
-// Material icons
 import * as Icons from "../Icons";
-
-// MUI styles
-import { createStyles, makeStyles } from "@material-ui/core/styles";
-
+import { IconButton } from "@material-ui/core";
+// Styles
+import "react-tenor/dist/styles.css";
+import "../../styles/chat.css";
 // Components
 import EmojiPickerComponent from "./EmojiPickerComponent";
 import GifPickerComponent from "./GifPickerComponent";
@@ -18,13 +12,10 @@ import WebcamComponents from "./WebcamComponents";
 import ChatFooter from "./ChatFooter";
 import ChatHeader from "./ChatHeader";
 import SelectMessagesUI from "./SelectMessagesUI";
-import ForwardMessageModal from "../ForwardMessageModal";
-
 // utils
 import { deleteSelectedMessages } from "../../utils/deleteSelectedMessages";
 import { starMessages } from "../../utils/starMessages";
 import { markMessageAsread } from "../../utils/markMessageAsRead";
-
 // Custom hooks
 import useContexts from "../../customHooks/contexts";
 import useGetMessages from "../../customHooks/getMessages";
@@ -34,34 +25,19 @@ import useWebcam from "../../customHooks/webcam";
 import useScrollToBottom from "../../customHooks/scrollToBottom";
 import useHandleTyping from "../../customHooks/handleTyping";
 
-import "react-tenor/dist/styles.css";
-
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    icon: {
-      color: "#8696A0",
-    },
-  })
-);
-
+///////////////////////////////////////////////////////////////////
 function Chat(props) {
-  // MUI Styles
-  const classes = useStyles();
-
   // Use state
-  const [emojiBox, setEmojiBox] = React.useState(false);
-  const [gifBox, setGifBox] = React.useState(false);
-  const [openModal, setOpenModal] = React.useState(false);
-  const [selectedUser, setSelectedUser] = React.useState([]);
+  const [emojiBox, setEmojiBox] = React.useState(false); // emoji picker state
+  const [gifBox, setGifBox] = React.useState(false); // gif picker state
+  const [message, setMessage] = React.useState(""); // message typed by the user
+  const [selectedMessages, setSelectedMessages] = React.useState([]); // selected messages to delete
   const [circularProgress, setCircularProgress] = React.useState(true);
-  const [message, setMessage] = React.useState("");
-  const [selectedMessages, setSelectedMessages] = React.useState([]);
 
-  // Contexts
+  // Custom hooks
   const { currentUser, emailId, chatBackground, toggleContactInfoDispatch } =
     useContexts();
 
-  // Custom hooks
   const { chatMessages, setChatMessages } = useGetMessages(
     props.setStarredMessages
   );
@@ -95,11 +71,6 @@ function Chat(props) {
     localStorage.removeItem("chat");
   };
 
-  const handleCloseModal = () => {
-    setOpenModal(false);
-    setSelectedUser([]);
-  };
-
   return (
     <Context.ChatDetailsContext.Provider
       value={{
@@ -113,10 +84,6 @@ function Chat(props) {
         setShowWebcam: setShowWebcam,
         gifBox: gifBox,
         setGifBox: setGifBox,
-        openModal: openModal,
-        setOpenModal: setOpenModal,
-        selectedUser: selectedUser,
-        setSelectedUser: setSelectedUser,
         circularProgress: circularProgress,
         setCircularProgress: setCircularProgress,
         message: message,
@@ -133,7 +100,6 @@ function Chat(props) {
         setChat: props.setChat,
         sendMessageRef: sendMessageRef,
         block: props.block,
-        handleCloseModal: handleCloseModal,
       }}
     >
       <div className="chat">
@@ -170,13 +136,16 @@ function Chat(props) {
         {/* Gif picker */}
         {gifBox && <GifPickerComponent />}
 
+        {/* User is blocked and webcam is not displayed */}
         {showWebcam === false && props.block.length !== 0 ? (
           <div className="chat-footer-blocked">
             <p>Cant send message to a blocked contact {chatUser.email}</p>
           </div>
-        ) : showWebcam === true ? (
+        ) : // User is blocked and webcam is displayed
+        showWebcam === true ? (
           ""
-        ) : showWebcam === false &&
+        ) : // User is not blocked and webcam is not displayed and select message UI is displayed
+        showWebcam === false &&
           props.block.length === 0 &&
           selectMessagesUI === true ? (
           <div
@@ -190,7 +159,7 @@ function Chat(props) {
                 setSelectedMessages([]);
               }}
             >
-              <Icons.CloseOutlinedIcon className={classes.icon} />
+              <Icons.CloseOutlinedIcon color="primary" />
             </IconButton>
             <p>{`${selectedMessages.length} selected`}</p>
             <IconButton
@@ -200,7 +169,7 @@ function Chat(props) {
               }
               disabled={selectedMessages.length === 0 ? true : false}
             >
-              <Icons.StarRateRoundedIcon className={classes.icon} />
+              <Icons.StarRateRoundedIcon color="primary" />
             </IconButton>
 
             <IconButton
@@ -217,22 +186,17 @@ function Chat(props) {
               }
               disabled={selectedMessages.length === 0 ? true : false}
             >
-              <Icons.DeleteRoundedIcon className={classes.icon} />
+              <Icons.DeleteRoundedIcon color="primary" />
             </IconButton>
 
-            <IconButton
-              aria-label="forward-messages"
-              disabled={selectedMessages.length === 0 ? true : false}
-              onClick={() => setOpenModal(true)}
-            >
-              <Icons.ShortcutIcon className={classes.icon} />
+            <IconButton aria-label="forward-messages">
+              <Icons.ShortcutIcon color="primary" />
             </IconButton>
           </div>
         ) : (
+          // User is not blocked, webcam is not displayed and select message UI is not displayed
           <ChatFooter />
         )}
-
-        <ForwardMessageModal />
       </div>
     </Context.ChatDetailsContext.Provider>
   );
