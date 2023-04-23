@@ -74,4 +74,4 @@ function WebcamComponents() {
   );
 }
 
-export default WebcamComponents;
+export default React.memo(WebcamComponents);

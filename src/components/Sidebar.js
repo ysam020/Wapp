@@ -25,15 +25,9 @@ function Sidebar(props) {
   const sidebarSearchRef = useRef();
 
   // Custom hooks
-  const {
-    currentUser,
-    toggleSidebarProfileDispatch,
-    toggleSidebarDispatch,
-    newChatDispatch,
-    communitiesDispatch,
-  } = useContexts();
+  const { currentUser } = useContexts();
 
-  const sidebarPopoverList = useSidebarPopover();
+  const sidebarPopoverList = useSidebarPopover(props.toggleDrawer);
   const { allUsers } = useGetUsers();
   const { friendList } = useGetFriends();
 
@@ -80,20 +74,14 @@ function Sidebar(props) {
       <div className="sidebar-header">
         <IconButton
           aria-label="avatar"
-          onClick={() => {
-            toggleSidebarProfileDispatch("toggle");
-            toggleSidebarDispatch("toggle");
-          }}
+          onClick={props.toggleDrawer("sidebarProfile", true)}
         >
           <Avatar src={currentUser.photoURL} alt={currentUser.fullname} />
         </IconButton>
         <div className="sidebar-header-right">
           <IconButton
             aria-label="communities"
-            onClick={() => {
-              toggleSidebarDispatch("toggle");
-              communitiesDispatch("toggle");
-            }}
+            onClick={props.toggleDrawer("communities", true)}
           >
             <Icons.GroupsRoundedIcon color="primary" />
           </IconButton>
@@ -103,10 +91,7 @@ function Sidebar(props) {
 
           <IconButton
             aria-label="new-chat"
-            onClick={() => {
-              toggleSidebarDispatch("toggle");
-              newChatDispatch("toggle");
-            }}
+            onClick={props.toggleDrawer("newChat", true)}
           >
             <Icons.ChatRoundedIcon color="primary" />
           </IconButton>
@@ -114,23 +99,30 @@ function Sidebar(props) {
           <div className="sidebar-popover-container">
             <IconButton
               aria-label="more"
-              onClick={handleSidebarPopover}
+              onClick={(event) => {
+                event.stopPropagation();
+                handleSidebarPopover();
+              }}
               color="primary"
             >
               <Icons.MoreVertRoundedIcon color="primary" />
-              {sidebarPopover && (
-                <ClickAwayListener onClickAway={handleClickAway}>
-                  <div className="sidebar-popover">
-                    {sidebarPopoverList.map((item) => {
-                      return (
-                        <h4 key={item.id} onClick={item.onClick}>
-                          {item.name}
-                        </h4>
-                      );
-                    })}
-                  </div>
-                </ClickAwayListener>
-              )}
+              <ClickAwayListener onClickAway={handleClickAway}>
+                <div
+                  className={
+                    sidebarPopover
+                      ? "sidebar-popover sidebar-popover-open"
+                      : "sidebar-popover"
+                  }
+                >
+                  {sidebarPopoverList.map((item) => {
+                    return (
+                      <h4 key={item.id} onClick={item.onClick}>
+                        {item.name}
+                      </h4>
+                    );
+                  })}
+                </div>
+              </ClickAwayListener>
             </IconButton>
           </div>
         </div>

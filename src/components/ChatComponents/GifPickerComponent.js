@@ -30,4 +30,4 @@ function GifPickerComponent() {
   );
 }
 
-export default GifPickerComponent;
+export default React.memo(GifPickerComponent);

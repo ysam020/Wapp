@@ -1,7 +1,4 @@
 import * as React from "react";
-import * as Context from "../../contexts/Context";
-import * as Icons from "../Icons";
-import { IconButton } from "@material-ui/core";
 // Styles
 import "react-tenor/dist/styles.css";
 import "../../styles/chat.css";
@@ -12,18 +9,22 @@ import WebcamComponents from "./WebcamComponents";
 import ChatFooter from "./ChatFooter";
 import ChatHeader from "./ChatHeader";
 import SelectMessagesUI from "./SelectMessagesUI";
+import * as Icons from "../Icons";
+import { IconButton } from "@material-ui/core";
 // utils
 import { deleteSelectedMessages } from "../../utils/deleteSelectedMessages";
 import { starMessages } from "../../utils/starMessages";
 import { markMessageAsread } from "../../utils/markMessageAsRead";
+// Contexts
+import * as Context from "../../contexts/Context";
 // Custom hooks
 import useContexts from "../../customHooks/contexts";
 import useGetMessages from "../../customHooks/getMessages";
 import useChatUser from "../../customHooks/chatUser";
 import useChatWallpaper from "../../customHooks/chatWallpaper";
 import useWebcam from "../../customHooks/webcam";
-import useScrollToBottom from "../../customHooks/scrollToBottom";
 import useHandleTyping from "../../customHooks/handleTyping";
+import useFriendData from "../../customHooks/friendData";
 
 ///////////////////////////////////////////////////////////////////
 function Chat(props) {
@@ -33,17 +34,15 @@ function Chat(props) {
   const [message, setMessage] = React.useState(""); // message typed by the user
   const [selectedMessages, setSelectedMessages] = React.useState([]); // selected messages to delete
   const [circularProgress, setCircularProgress] = React.useState(true);
-
   // Custom hooks
-  const { currentUser, emailId, chatBackground, toggleContactInfoDispatch } =
-    useContexts();
-
+  const { currentUser, emailId, chatBackground } = useContexts();
+  const { setBlock } = useFriendData();
   const { chatMessages, setChatMessages } = useGetMessages(
     props.setStarredMessages
   );
 
   const { chatUser, setChatUser, lastSeen, setLastSeen } = useChatUser(
-    props.setBlock,
+    setBlock,
     chatMessages
   );
 
@@ -56,17 +55,18 @@ function Chat(props) {
     sendMessageRef,
   } = useWebcam(props.block);
 
-  const { chatBox } = useScrollToBottom(chatMessages);
-  const { typing, setTyping } = useHandleTyping(chatMessages);
+  const { typing, setTyping } = useHandleTyping();
 
   // Mark messages as read when chat component loads
   React.useEffect(() => {
-    markMessageAsread(emailId, currentUser);
-  }, [emailId, currentUser]);
+    if (chatMessages.length > 0) {
+      markMessageAsread(emailId, currentUser);
+    }
+    // eslint-disable-next-line
+  }, [emailId, chatMessages]);
 
   // Close chat function
   const closeChat = () => {
-    toggleContactInfoDispatch("hide");
     props.setChat(false);
     localStorage.removeItem("chat");
   };
@@ -103,20 +103,25 @@ function Chat(props) {
       }}
     >
       <div className="chat">
-        <ChatHeader />
+        {/* Chat header */}
+        <ChatHeader toggleDrawer={props.toggleDrawer} />
 
+        {/* Chat body */}
         <div
           className="chat-body"
-          ref={chatBox}
           style={{
             backgroundColor: `${chatBackground}`,
             backgroundImage: `url(${chatWallpaper}`,
           }}
+          id="parent"
         >
+          {/* If webcam is displayed */}
           {showWebcam ? (
             <WebcamComponents />
           ) : (
-            <div className="chat-body-inner-container">
+            <>
+              {/* If webcam is not displayed */}
+              <div style={{ flexGrow: 1 }}></div>
               {chatMessages.map((message, index) => {
                 return (
                   <SelectMessagesUI
@@ -126,15 +131,19 @@ function Chat(props) {
                   />
                 );
               })}
-            </div>
+            </>
           )}
         </div>
 
         {/* Emoji box */}
-        {emojiBox && <EmojiPickerComponent />}
+        <div
+          className={emojiBox || gifBox ? "picker-box-active" : "picker-box"}
+        >
+          {emojiBox && <EmojiPickerComponent />}
 
-        {/* Gif picker */}
-        {gifBox && <GifPickerComponent />}
+          {/* Gif picker */}
+          {gifBox && <GifPickerComponent />}
+        </div>
 
         {/* User is blocked and webcam is not displayed */}
         {showWebcam === false && props.block.length !== 0 ? (

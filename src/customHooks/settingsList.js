@@ -1,24 +1,11 @@
 import { useState } from "react";
 // Components
 import * as Icons from "../components/Icons";
-// Custom hooks
-import useContexts from "./contexts";
 
 ///////////////////////////////////////////////////////////////////
-function useSettingsList() {
+function useSettingsList(toggleDrawer) {
   // useState
   const [openModal, setOpenModal] = useState(false);
-
-  // Custom hooks
-  const {
-    toggleSettingsDispatch,
-    settingsNotificationDispatch,
-    settingsPrivacyDispatch,
-    settingsSecurityDispatch,
-    settingsAccountInfoDispatch,
-    settingsHelpDispatch,
-    toggleChatWallpaperDispatch,
-  } = useContexts();
 
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
@@ -29,30 +16,21 @@ function useSettingsList() {
       name: "Notifications",
       icon: <Icons.NotificationsRoundedIcon color="primary" />,
       style: "settings-list-item settings-list-item-notifications",
-      onClick: () => {
-        settingsNotificationDispatch("toggle");
-        toggleSettingsDispatch("toggle");
-      },
+      onClick: toggleDrawer("notifications", true),
     },
     {
       id: 2,
       name: "Privacy",
       icon: <Icons.LockRoundedIcon color="primary" />,
       style: "settings-list-item settings-list-item-privacy",
-      onClick: () => {
-        settingsPrivacyDispatch("toggle");
-        toggleSettingsDispatch("toggle");
-      },
+      onClick: toggleDrawer("privacy", true),
     },
     {
       id: 3,
       name: "Security",
       icon: <Icons.SecurityRoundedIcon color="primary" />,
       style: "settings-list-item settings-list-item-security",
-      onClick: () => {
-        settingsSecurityDispatch("toggle");
-        toggleSettingsDispatch("toggle");
-      },
+      onClick: toggleDrawer("security", true),
     },
     {
       id: 4,
@@ -65,20 +43,14 @@ function useSettingsList() {
       name: "Chat Wallpaper",
       icon: <Icons.WallpaperRoundedIcon color="primary" />,
       style: "settings-list-item settings-list-item-chat-wallpaper",
-      onClick: () => {
-        toggleChatWallpaperDispatch("toggle");
-        toggleSettingsDispatch("toggle");
-      },
+      onClick: toggleDrawer("chatWallpaper", true),
     },
     {
       id: 6,
       name: "Request Account Info",
       icon: <Icons.FeedRoundedIcon color="primary" />,
       style: "settings-list-item settings-list-item-request-account-info",
-      onClick: () => {
-        settingsAccountInfoDispatch("toggle");
-        toggleSettingsDispatch("toggle");
-      },
+      onClick: toggleDrawer("accountInfo", true),
     },
     {
       id: 7,
@@ -94,10 +66,7 @@ function useSettingsList() {
       name: "Help",
       icon: <Icons.HelpRoundedIcon color="primary" />,
       style: "settings-list-item settings-list-item-help",
-      onClick: () => {
-        settingsHelpDispatch("toggle");
-        toggleSettingsDispatch("toggle");
-      },
+      onClick: toggleDrawer("help", true),
     },
   ];
   return {

@@ -1,6 +1,7 @@
-import { sendMessageToDatabase } from "./sendMessageToDatabase";
 import cryptoRandomString from "crypto-random-string";
 import firebase from "firebase/app";
+// utils
+import { sendMessageToDatabase } from "./sendMessageToDatabase";
 
 // Send Message
 export function sendMessage(

@@ -12,16 +12,9 @@ import useContexts from "../../customHooks/contexts";
 import useSettingsList from "../../customHooks/settingsList";
 
 ///////////////////////////////////////////////////////////////////
-function Settings() {
+function Settings(props) {
   // Custom hooks
-  const {
-    currentUser,
-    toggleSettingsDispatch,
-    toggleSidebarDispatch,
-    theme,
-    toggleTheme,
-    setChatBackground,
-  } = useContexts();
+  const { currentUser, theme, toggleTheme, setChatBackground } = useContexts();
 
   const {
     settingsList,
@@ -29,7 +22,7 @@ function Settings() {
     setOpenModal,
     handleOpenModal,
     handleCloseModal,
-  } = useSettingsList();
+  } = useSettingsList(props.toggleDrawer);
 
   return (
     <>
@@ -44,10 +37,7 @@ function Settings() {
           <div className="sidebar-panel-header-container">
             <IconButton
               aria-label="back"
-              onClick={() => {
-                toggleSettingsDispatch("toggle");
-                toggleSidebarDispatch("toggle");
-              }}
+              onClick={props.toggleDrawer("settings", false)}
             >
               <Icons.ArrowBackIcon color="secondary" />
             </IconButton>

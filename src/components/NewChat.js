@@ -8,7 +8,6 @@ import { IconButton } from "@material-ui/core";
 // MUI
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 // Custom hooks
-import useContexts from "../customHooks/contexts";
 import useGetUsers from "../customHooks/getUsers";
 
 // MUI styles
@@ -34,7 +33,6 @@ function NewChat(props) {
   const newChatSearchRef = useRef();
 
   // Custom hooks
-  const { newChatDispatch, toggleSidebarDispatch } = useContexts();
   const { allUsers } = useGetUsers();
 
   // Return matching users from all users
@@ -69,10 +67,7 @@ function NewChat(props) {
         <div className="sidebar-panel-header-container">
           <IconButton
             aria-label="back"
-            onClick={() => {
-              newChatDispatch("toggle");
-              toggleSidebarDispatch("toggle");
-            }}
+            onClick={props.toggleDrawer("newChat", false)}
           >
             <Icons.ArrowBackIcon color="secondary" />
           </IconButton>
@@ -129,13 +124,7 @@ function NewChat(props) {
             ? searchItem
             : allUsers.map((user, id) => {
                 return (
-                  <div
-                    key={id}
-                    onClick={() => {
-                      toggleSidebarDispatch("toggle");
-                      newChatDispatch("toggle");
-                    }}
-                  >
+                  <div key={id} onClick={props.toggleDrawer("newChat", false)}>
                     <SidebarSearchedUser
                       name={user.data().fullname}
                       photoURL={user.data().photoURL}

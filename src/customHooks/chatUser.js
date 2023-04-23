@@ -8,23 +8,28 @@ import useContexts from "./contexts";
 
 ///////////////////////////////////////////////////////////////////
 function useChatUser(setBlock = null, chatMessages) {
+  // useState
   const [chatUser, setChatUser] = useState({});
   const [lastSeen, setLastSeen] = useState();
+
+  // Custom hooks
   const { emailId, currentUser } = useContexts();
 
   // Firebase refs
-  const firebaseRef = FirebaseRefs(emailId, currentUser);
+  const firebaseRef = emailId ? FirebaseRefs(emailId, currentUser) : "";
 
   useEffect(() => {
-    getUser(emailId, currentUser, setChatUser);
-    if (setBlock && typeof setBlock === "function") {
-      checkBlockedUser(emailId, currentUser, setBlock, chatUser);
-    }
+    if (emailId) {
+      getUser(emailId, currentUser, setChatUser);
+      if (setBlock && typeof setBlock === "function") {
+        checkBlockedUser(emailId, currentUser, setBlock, chatUser);
+      }
 
-    // Get last online time
-    firebaseRef.chatUserRef.onSnapshot((snapshot) =>
-      setLastSeen(snapshot.data().lastOnline)
-    );
+      // Get last online time
+      firebaseRef.chatUserRef.onSnapshot((snapshot) =>
+        setLastSeen(snapshot.data().lastOnline)
+      );
+    }
 
     // eslint-disable-next-line
   }, [

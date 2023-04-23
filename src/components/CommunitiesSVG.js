@@ -197,4 +197,4 @@ function CommunitiesSVG() {
   );
 }
 
-export default CommunitiesSVG;
+export default React.memo(CommunitiesSVG);

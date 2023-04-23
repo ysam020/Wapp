@@ -230,4 +230,4 @@ function DisappearingMessagesSVG() {
   );
 }
 
-export default DisappearingMessagesSVG;
+export default React.memo(DisappearingMessagesSVG);

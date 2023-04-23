@@ -5,24 +5,16 @@ import "../../styles/privacy.css";
 import * as Icons from "../Icons";
 import { IconButton } from "@material-ui/core";
 import Checkbox from "@mui/material/Checkbox";
-// Custom hooks
-import useContexts from "../../customHooks/contexts";
 
 ///////////////////////////////////////////////////////////////////
-function Privacy() {
-  // Custom hooks
-  const { toggleSettingsDispatch, settingsPrivacyDispatch } = useContexts();
-
+function Privacy(props) {
   return (
     <div className="sidebar-panel">
       <div className="sidebar-panel-header">
         <div className="sidebar-panel-header-container">
           <IconButton
             aria-label="back"
-            onClick={() => {
-              toggleSettingsDispatch("toggle");
-              settingsPrivacyDispatch("toggle");
-            }}
+            onClick={props.toggleDrawer("privacy", false)}
           >
             <Icons.ArrowBackIcon color="secondary" />
           </IconButton>

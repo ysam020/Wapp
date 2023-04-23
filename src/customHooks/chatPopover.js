@@ -5,27 +5,18 @@ import { deleteChat } from "../utils/deleteChat";
 import useContexts from "./contexts";
 
 ///////////////////////////////////////////////////////////////////
-function useChatPopover() {
+function useChatPopover(toggleDrawer) {
   // useState
   const [chatPopover, setChatPopover] = useState(false);
 
   // Custom hooks
-  const {
-    toggleContactInfoDispatch,
-    chatDetailsContext,
-    disappearingMessagesDispatch,
-    currentUser,
-    emailId,
-  } = useContexts();
+  const { chatDetailsContext, currentUser, emailId } = useContexts();
 
   const chatPropoverList = [
     {
       id: 1,
       name: "Contact info",
-      onClick: () => {
-        toggleContactInfoDispatch("toggle");
-        setChatPopover(!chatPopover);
-      },
+      onClick: toggleDrawer("contactInfo", true),
     },
     {
       id: 2,
@@ -61,10 +52,7 @@ function useChatPopover() {
     {
       id: 6,
       name: "Disappearing messages",
-      onClick: () => {
-        disappearingMessagesDispatch("toggle");
-        setChatPopover(!chatPopover);
-      },
+      onClick: toggleDrawer("disappearingMessages", true),
     },
 
     {

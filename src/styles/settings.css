@@ -3,6 +3,7 @@
 .settings-body {
   background-color: var(--settings-body);
   flex: 1;
+  overflow: scroll;
 }
 
 .settings-user-info {

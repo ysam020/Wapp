@@ -1,19 +1,21 @@
+// Styles
 import "./App.css";
+// Components
 import Login from "./pages/Login";
-import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Context, {
-  AuthContext,
-  UserContext,
-  ThemeContext,
-  ChatBackgroundContext,
-} from "./contexts/Context";
+// Contexts
+import * as Context from "./contexts/Context";
+// MUI theme
 import { ThemeProvider } from "@mui/material/styles";
+// Routes
+import { Routes, Route } from "react-router-dom";
+// Custom hooks
 import useMuiTheme from "./customHooks/muiTheme";
 import useSignIn from "./customHooks/signIn";
 import useLogout from "./customHooks/logout";
 import useSetTheme from "./customHooks/setTheme";
 
+///////////////////////////////////////////////////////////////////
 function App() {
   // Custom hooks
   const muiTheme = useMuiTheme();
@@ -30,29 +32,27 @@ function App() {
 
   return (
     <ThemeProvider theme={muiTheme}>
-      <ChatBackgroundContext.Provider
+      <Context.ChatBackgroundContext.Provider
         value={{ chatBackground, setChatBackground, doodle, setDoodle }}
       >
-        <ThemeContext.Provider value={{ theme, toggleTheme }}>
-          <UserContext.Provider value={user}>
-            <AuthContext.Provider value={{ signIn: signIn, logout: logout }}>
-              <Context>
-                <div className="App" id={theme}>
-                  {!user ? (
-                    <Login />
-                  ) : (
-                    <div className="app-body">
-                      <Routes>
-                        <Route path="/" element={<Home />}></Route>
-                      </Routes>
-                    </div>
-                  )}
-                </div>
-              </Context>
-            </AuthContext.Provider>
-          </UserContext.Provider>
-        </ThemeContext.Provider>
-      </ChatBackgroundContext.Provider>
+        <Context.ThemeContext.Provider value={{ theme, toggleTheme }}>
+          <Context.UserContext.Provider value={user}>
+            <Context.AuthContext.Provider
+              value={{ signIn: signIn, logout: logout }}
+            >
+              <div className="App" id={theme}>
+                {!user ? (
+                  <Login />
+                ) : (
+                  <Routes>
+                    <Route path="/" element={<Home />}></Route>
+                  </Routes>
+                )}
+              </div>
+            </Context.AuthContext.Provider>
+          </Context.UserContext.Provider>
+        </Context.ThemeContext.Provider>
+      </Context.ChatBackgroundContext.Provider>
     </ThemeProvider>
   );
 }

@@ -3,14 +3,16 @@ import { useState, useEffect } from "react";
 import { handleTyping } from "../utils/typing";
 // Custom hooks
 import useContexts from "./contexts";
+import useGetMessages from "./getMessages";
 
 ///////////////////////////////////////////////////////////////////
-function useHandleTyping(chatMessages) {
+function useHandleTyping() {
   // useState
   const [typing, setTyping] = useState(false);
 
   // Custom hooks
   const { currentUser, emailId } = useContexts();
+  const { chatMessages } = useGetMessages();
 
   useEffect(() => {
     if (chatMessages.length > 0) {

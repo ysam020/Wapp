@@ -1,6 +1,8 @@
+// utils
 import FirebaseRefs from "../components/FirebaseRefs";
 
 export function checkBlockedUser(emailId, currentUser, setBlock, chatUser) {
+  // db Ref
   const firebaseRef = FirebaseRefs(emailId, currentUser);
 
   firebaseRef.blockedUserCollectionRef.onSnapshot((snapshot) => {

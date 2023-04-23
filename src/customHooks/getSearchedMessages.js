@@ -17,32 +17,34 @@ function useGetSearchedMessages() {
   const { currentUser, emailId } = useContexts();
 
   // db ref
-  const firebaseRef = FirebaseRefs(emailId, currentUser);
+  const firebaseRef = emailId ? FirebaseRefs(emailId, currentUser) : "";
 
   // Get chats from database
   const getMessages = useCallback(() => {
-    firebaseRef.senderMessageCollectionRef
-      .orderBy("timestamp", "asc")
-      .onSnapshot((snapshot) => {
-        let messages = snapshot.docs.map((doc) => doc.data());
+    if (emailId) {
+      firebaseRef.senderMessageCollectionRef
+        .orderBy("timestamp", "asc")
+        .onSnapshot((snapshot) => {
+          let messages = snapshot.docs.map((doc) => doc.data());
 
-        let newMessage = messages.filter(
-          (message) =>
-            message.senderEmail === (currentUser.email && emailId) ||
-            message.receiverEmail === (currentUser.email && emailId)
-        );
+          let newMessage = messages.filter(
+            (message) =>
+              message.senderEmail === (currentUser.email && emailId) ||
+              message.receiverEmail === (currentUser.email && emailId)
+          );
 
-        setSearchedMessage(
-          newMessage.filter((searchTerm) => {
-            if (searchedMessageInput) {
-              if (searchTerm.text.includes(searchedMessageInput)) {
-                return searchTerm;
+          setSearchedMessage(
+            newMessage.filter((searchTerm) => {
+              if (searchedMessageInput) {
+                if (searchTerm.text.includes(searchedMessageInput)) {
+                  return searchTerm;
+                }
               }
-            }
-            return false;
-          })
-        );
-      });
+              return false;
+            })
+          );
+        });
+    }
     // eslint-disable-next-line
   }, [searchedMessageInput]);
 

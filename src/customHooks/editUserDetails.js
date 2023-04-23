@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 // utils
-import FirebaseRefs from "../components/FirebaseRefs";
+import db from "../firebase";
 // Custom hooks
 import useContexts from "./contexts";
 
@@ -17,18 +17,14 @@ function useEditUserDetails(updateName, updateAbout) {
   const editAboutInputRef = useRef();
 
   // Custom hooks
-  const { currentUser, emailId } = useContexts();
+  const { currentUser } = useContexts();
 
   // db Ref
-  const firebaseRef = FirebaseRefs(emailId, currentUser);
+  const userRef = db.collection("users").doc(currentUser.email);
 
   useEffect(() => {
-    firebaseRef.userRef.onSnapshot((snapshot) =>
-      setFullname(snapshot.data().fullname)
-    );
-    firebaseRef.userRef.onSnapshot((snapshot) =>
-      setAbout(snapshot.data().about)
-    );
+    userRef.onSnapshot((snapshot) => setFullname(snapshot.data().fullname));
+    userRef.onSnapshot((snapshot) => setAbout(snapshot.data().about));
 
     editNameInputRef.current.setSelectionRange(
       editNameInputRef.current.value.length,

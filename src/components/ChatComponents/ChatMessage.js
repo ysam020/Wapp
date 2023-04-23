@@ -40,7 +40,10 @@ function ChatMessage(props) {
             controls={true}
             height="auto"
             className="message-text"
-            style={{ outline: "none", cursor: "pointer" }}
+            style={{
+              outline: "none",
+              cursor: "pointer",
+            }}
             onClick={() => downloadMedia(props.videoURL, props.fileName)}
             id="downloadVideo"
           />

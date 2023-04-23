@@ -1,8 +1,11 @@
+// utils
 import FirebaseRefs from "../components/FirebaseRefs";
 
 export const deleteChat = (emailId, currentUser, setChat) => {
+  // db Ref
   const firebaseRef = FirebaseRefs(emailId, currentUser);
 
+  // Delete chatMessages collection
   firebaseRef.senderMessageCollectionRef
     .where("receiverEmail", "==", emailId, "||", currentUser.email)
     .get()

@@ -1,5 +1,6 @@
 import cryptoRandomString from "crypto-random-string";
 import firebase from "firebase/app";
+// utils
 import { sendMessageToDatabase } from "./sendMessageToDatabase";
 
 export const selectFiles = (

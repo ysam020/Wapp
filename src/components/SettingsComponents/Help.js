@@ -7,24 +7,16 @@ import * as Icons from "../Icons";
 // Assets
 import helpList from "../../assets/data/Helplist";
 import wappHelp from "../../assets/images/wapp-help.png";
-// Custom hooks
-import useContexts from "../../customHooks/contexts";
 
 ///////////////////////////////////////////////////////////////////
-function Help() {
-  // Custom hooks
-  const { toggleSettingsDispatch, settingsHelpDispatch } = useContexts();
-
+function Help(props) {
   return (
     <div className="sidebar-panel">
       <div className="sidebar-panel-header">
         <div className="sidebar-panel-header-container">
           <IconButton
             aria-label="back"
-            onClick={() => {
-              toggleSettingsDispatch("toggle");
-              settingsHelpDispatch("toggle");
-            }}
+            onClick={props.toggleDrawer("help", false)}
           >
             <Icons.ArrowBackIcon color="secondary" />
           </IconButton>

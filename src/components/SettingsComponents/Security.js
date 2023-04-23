@@ -7,24 +7,16 @@ import { IconButton } from "@material-ui/core";
 import Checkbox from "@mui/material/Checkbox";
 // Assets
 import securityList from "../../assets/data/SecurityList";
-// Custom hooks
-import useContexts from "../../customHooks/contexts";
 
 ///////////////////////////////////////////////////////////////////
-function Security() {
-  // Contexts
-  const { toggleSettingsDispatch, settingsSecurityDispatch } = useContexts();
-
+function Security(props) {
   return (
     <div className="sidebar-panel">
       <div className="sidebar-panel-header">
         <div className="sidebar-panel-header-container">
           <IconButton
             aria-label="back"
-            onClick={() => {
-              toggleSettingsDispatch("toggle");
-              settingsSecurityDispatch("toggle");
-            }}
+            onClick={props.toggleDrawer("security", false)}
           >
             <Icons.ArrowBackIcon color="secondary" />
           </IconButton>

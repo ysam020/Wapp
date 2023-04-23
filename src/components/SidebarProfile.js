@@ -1,41 +1,37 @@
 import React, { useState } from "react";
 // Styles
 import "../styles/sidebar-profile.css";
+import "../styles/constants.css";
 // Components
 import * as Icons from "./Icons";
 import { IconButton, Tooltip } from "@material-ui/core";
 import { Avatar } from "@material-ui/core";
 // utils
-import FirebaseRefs from "./FirebaseRefs";
+import db from "../firebase";
 // Custom hooks
 import useContexts from "../customHooks/contexts";
 import useEditUserDetails from "../customHooks/editUserDetails";
 
 ///////////////////////////////////////////////////////////////////
-function SidebarProfile() {
+function SidebarProfile(props) {
   // useState
   const [editNameFocus, setEditNameFocus] = useState(false);
   const [editAboutFocus, setEditAboutFocus] = useState(false);
 
-  // Custom hooks
-  const {
-    currentUser,
-    emailId,
-    toggleSidebarDispatch,
-    toggleSidebarProfileDispatch,
-  } = useContexts();
-
-  const firebaseRef = FirebaseRefs(emailId, currentUser);
-
   const updateName = () => {
-    firebaseRef.userRef.update({ fullname: editNameInputRef.current.value });
+    userRef.update({ fullname: editNameInputRef.current.value });
     setEditNameFocus(false);
   };
 
   const updateAbout = () => {
-    firebaseRef.userRef.update({ about: editAboutInputRef.current.value });
+    userRef.update({ about: editAboutInputRef.current.value });
     setEditAboutFocus(false);
   };
+
+  // Custom hooks
+  const { currentUser } = useContexts();
+
+  const userRef = db.collection("users").doc(currentUser.email);
 
   const {
     fullname,
@@ -52,10 +48,7 @@ function SidebarProfile() {
         <div className="sidebar-panel-header-container">
           <IconButton
             aria-label="back"
-            onClick={() => {
-              toggleSidebarProfileDispatch("toggle");
-              toggleSidebarDispatch("toggle");
-            }}
+            onClick={props.toggleDrawer("sidebarProfile", false)}
           >
             <Icons.ArrowBackIcon color="secondary" />
           </IconButton>
@@ -63,15 +56,15 @@ function SidebarProfile() {
         </div>
       </div>
 
-      <div className="sidebar-profile-image">
-        <Avatar
-          src={currentUser.photoURL}
-          style={{ height: "200px", width: "200px", margin: "auto" }}
-          alt={currentUser.fullname}
-        />
-      </div>
-
       <div className="sidebar-profile-body">
+        <div className="sidebar-profile-image">
+          <Avatar
+            src={currentUser.photoURL}
+            style={{ height: "200px", width: "200px", margin: "auto" }}
+            alt={currentUser.fullname}
+          />
+        </div>
+
         <div className="sidebar-profile-name" ref={editNameRef}>
           <h3>Your name</h3>
           <div

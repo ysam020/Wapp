@@ -1,7 +1,8 @@
 import { useState } from "react";
 import firebase from "firebase/app";
-import db, { auth, provider } from "../firebase";
 import { useNavigate } from "react-router-dom";
+// utils
+import db, { auth, provider } from "../firebase";
 
 ///////////////////////////////////////////////////////////////////
 function useSignIn() {

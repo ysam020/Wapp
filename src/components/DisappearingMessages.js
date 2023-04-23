@@ -15,18 +15,16 @@ import { disappearingMessagesOptions } from "../assets/data/disappearingMessages
 import useContexts from "../customHooks/contexts";
 
 ///////////////////////////////////////////////////////////////////
-function DisappearingMessages() {
+function DisappearingMessages(props) {
   // Custom hooks
-  const { disappearingMessagesDispatch, theme } = useContexts();
+  const { theme } = useContexts();
 
   return (
     <div className="sidebar-panel-right">
       <div className="sidebar-panel-right-header">
         <IconButton
           aria-label="close"
-          onClick={() => {
-            disappearingMessagesDispatch("toggle");
-          }}
+          onClick={props.toggleDrawer("disappearingMessages", false)}
         >
           <Icons.CloseRoundedIcon color="primary" />
         </IconButton>

@@ -3,6 +3,7 @@
 .new-chat-body {
   background-color: var(--new-chat-body);
   flex: 1;
+  overflow: scroll;
 }
 
 .new-chat-search {

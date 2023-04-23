@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+// utils
 import db from "../firebase";
 // Custom hooks
 import useContexts from "./contexts";

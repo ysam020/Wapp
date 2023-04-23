@@ -155,18 +155,28 @@ a {
   -webkit-box-orient: vertical;
 }
 
-.sidebar-popover-container {
-  position: relative;
-}
-
 .sidebar-popover {
   position: absolute;
   top: 50px;
-  left: -180px;
+  left: -190px;
   background-color: var(--popover);
   z-index: 100;
   padding: 13px 0;
   box-shadow: var(--popover-box-shadow);
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0);
+  transform-origin: right top;
+  transition: transform 0.2s ease-in-out;
+  z-index: 100;
+}
+
+.sidebar-popover-open {
+  opacity: 1;
+  width: 220px;
+  height: 160px;
+  transform: scale(1);
+  pointer-events: all;
 }
 
 .sidebar-popover h4 {

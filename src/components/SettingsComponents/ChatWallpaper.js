@@ -12,16 +12,9 @@ import chatWallpaperData from "../../assets/data/ChatWallpaperData";
 import useContexts from "../../customHooks/contexts";
 
 ///////////////////////////////////////////////////////////////////
-function ChatWallpaper() {
+function ChatWallpaper(props) {
   // Custom hooks
-  const {
-    toggleSettingsDispatch,
-    theme,
-    toggleChatWallpaperDispatch,
-    setChatBackground,
-    doodle,
-    setDoodle,
-  } = useContexts();
+  const { theme, setChatBackground, doodle, setDoodle } = useContexts();
 
   return (
     <div className="sidebar-panel">
@@ -29,10 +22,7 @@ function ChatWallpaper() {
         <div className="sidebar-panel-header-container">
           <IconButton
             aria-label="back"
-            onClick={() => {
-              toggleSettingsDispatch("toggle");
-              toggleChatWallpaperDispatch("toggle");
-            }}
+            onClick={props.toggleDrawer("chatWallpaper", false)}
           >
             <Icons.ArrowBackIcon color="secondary" />
           </IconButton>

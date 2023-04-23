@@ -16,7 +16,7 @@ function useContactInfoActions(setChat, blockLength, handleOpenModal) {
   const { chatUser } = useChatUser();
 
   // db Ref
-  const firebaseRef = FirebaseRefs(emailId, currentUser);
+  const firebaseRef = emailId ? FirebaseRefs(emailId, currentUser) : "";
 
   const contactInfoActions = [
     {

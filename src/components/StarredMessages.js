@@ -14,7 +14,7 @@ import useChatUser from "../customHooks/chatUser";
 ///////////////////////////////////////////////////////////////////
 function StarredMessages(props) {
   // Custom hooks
-  const { currentUser, starredMessageDispatch } = useContexts();
+  const { currentUser } = useContexts();
   const { chatUser } = useChatUser();
 
   // Filter starred messages for current user
@@ -32,7 +32,7 @@ function StarredMessages(props) {
       <div className="sidebar-panel-right-header">
         <IconButton
           aria-label="close"
-          onClick={() => starredMessageDispatch("hide")}
+          onClick={props.toggleDrawer("starredMessages", false)}
         >
           <Icons.CloseRoundedIcon color="primary" />
         </IconButton>

@@ -1,3 +1,4 @@
+// utils
 import FirebaseRefs from "../components/FirebaseRefs";
 
 export const deleteSelectedMessages = (
@@ -8,6 +9,7 @@ export const deleteSelectedMessages = (
   emailId,
   currentUser
 ) => {
+  // db Ref
   const firebaseRef = FirebaseRefs(emailId, currentUser);
 
   selectedMessages.map((message) => {

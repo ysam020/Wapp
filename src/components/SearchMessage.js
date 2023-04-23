@@ -7,14 +7,11 @@ import { IconButton } from "@material-ui/core";
 // Assets
 import { urlPattern } from "../assets/data/urlPattern";
 // Custom hooks
-import useContexts from "../customHooks/contexts";
 import useGetSearchedMessages from "../customHooks/getSearchedMessages";
 
 ///////////////////////////////////////////////////////////////////
-function SearchMessage() {
+function SearchMessage(props) {
   // Custom hooks
-  const { searchMessageDispatch } = useContexts();
-
   const {
     searchedMessage,
     searchedMessageInput,
@@ -27,7 +24,7 @@ function SearchMessage() {
       <div className="sidebar-panel-right-header">
         <IconButton
           aria-label="close"
-          onClick={() => searchMessageDispatch("toggle")}
+          onClick={props.toggleDrawer("searchMessage", false)}
         >
           <Icons.CloseRoundedIcon color="primary" />
         </IconButton>

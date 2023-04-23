@@ -5,7 +5,7 @@ import { getMessages } from "../utils/getMessages";
 import useContexts from "./contexts";
 
 ///////////////////////////////////////////////////////////////////
-function useGetMessages(setStarredMessages) {
+function useGetMessages(setStarredMessages = null) {
   // useState
   const [chatMessages, setChatMessages] = useState([]);
 
@@ -13,7 +13,9 @@ function useGetMessages(setStarredMessages) {
   const { currentUser, emailId } = useContexts();
 
   useEffect(() => {
-    getMessages(currentUser, emailId, setStarredMessages, setChatMessages);
+    if (typeof setStarredMessages === "function") {
+      getMessages(currentUser, emailId, setStarredMessages, setChatMessages);
+    }
     // eslint-disable-next-line
   }, [emailId]);
 

@@ -1,18 +1,8 @@
 // Components
 import * as Icons from "../components/Icons";
-// Custom hooks
-import useContexts from "./contexts";
 
 ///////////////////////////////////////////////////////////////////
-function useContactInfoList() {
-  // Custom hooks
-  const {
-    toggleContactInfoDispatch,
-    starredMessageDispatch,
-    disappearingMessagesDispatch,
-    encryptionDispatch,
-  } = useContexts();
-
+function useContactInfoList(toggleDrawer) {
   const contactInfoList = [
     {
       id: 1,
@@ -20,10 +10,7 @@ function useContactInfoList() {
       desc: "",
       icon: <Icons.StarRateRoundedIcon color="primary" />,
       className: "starred-messages",
-      onClick: () => {
-        toggleContactInfoDispatch("toggle");
-        starredMessageDispatch("toggle");
-      },
+      onClick: toggleDrawer("starredMessages", true),
     },
     {
       id: 2,
@@ -39,10 +26,7 @@ function useContactInfoList() {
       desc: "Off",
       icon: <Icons.HistoryIcon color="primary" />,
       className: "disappearing-messages",
-      onClick: () => {
-        toggleContactInfoDispatch("toggle");
-        disappearingMessagesDispatch("toggle");
-      },
+      onClick: toggleDrawer("disappearingMessages", true),
     },
     {
       id: 4,
@@ -50,10 +34,7 @@ function useContactInfoList() {
       desc: "Messages are end-to-end encrypted. Click to verify.",
       icon: <Icons.LockIcon color="primary" />,
       className: "encryption",
-      onClick: () => {
-        toggleContactInfoDispatch("toggle");
-        encryptionDispatch("toggle");
-      },
+      onClick: toggleDrawer("encryption", true),
     },
   ];
   return contactInfoList;

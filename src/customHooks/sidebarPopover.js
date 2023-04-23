@@ -2,10 +2,9 @@
 import useContexts from "./contexts";
 
 ///////////////////////////////////////////////////////////////////
-function useSidebarPopover() {
+function useSidebarPopover(toggleDrawer) {
   // Custom hooks
-  const { toggleSettingsDispatch, toggleSidebarDispatch, logout } =
-    useContexts();
+  const { logout } = useContexts();
 
   const sidebarPropoverList = [
     {
@@ -21,10 +20,7 @@ function useSidebarPopover() {
     {
       id: 3,
       name: "Settings",
-      onClick: () => {
-        toggleSettingsDispatch("toggle");
-        toggleSidebarDispatch("toggle");
-      },
+      onClick: toggleDrawer("settings", true),
     },
     {
       id: 4,

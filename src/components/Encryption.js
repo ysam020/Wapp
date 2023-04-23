@@ -11,10 +11,9 @@ import QRCode from "react-qr-code";
 import useContexts from "../customHooks/contexts";
 
 ///////////////////////////////////////////////////////////////////
-function Encryption() {
+function Encryption(props) {
   // Custom hooks
-  const { currentUser, toggleContactInfoDispatch, encryptionDispatch } =
-    useContexts();
+  const { currentUser } = useContexts();
 
   let QR_Code = cryptoRandomString({ length: 60, type: "numeric" });
   let QR_CodeArray = QR_Code.match(/.{1,5}/g);
@@ -24,10 +23,7 @@ function Encryption() {
       <div className="sidebar-panel-right-header">
         <IconButton
           aria-label="close"
-          onClick={() => {
-            toggleContactInfoDispatch("toggle");
-            encryptionDispatch("toggle");
-          }}
+          onClick={props.toggleDrawer("encryption", false)}
         >
           <Icons.CloseRoundedIcon color="primary" />
         </IconButton>

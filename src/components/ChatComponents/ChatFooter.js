@@ -3,6 +3,7 @@ import { storage } from "../../firebase";
 // Components
 import * as Icons from "../Icons";
 import { IconButton, Tooltip } from "@material-ui/core";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
 // utils
 import { selectFiles } from "../../utils/selectFiles";
 import { sendMessage } from "../../utils/sendMessage";
@@ -23,6 +24,7 @@ function ChatFooter() {
 
   return (
     <div className="chat-footer">
+      {/* Close button */}
       {closeButton && (
         <IconButton
           aria-label="close"
@@ -38,6 +40,7 @@ function ChatFooter() {
         </IconButton>
       )}
 
+      {/* Emoji button */}
       <IconButton
         aria-label="emoji"
         onClick={() => {
@@ -52,6 +55,7 @@ function ChatFooter() {
         <Icons.InsertEmoticonOutlinedIcon color="primary" />
       </IconButton>
 
+      {/* Gif button */}
       {gifButton && (
         <IconButton
           aria-label="gif"
@@ -64,77 +68,96 @@ function ChatFooter() {
         </IconButton>
       )}
 
-      <div>
-        {sendMediaList && (
-          <ul className="send-media-list">
-            {sendMediaListItems.map((item) => {
-              return (
-                <li
-                  key={item.id}
-                  style={{
-                    backgroundImage: item.backgroundImage,
-                  }}
-                >
-                  <Tooltip title={item.title} placement="right">
-                    {item.title === "Camera" ? (
-                      <IconButton
-                        aria-label={item.label}
-                        onClick={() => {
-                          chatDetailsContext.setShowWebcam(
-                            !chatDetailsContext.showWebcam
-                          );
-                          setSendMediaList(!sendMediaList);
-                          setTimeout(() => {
-                            chatDetailsContext.setCircularProgress(false);
-                          }, 1000);
-                        }}
-                      >
-                        <Icons.CameraAltRoundedIcon color="secondary" />
-                      </IconButton>
-                    ) : (
-                      <IconButton
-                        aria-label={item.label}
-                        onClick={() => item.ref.current.click()}
-                      >
-                        {item.icon}
-                        <input
-                          accept={item.mediaType}
-                          type="file"
-                          multiple=""
-                          style={{ display: "none" }}
-                          ref={item.ref}
-                          onChange={(e) => {
-                            e.preventDefault();
-                            selectFiles(
-                              e,
-                              storage,
-                              currentUser,
-                              emailId,
-                              chatDetailsContext.chatUser,
-                              chatDetailsContext.message,
-                              chatDetailsContext.chatMessages,
-                              setSendMediaList,
-                              sendMediaList
-                            );
-                          }}
-                        ></input>
-                      </IconButton>
-                    )}
-                  </Tooltip>
-                </li>
-              );
-            })}
-          </ul>
-        )}
+      {/* Send media icons */}
+      <div style={{ position: "relative" }}>
         <IconButton
-          aria-label="send-media"
-          onClick={() => setSendMediaList(!sendMediaList)}
-          style={{ transform: "rotate(45deg)" }}
+          aria-label="attachment"
+          onClick={(event) => {
+            event.stopPropagation();
+            setSendMediaList(!sendMediaList);
+          }}
         >
           <Icons.AttachFileOutlinedIcon color="primary" />
         </IconButton>
+
+        <div style={{ position: "absolute", top: "-100%" }}>
+          <ClickAwayListener
+            onClickAway={() => {
+              setSendMediaList(false);
+            }}
+          >
+            <div>
+              <ul
+                className={
+                  sendMediaList
+                    ? "send-media-list send-media-list-active"
+                    : "send-media-list"
+                }
+              >
+                {sendMediaListItems.map((item) => {
+                  return (
+                    <li
+                      key={item.id}
+                      style={{
+                        backgroundImage: item.backgroundImage,
+                      }}
+                    >
+                      <Tooltip title={item.title} placement="right">
+                        {item.title === "Camera" ? (
+                          <IconButton
+                            aria-label={item.label}
+                            onClick={() => {
+                              chatDetailsContext.setShowWebcam(
+                                !chatDetailsContext.showWebcam
+                              );
+                              setSendMediaList(!sendMediaList);
+                              setTimeout(() => {
+                                chatDetailsContext.setCircularProgress(false);
+                              }, 1000);
+                            }}
+                          >
+                            <Icons.CameraAltRoundedIcon color="secondary" />
+                          </IconButton>
+                        ) : (
+                          <IconButton
+                            aria-label={item.label}
+                            onClick={() => item.ref.current.click()}
+                          >
+                            {item.icon}
+                            <input
+                              accept={item.mediaType}
+                              type="file"
+                              multiple=""
+                              style={{ display: "none" }}
+                              ref={item.ref}
+                              onChange={(e) => {
+                                e.preventDefault();
+                                selectFiles(
+                                  e,
+                                  storage,
+                                  currentUser,
+                                  emailId,
+                                  chatDetailsContext.chatUser,
+                                  chatDetailsContext.message,
+                                  chatDetailsContext.chatMessages,
+                                  setSendMediaList,
+                                  sendMediaList
+                                );
+                              }}
+                            ></input>
+                          </IconButton>
+                        )}
+                      </Tooltip>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </ClickAwayListener>
+        </div>
       </div>
 
+      {/* Text input */}
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -171,4 +194,4 @@ function ChatFooter() {
   );
 }
 
-export default ChatFooter;
+export default React.memo(ChatFooter);

@@ -9,6 +9,7 @@
 .sidebar-profile-body {
   background-color: var(--sidebar-profile-body);
   flex: 1;
+  overflow: scroll;
 }
 
 .sidebar-profile-body input {

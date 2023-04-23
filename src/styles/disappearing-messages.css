@@ -4,6 +4,7 @@
   flex: 1;
   background-color: var(--disappearing-messages-body);
   padding: 30px;
+  overflow: scroll;
 }
 
 .disappearing-messages-body h4 {

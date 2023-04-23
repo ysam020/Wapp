@@ -1,9 +1,14 @@
 import React from "react";
+// Styles
 import "../styles/login.css";
+// Components
 import Button from "@mui/material/Button";
+// Custom hooks
 import useContexts from "../customHooks/contexts";
 
+///////////////////////////////////////////////////////////////////
 function Login() {
+  // Custom hooks
   const { signIn } = useContexts();
 
   return (

@@ -60,9 +60,14 @@
 }
 
 .contact-info-body {
-  background-color: var(--contact-info-body);
+  background-color: var(--contact-info-body-container);
   flex: 1;
-  padding: 0 30px 0 20px;
+  overflow: scroll;
+}
+
+.contact-info-list {
+  background-color: var(--contact-info-body);
+  padding: 0 10px;
   margin-top: 8px;
 }
 

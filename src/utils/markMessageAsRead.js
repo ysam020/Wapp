@@ -1,6 +1,8 @@
+// utils
 import FirebaseRefs from "../components/FirebaseRefs";
 
 export function markMessageAsread(emailId, currentUser) {
+  // db Ref
   const firebaseRef = FirebaseRefs(emailId, currentUser);
 
   firebaseRef.receiverMessageCollectionRef

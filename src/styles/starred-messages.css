@@ -6,6 +6,7 @@
   background-color: var(--starred-messages-body);
   width: var(--panel-width);
   max-width: var(--panel-width);
+  overflow: scroll;
 }
 
 .starred-message {

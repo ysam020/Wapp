@@ -3,6 +3,7 @@
 .encryption-body {
   background-color: var(--encryption-body);
   flex: 1;
+  overflow: scroll;
 }
 
 .qr-img {

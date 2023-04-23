@@ -1,7 +1,9 @@
+// utils
 import FirebaseRefs from "../components/FirebaseRefs";
 
 // Update typing to database
 export const handleTyping = (typing, emailId, currentUser) => {
+  // db Ref
   const firebaseRef = FirebaseRefs(emailId, currentUser);
 
   if (typing === true) {
@@ -18,6 +20,7 @@ export const handleTypingIndicator = (
   currentUser
 ) => {
   const firebaseRef = FirebaseRefs(emailId, currentUser);
+
   firebaseRef.senderFriendListRef.onSnapshot((snapshot) => {
     setTypingIndicator(snapshot.data()?.typing || "");
   });

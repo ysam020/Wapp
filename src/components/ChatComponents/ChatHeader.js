@@ -10,31 +10,19 @@ import useHandleTypingIndicator from "../../customHooks/handleTypingIndicator";
 import useChatPopover from "../../customHooks/chatPopover";
 
 ///////////////////////////////////////////////////////////////////
-function ChatHeader() {
+function ChatHeader(props) {
   // Custom hooks
-  const {
-    chatDetailsContext,
-    toggleContactInfoDispatch,
-    searchMessageDispatch,
-    starredMessageDispatch,
-    disappearingMessagesDispatch,
-    encryptionDispatch,
-  } = useContexts();
-
+  const { chatDetailsContext } = useContexts();
   const { typingIndicator } = useHandleTypingIndicator();
-  const { chatPropoverList, chatPopover, setChatPopover } = useChatPopover();
+  const { chatPropoverList, chatPopover, setChatPopover } = useChatPopover(
+    props.toggleDrawer
+  );
 
   return (
     <div className="chat-header">
       <IconButton
         aria-label="avatar"
-        onClick={() => {
-          toggleContactInfoDispatch("toggle");
-
-          starredMessageDispatch("hide");
-          disappearingMessagesDispatch("hide");
-          encryptionDispatch("hide");
-        }}
+        onClick={props.toggleDrawer("contactInfo", true)}
       >
         <Avatar
           src={chatDetailsContext.chatUser.photoURL}
@@ -58,9 +46,7 @@ function ChatHeader() {
       <div className="chat-header-right">
         <IconButton
           aria-label="search"
-          onClick={() => {
-            searchMessageDispatch("toggle");
-          }}
+          onClick={props.toggleDrawer("searchMessage", true)}
         >
           <Icons.SearchOutlinedIcon color="primary" />
         </IconButton>
@@ -68,27 +54,32 @@ function ChatHeader() {
         <div className="chat-popover-container">
           <IconButton
             aria-label="more"
-            onClick={() => setChatPopover(!chatPopover)}
+            onClick={(event) => {
+              event.stopPropagation();
+              setChatPopover(!chatPopover);
+            }}
           >
             <Icons.MoreVertRoundedIcon color="primary" />
           </IconButton>
-          {chatPopover && (
-            <ClickAwayListener onClickAway={() => setChatPopover(!chatPopover)}>
-              <div className="chat-popover">
-                {chatPropoverList.map((item) => {
-                  return (
-                    <h4 key={item.id} onClick={item.onClick}>
-                      {item.name}
-                    </h4>
-                  );
-                })}
-              </div>
-            </ClickAwayListener>
-          )}
+          <ClickAwayListener onClickAway={() => setChatPopover(false)}>
+            <div
+              className={
+                chatPopover ? "chat-popover chat-popover-open" : "chat-popover"
+              }
+            >
+              {chatPropoverList.map((item) => {
+                return (
+                  <h4 key={item.id} onClick={item.onClick}>
+                    {item.name}
+                  </h4>
+                );
+              })}
+            </div>
+          </ClickAwayListener>
         </div>
       </div>
     </div>
   );
 }
 
-export default ChatHeader;
+export default React.memo(ChatHeader);

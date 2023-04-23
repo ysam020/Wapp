@@ -1,14 +1,16 @@
+// utils
 import FirebaseRefs from "../components/FirebaseRefs";
 
 export const getMessages = (
   currentUser,
   emailId,
-  setStarredMessages,
+  setStarredMessages = null,
   setChatMessages
 ) => {
+  // db Ref
   const firebaseRef = FirebaseRefs(emailId, currentUser);
   firebaseRef.senderMessageCollectionRef
-    .orderBy("timestamp", "asc")
+    .orderBy("timestamp", "desc")
     .onSnapshot((snapshot) => {
       let messages = snapshot.docs.map((doc) => doc.data());
 
@@ -19,12 +21,14 @@ export const getMessages = (
       );
 
       // Get starred messages
-      firebaseRef.senderMessageCollectionRef
-        .where("starred", "==", true)
-        .orderBy("timestamp", "asc")
-        .onSnapshot((snapshot) => {
-          setStarredMessages(snapshot.docs);
-        });
+      if (typeof setStarredMessages === "function") {
+        firebaseRef.senderMessageCollectionRef
+          .where("starred", "==", true)
+          .orderBy("timestamp", "asc")
+          .onSnapshot((snapshot) => {
+            setStarredMessages(snapshot.docs);
+          });
+      }
 
       setChatMessages(newMessage);
     });

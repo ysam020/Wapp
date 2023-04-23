@@ -5,7 +5,7 @@ import { handleTypingIndicator } from "../utils/typing";
 import useContexts from "./contexts";
 
 ///////////////////////////////////////////////////////////////////
-function useHandleTypingIndicator() {
+function useHandleTypingIndicator(chatMessages) {
   // useState
   const [typingIndicator, setTypingIndicator] = useState();
 
@@ -13,7 +13,12 @@ function useHandleTypingIndicator() {
   const { currentUser, emailId } = useContexts();
 
   useEffect(() => {
-    handleTypingIndicator(setTypingIndicator, emailId, currentUser);
+    handleTypingIndicator(
+      setTypingIndicator,
+      emailId,
+      currentUser,
+      chatMessages
+    );
     // eslint-disable-next-line
   }, [typingIndicator]);
 

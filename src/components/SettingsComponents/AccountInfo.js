@@ -4,24 +4,16 @@ import "../../styles/account-info.css";
 // Components
 import { IconButton } from "@material-ui/core";
 import * as Icons from "../Icons";
-// Custom hooks
-import useContexts from "../../customHooks/contexts";
 
 ///////////////////////////////////////////////////////////////////
-function AccountInfo() {
-  // Custom hooks
-  const { toggleSettingsDispatch, settingsAccountInfoDispatch } = useContexts();
-
+function AccountInfo(props) {
   return (
     <div className="sidebar-panel">
       <div className="sidebar-panel-header">
         <div className="sidebar-panel-header-container">
           <IconButton
             aria-label="back"
-            onClick={() => {
-              toggleSettingsDispatch("toggle");
-              settingsAccountInfoDispatch("toggle");
-            }}
+            onClick={props.toggleDrawer("accountInfo", false)}
           >
             <Icons.ArrowBackIcon color="secondary" />
           </IconButton>

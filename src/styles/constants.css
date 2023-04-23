@@ -120,6 +120,9 @@
   --emoji-picker-background: #eff2f5;
   --emoji-search: #e9edef;
 
+  /* Contact info */
+  --contact-info-body-container: #eff2f5;
+
   /* Encryption */
   --encryption-body: #eff2f5;
   --encryption-code: #3b4a54;
@@ -257,6 +260,9 @@
   --chat-input: #2a3942;
   --emoji-picker-background: #1f2c33;
   --emoji-search: #212e35;
+
+  /* Contact info */
+  --contact-info-body-container: #1f2c33;
 
   /* Encryption */
   --encryption-body: #111b21;

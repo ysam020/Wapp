@@ -14,20 +14,36 @@ function SelectMessagesUI(props) {
 
   // Check if message timestamp is same as that of previous message timestamp
   const getPreviousMessageDate = (index) => {
-    return index === 0
-      ? chatDetailsContext.chatMessages[0].timestamp
-          .toDate()
-          .toLocaleDateString()
-      : chatDetailsContext.chatMessages[index].timestamp
-          .toDate()
-          .toLocaleDateString() ===
-        chatDetailsContext.chatMessages[index - 1].timestamp
-          .toDate()
-          .toLocaleDateString()
-      ? null
-      : chatDetailsContext.chatMessages[index].timestamp
-          .toDate()
-          .toLocaleDateString();
+    const chatMessages = chatDetailsContext.chatMessages;
+
+    // If this is the first message, show its date
+    if (index === chatMessages.length - 1) {
+      return chatMessages[index].timestamp.toDate().toLocaleDateString();
+    }
+
+    // Compare the dates of this message and the previous message
+    const currentMessage = chatMessages[index];
+    const previousMessage = chatMessages[index - 1];
+
+    if (!currentMessage || !previousMessage) {
+      // One of the messages is undefined or null
+      return null;
+    }
+
+    const currentDate = currentMessage.timestamp
+      ?.toDate()
+      ?.toLocaleDateString();
+    const previousDate = previousMessage.timestamp
+      ?.toDate()
+      ?.toLocaleDateString();
+
+    // If the dates are different, show the current date
+    if (currentDate && previousDate && currentDate !== previousDate) {
+      return currentDate;
+    }
+
+    // Otherwise, do not show the date
+    return null;
   };
 
   return (
@@ -71,7 +87,6 @@ function SelectMessagesUI(props) {
             <p>{getTimeAgo(props.index, getPreviousMessageDate)}</p>
           )}
         </div>
-
         <ChatMessage
           message={props.message.text}
           starredMessage={props.message.starred}
@@ -91,4 +106,4 @@ function SelectMessagesUI(props) {
   );
 }
 
-export default SelectMessagesUI;
+export default React.memo(SelectMessagesUI);

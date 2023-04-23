@@ -1,4 +1,5 @@
 import firebase from "firebase/app";
+// utils
 import FirebaseRefs from "../components/FirebaseRefs";
 
 export const sendMessageToDatabase = (
@@ -9,6 +10,7 @@ export const sendMessageToDatabase = (
   chatMessages,
   emailId
 ) => {
+  // db Ref
   const firebaseRef = FirebaseRefs(emailId, currentUser);
   //Add message to chat collection for sender
   firebaseRef.senderMessageCollectionRef.add(payload);

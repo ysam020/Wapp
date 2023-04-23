@@ -1,147 +1,123 @@
 import * as React from "react";
+// Styles
 import "../styles/home.css";
 import "../styles/chatpage.css";
-import Sidebar from "../components/Sidebar";
-import SidebarProfile from "../components/SidebarProfile";
-import Communities from "../components/Communities";
-import NewChat from "../components/NewChat";
-import Settings from "../components/SettingsComponents/Settings";
-import Notifications from "../components/SettingsComponents/Notifications";
-import Privacy from "../components/SettingsComponents/Privacy";
-import Security from "../components/SettingsComponents/Security";
-import ChatWallpaper from "../components/SettingsComponents/ChatWallpaper";
-import AccountInfo from "../components/SettingsComponents/AccountInfo";
-import Help from "../components/SettingsComponents/Help";
+// Components
 import Chat from "../components/ChatComponents/Chat";
-import ContactInfo from "../components/ContactInfo";
-import DisappearingMessages from "../components/DisappearingMessages";
-import SearchMessage from "../components/SearchMessage";
-import StarredMessages from "../components/StarredMessages";
-import Encryption from "../components/Encryption";
-import * as Context from "../contexts/Context";
-import * as Icons from "../components/Icons";
-import { sendMessageToDatabase } from "../utils/sendMessageToDatabase";
 import WappSVG from "../components/WappSVG";
-import useContexts from "../customHooks/contexts";
+import * as Icons from "../components/Icons";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+// Contexts
+import * as Context from "../contexts/Context";
+// Custom hooks
 import useFriendData from "../customHooks/friendData";
+import useLeftSidebarPanels from "../customHooks/leftSidebarPanels";
+import useRightSidebarPanels from "../customHooks/rightSidebarPanel";
 
+///////////////////////////////////////////////////////////////////
 function Home() {
-  // Contexts
-  const {
-    currentUser,
-    toggleSidebarState,
-    toggleSidebarProfileState,
-    toggleSettingsState,
-    settingsNotificationState,
-    settingsPrivacyState,
-    settingsSecurityState,
-    settingsAccountInfoState,
-    settingsHelpState,
-    newChatState,
-    communitiesState,
-    toggleContactInfoState,
-    searchMessageState,
-    encryptionState,
-    disappearingMessagesState,
-    starredMessageState,
-    toggleChatWallpaperState,
-  } = useContexts();
+  const drawerWidth = 400;
 
+  // Custom hooks
   const {
     emailId,
     setEmailId,
     chat,
     setChat,
     block,
-    setBlock,
     starredMessages,
     setStarredMessages,
   } = useFriendData();
 
+  const { sidebarPanels } = useLeftSidebarPanels(
+    drawerWidth,
+    setEmailId,
+    setChat
+  );
+
+  const { rightSidebarPanels, toggleDrawer } = useRightSidebarPanels(
+    drawerWidth,
+    starredMessages,
+    block
+  );
+
   return (
     <Context.EmailContext.Provider value={emailId}>
-      <div className="home">
-        <div className="home-container">
-          {toggleSidebarState && (
-            <Sidebar setChat={setChat} setEmailId={setEmailId} />
-          )}
+      <Box sx={{ display: "flex", width: "100%" }}>
+        {/* Sidebar panels */}
+        <Box
+          component="nav"
+          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+          aria-label="mailbox folders"
+        >
+          {sidebarPanels}
+          {rightSidebarPanels}
+        </Box>
 
-          {toggleSidebarProfileState && <SidebarProfile />}
-          {communitiesState && <Communities />}
-          {newChatState && (
-            <NewChat setChat={setChat} setEmailId={setEmailId} />
-          )}
+        {/* Content */}
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            width: `calc(100% - ${drawerWidth}px) !important`,
+          }}
+        >
+          <Typography
+            component="div"
+            sx={{
+              width: "100% !important",
+              height: "100vh",
+              display: "flex",
+            }}
+          >
+            {chat ? (
+              <Chat
+                block={block}
+                setChat={setChat}
+                toggleDrawer={toggleDrawer}
+                setStarredMessages={setStarredMessages}
+              />
+            ) : (
+              <div className="home-bg">
+                <div className="home-body">
+                  <WappSVG />
 
-          {toggleSettingsState && <Settings />}
+                  <h1>Wapp web</h1>
+                  <p>
+                    Send and receive messages without keeping your phone online.
+                  </p>
+                  <p>
+                    Use Wapp on up to 4 linked devices and 1 phone at the same
+                    time.
+                  </p>
+                </div>
 
-          {settingsNotificationState && <Notifications />}
-          {settingsPrivacyState && <Privacy />}
-          {settingsSecurityState && <Security />}
-          {settingsAccountInfoState && <AccountInfo />}
-          {settingsHelpState && <Help />}
-          {toggleChatWallpaperState && <ChatWallpaper />}
-
-          {chat && emailId !== "" ? (
-            <div className="chatpage">
-              <div className="chatpage-container">
-                <Chat
-                  block={block}
-                  setBlock={setBlock}
-                  setStarredMessages={setStarredMessages}
-                  sendMessageToDatabase={sendMessageToDatabase}
-                  setChat={setChat}
-                />
-
-                {toggleContactInfoState && (
-                  <ContactInfo
-                    block={block}
-                    setBlock={setBlock}
-                    setChat={setChat}
+                <div className="home-footer">
+                  <Icons.LockIcon
+                    sx={{
+                      color: "#8696a0",
+                      width: "18px !important",
+                      height: "18px !important",
+                    }}
                   />
-                )}
-                {encryptionState && <Encryption />}
-                {disappearingMessagesState && <DisappearingMessages />}
-                {searchMessageState && <SearchMessage />}
-                {starredMessageState && (
-                  <StarredMessages
-                    starredMessages={starredMessages}
-                    setStarredMessages={setStarredMessages}
-                    currentUser={currentUser}
-                  />
-                )}
+                  <p>End-to-end encrypted</p>
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className="home-bg">
-              <div className="home-body">
-                <WappSVG />
+            )}
+          </Typography>
 
-                <h1>Wapp web</h1>
-                <p>
-                  Send and receive messages without keeping your phone online.
-                </p>
-                <p>
-                  Use Wapp on up to 4 linked devices and 1 phone at the same
-                  time.
-                </p>
-              </div>
-
-              <div className="home-footer">
-                <Icons.LockIcon
-                  sx={{
-                    color: "#8696a0",
-                    width: "18px !important",
-                    height: "18px !important",
-                  }}
-                />
-                <p>End-to-end encrypted</p>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+          <Box
+            component="nav"
+            sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+            aria-label="mailbox folders"
+          >
+            {rightSidebarPanels}
+          </Box>
+        </Box>
+      </Box>
     </Context.EmailContext.Provider>
   );
 }
 
-export default React.memo(Home);
+export default Home;

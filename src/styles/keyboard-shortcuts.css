@@ -26,8 +26,6 @@
   flex-flow: row wrap;
   height: 400px;
   overflow-y: scroll;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
 }
 
 .modal-container .cmd-list-container::-webkit-scrollbar {

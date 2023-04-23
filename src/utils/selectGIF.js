@@ -1,6 +1,7 @@
 import cryptoRandomString from "crypto-random-string";
-import { sendMessageToDatabase } from "./sendMessageToDatabase";
 import firebase from "firebase/app";
+// utils
+import { sendMessageToDatabase } from "./sendMessageToDatabase";
 
 export const selectGif = (
   currentUser,

@@ -34,4 +34,4 @@ function EmojiPickerComponent() {
   );
 }
 
-export default EmojiPickerComponent;
+export default React.memo(EmojiPickerComponent);

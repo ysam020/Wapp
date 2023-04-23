@@ -5,25 +5,16 @@ import "../../styles/notifications.css";
 import * as Icons from "../Icons";
 import { IconButton } from "@material-ui/core";
 import Checkbox from "@mui/material/Checkbox";
-// Custom hooks
-import useContexts from "../../customHooks/contexts";
 
 ///////////////////////////////////////////////////////////////////
-function Notifications() {
-  // Custom hooks
-  const { toggleSettingsDispatch, settingsNotificationDispatch } =
-    useContexts();
-
+function Notifications(props) {
   return (
     <div className="sidebar-panel">
       <div className="sidebar-panel-header">
         <div className="sidebar-panel-header-container">
           <IconButton
             aria-label="back"
-            onClick={() => {
-              settingsNotificationDispatch("toggle");
-              toggleSettingsDispatch("toggle");
-            }}
+            onClick={props.toggleDrawer("notifications", false)}
           >
             <Icons.ArrowBackIcon color="secondary" />
           </IconButton>

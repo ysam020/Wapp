@@ -6,24 +6,16 @@ import * as Icons from "./Icons";
 import { IconButton } from "@material-ui/core";
 import ButtonPrimary from "./ButtonPrimary";
 import CommunitiesSVG from "./CommunitiesSVG";
-// Custom hooks
-import useContexts from "../customHooks/contexts";
 
 ///////////////////////////////////////////////////////////////////
-function Communities() {
-  // Custom hooks
-  const { toggleSidebarDispatch, communitiesDispatch } = useContexts();
-
+function Communities(props) {
   return (
     <div className="sidebar-panel">
       <div className="sidebar-panel-header">
         <div className="sidebar-panel-header-container">
           <IconButton
             aria-label="back"
-            onClick={() => {
-              communitiesDispatch("toggle");
-              toggleSidebarDispatch("toggle");
-            }}
+            onClick={props.toggleDrawer("communities", false)}
           >
             <Icons.ArrowBackIcon color="secondary" />
           </IconButton>
