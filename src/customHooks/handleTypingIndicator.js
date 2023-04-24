@@ -10,14 +10,13 @@ function useHandleTypingIndicator(chatMessages) {
   const [typingIndicator, setTypingIndicator] = useState();
 
   // Custom hooks
-  const { currentUser, emailId } = useContexts();
+  const { currentUser, chatDetailsContext } = useContexts();
 
   useEffect(() => {
     handleTypingIndicator(
       setTypingIndicator,
-      emailId,
-      currentUser,
-      chatMessages
+      chatDetailsContext.chatUser.email,
+      currentUser
     );
     // eslint-disable-next-line
   }, [typingIndicator]);

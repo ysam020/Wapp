@@ -13,7 +13,7 @@ import useContexts from "../../customHooks/contexts";
 ///////////////////////////////////////////////////////////////////
 function WebcamComponents() {
   // Custom hooks
-  const { currentUser, emailId, chatDetailsContext } = useContexts();
+  const { currentUser, chatDetailsContext } = useContexts();
 
   // useRef
   const webcamRef = useRef(null);
@@ -49,7 +49,7 @@ function WebcamComponents() {
                 webcamRef,
                 storage,
                 currentUser,
-                emailId,
+                chatDetailsContext.chatUser.email,
                 chatDetailsContext.chatUser,
                 chatDetailsContext.message,
                 chatDetailsContext.chatMessages,

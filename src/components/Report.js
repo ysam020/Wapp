@@ -9,7 +9,6 @@ import { deleteChat } from "../utils/deleteChat";
 import { blockUser } from "../utils/blockUser";
 // Custom hooks
 import useContexts from "../customHooks/contexts";
-import useChatUser from "../customHooks/chatUser";
 
 ///////////////////////////////////////////////////////////////////
 function ReportShortcutsModal(props) {
@@ -17,9 +16,7 @@ function ReportShortcutsModal(props) {
   const [checked, setChecked] = useState(true);
 
   // Custom hooks
-  const { theme, toggleContactInfoDispatch, currentUser, emailId } =
-    useContexts();
-  const { chatUser } = useChatUser();
+  const { theme, currentUser, chatDetailsContext } = useContexts();
 
   return (
     <Modal open={props.openModal} onClose={props.handleCloseModal}>
@@ -82,9 +79,12 @@ function ReportShortcutsModal(props) {
             onClick={() => {
               props.setOpenModal(false);
               if (checked === true) {
-                blockUser(currentUser, chatUser);
-                deleteChat(emailId, currentUser, props.setChat);
-                toggleContactInfoDispatch("toggle");
+                blockUser(currentUser, chatDetailsContext.chatUser.email);
+                deleteChat(
+                  chatDetailsContext.chatUser.email,
+                  currentUser,
+                  props.setChat
+                );
               }
             }}
           >

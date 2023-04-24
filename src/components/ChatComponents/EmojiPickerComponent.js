@@ -30,6 +30,7 @@ function EmojiPickerComponent() {
       }}
       searchPlaceholder="Search Emoji"
       preload={true}
+      disableSkinTonePicker
     />
   );
 }

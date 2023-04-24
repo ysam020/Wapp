@@ -9,21 +9,19 @@ import { Avatar, IconButton } from "@material-ui/core";
 import { urlPattern } from "../assets/data/urlPattern";
 // Custom hooks
 import useContexts from "../customHooks/contexts";
-import useChatUser from "../customHooks/chatUser";
 
 ///////////////////////////////////////////////////////////////////
 function StarredMessages(props) {
   // Custom hooks
-  const { currentUser } = useContexts();
-  const { chatUser } = useChatUser();
+  const { currentUser, chatDetailsContext } = useContexts();
 
   // Filter starred messages for current user
   const starredMessages = props.starredMessages.filter((message) => {
     return (
       (message.data().receiverEmail === currentUser.email ||
         message.data().senderEmail === currentUser.email) &&
-      (message.data().receiverEmail === chatUser.email ||
-        message.data().senderEmail === chatUser.email)
+      (message.data().receiverEmail === chatDetailsContext.chatUser.email ||
+        message.data().senderEmail === chatDetailsContext.chatUser.email)
     );
   });
 
@@ -46,14 +44,16 @@ function StarredMessages(props) {
               <div className="starred-message-row-1">
                 <Avatar
                   src={
-                    message.data().senderEmail === chatUser.email
-                      ? chatUser.photoURL
+                    message.data().senderEmail ===
+                    chatDetailsContext.chatUser.email
+                      ? chatDetailsContext.chatUser.photoURL
                       : currentUser.photoURL
                   }
                   style={{ height: "30px", width: "30px" }}
                   alt={
-                    message.data().senderEmail === chatUser.email
-                      ? chatUser.photoURL
+                    message.data().senderEmail ===
+                    chatDetailsContext.chatUser.email
+                      ? chatDetailsContext.chatUser.photoURL
                       : currentUser.photoURL
                   }
                 />
@@ -72,15 +72,15 @@ function StarredMessages(props) {
                 >
                   {message.data().text.match(urlPattern) ? (
                     <a
-                      href={message.text}
+                      href={message.data().text}
                       target="blank"
                       className="message-text"
                     >
-                      {message.text}
+                      {message.data().text}
                     </a>
                   ) : message.data().imageURL ? (
                     <a
-                      href={message.data().imageURL}
+                      href={message.imageURL}
                       target="_blank"
                       rel="noreferrer"
                       download

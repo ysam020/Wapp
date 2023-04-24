@@ -57,6 +57,7 @@ function NewChat(props) {
         photoURL={user.data().photoURL}
         about={user.data().about}
         setSearchInput={setSearchInput}
+        user={user.data()}
       />
     );
   });
@@ -131,8 +132,9 @@ function NewChat(props) {
                       about={user.data().about}
                       email={user.data().email}
                       setChat={props.setChat}
-                      setEmailId={props.setEmailId}
+                      setChatUser={props.setChatUser}
                       setSearchInput={setSearchInput}
+                      user={user.data()}
                     />
                   </div>
                 );

@@ -3,20 +3,17 @@ import { useState, useEffect } from "react";
 import { handleTyping } from "../utils/typing";
 // Custom hooks
 import useContexts from "./contexts";
-import useGetMessages from "./getMessages";
 
 ///////////////////////////////////////////////////////////////////
 function useHandleTyping() {
   // useState
   const [typing, setTyping] = useState(false);
-
   // Custom hooks
-  const { currentUser, emailId } = useContexts();
-  const { chatMessages } = useGetMessages();
+  const { currentUser, chatDetailsContext } = useContexts();
 
   useEffect(() => {
-    if (chatMessages.length > 0) {
-      handleTyping(typing, emailId, currentUser);
+    if (chatDetailsContext.chatMessages.length > 0) {
+      handleTyping(typing, chatDetailsContext.chatUser.email, currentUser);
     }
     // eslint-disable-next-line
   }, [typing]);

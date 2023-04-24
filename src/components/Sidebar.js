@@ -54,7 +54,8 @@ function Sidebar(props) {
         about={user.data().about}
         setSearchInput={setSearchInput}
         setChat={props.setChat}
-        setEmailId={props.setEmailId}
+        setChatUser={props.setChatUser}
+        user={user.data()}
       />
     );
   });
@@ -195,7 +196,8 @@ function Sidebar(props) {
                 messageRead={friend.data().messageRead}
                 typingIndicator={friend.data().typing}
                 setChat={props.setChat}
-                setEmailId={props.setEmailId}
+                setChatUser={props.setChatUser}
+                friend={friend.data()}
               />
             ))}
       </div>

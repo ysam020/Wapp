@@ -25,10 +25,10 @@ export const deleteSelectedMessages = (
               // Update last message in sidebar
               if (selectedMessages.length !== chatMessages.length) {
                 firebaseRef.senderFriendListRef.update({
-                  lastMessage: chatMessages.at(-2).text,
-                  messageRead: chatMessages.at(-2).read,
-                  messageType: chatMessages.at(-2).messageInfo,
-                  timestamp: chatMessages.at(-2).timestamp,
+                  lastMessage: chatMessages.at(1).text,
+                  messageRead: chatMessages.at(1).read,
+                  messageType: chatMessages.at(1).messageInfo,
+                  timestamp: chatMessages.at(1).timestamp,
                 });
               } else {
                 firebaseRef.senderFriendListRef.update({

@@ -17,9 +17,6 @@ function useContexts() {
   const { chatBackground, setChatBackground, doodle, setDoodle } =
     React.useContext(Context.ChatBackgroundContext);
 
-  //   Emailid
-  const emailId = React.useContext(Context.EmailContext);
-
   //   Chat details
   const chatDetailsContext = React.useContext(Context.ChatDetailsContext);
 
@@ -37,9 +34,6 @@ function useContexts() {
     setChatBackground,
     doodle,
     setDoodle,
-
-    // Emailid
-    emailId,
 
     // Chat details
     chatDetailsContext,

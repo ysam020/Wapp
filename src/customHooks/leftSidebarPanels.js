@@ -15,7 +15,13 @@ import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
 ///////////////////////////////////////////////////////////////////
-function useLeftSidebarPanels(drawerWidth, setEmailId, setChat) {
+function useLeftSidebarPanels(
+  drawerWidth,
+  chatUser,
+  setChatUser,
+  chat,
+  setChat
+) {
   // useState
   const [state, setState] = useState({
     sidebar: true,
@@ -49,7 +55,7 @@ function useLeftSidebarPanels(drawerWidth, setEmailId, setChat) {
         <Sidebar
           toggleDrawer={toggleDrawer}
           setChat={setChat}
-          setEmailId={setEmailId}
+          setChatUser={setChatUser}
         />
       ),
     },
@@ -67,7 +73,7 @@ function useLeftSidebarPanels(drawerWidth, setEmailId, setChat) {
         <NewChat
           toggleDrawer={toggleDrawer}
           setChat={setChat}
-          setEmailId={setEmailId}
+          setChatUser={setChatUser}
         />
       ),
     },

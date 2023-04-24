@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 // utils
 import db from "../firebase";
 // Custom hooks
@@ -22,7 +22,7 @@ function useEditUserDetails(updateName, updateAbout) {
   // db Ref
   const userRef = db.collection("users").doc(currentUser.email);
 
-  useEffect(() => {
+  const editUserDetails = useCallback(() => {
     userRef.onSnapshot((snapshot) => setFullname(snapshot.data().fullname));
     userRef.onSnapshot((snapshot) => setAbout(snapshot.data().about));
 
@@ -37,6 +37,11 @@ function useEditUserDetails(updateName, updateAbout) {
     );
     // eslint-disable-next-line
   }, [updateName, updateAbout]);
+
+  useEffect(() => {
+    editUserDetails();
+    // eslint-disable-next-line
+  }, []);
 
   return {
     fullname,

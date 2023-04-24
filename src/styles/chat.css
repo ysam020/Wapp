@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  height: 100vh;
+  /* height: 100vh; */
 }
 
 .chat-header {
@@ -215,14 +215,15 @@
 /* Emoji box */
 .picker-box {
   transform: translateY(50%);
-  transition: transform 0.1s, opacity 0.1s;
+  opacity: 0;
+  transition: transform 0.1s ease-in-out,
+    opacity 0.1s ease-in-out opacity 0.1s ease-in-out;
 }
 
 .picker-box-active {
-  height: 300px !important;
   opacity: 1;
   transform: translateY(0%);
-  transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  transition: transform 0.1s ease-in-out, opacity 0.1s ease-in-out;
 }
 
 .emoji-picker-react {
@@ -326,6 +327,7 @@
   position: absolute;
   bottom: -30px;
   left: -40px;
+  list-style: none;
 }
 
 .send-media-list li {

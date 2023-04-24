@@ -10,6 +10,7 @@ import { sendMessage } from "../../utils/sendMessage";
 // Custom hooks
 import useContexts from "../../customHooks/contexts";
 import useSendMediaList from "../../customHooks/sendMediaList";
+import useHandleTyping from "../../customHooks/handleTyping";
 
 ///////////////////////////////////////////////////////////////////
 function ChatFooter() {
@@ -19,8 +20,9 @@ function ChatFooter() {
   const [closeButton, setCloseButton] = useState(false);
 
   // Custom hooks
-  const { currentUser, emailId, chatDetailsContext } = useContexts();
+  const { currentUser, chatDetailsContext } = useContexts();
   const sendMediaListItems = useSendMediaList();
+  const { setTyping } = useHandleTyping();
 
   return (
     <div className="chat-footer">
@@ -136,7 +138,7 @@ function ChatFooter() {
                                   e,
                                   storage,
                                   currentUser,
-                                  emailId,
+                                  chatDetailsContext.chatUser.email,
                                   chatDetailsContext.chatUser,
                                   chatDetailsContext.message,
                                   chatDetailsContext.chatMessages,
@@ -164,7 +166,7 @@ function ChatFooter() {
           sendMessage(
             chatDetailsContext.block,
             chatDetailsContext.message,
-            emailId,
+            chatDetailsContext.chatUser.email,
             currentUser,
             chatDetailsContext.chatUser,
             chatDetailsContext.chatMessages,
@@ -178,9 +180,7 @@ function ChatFooter() {
           value={chatDetailsContext.message}
           onChange={(e) => {
             chatDetailsContext.setMessage(e.target.value);
-            e.target.value === ""
-              ? chatDetailsContext.setTyping(false)
-              : chatDetailsContext.setTyping(true);
+            e.target.value === "" ? setTyping(false) : setTyping(true);
           }}
           ref={chatDetailsContext.sendMessageRef}
         />

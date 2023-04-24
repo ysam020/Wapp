@@ -4,30 +4,24 @@ import * as Icons from "../components/Icons";
 import { deleteChat } from "../utils/deleteChat";
 import { blockUser } from "../utils/blockUser";
 import { unblockUser } from "../utils/unblockUser";
-import FirebaseRefs from "../components/FirebaseRefs";
 // Custom hooks
 import useContexts from "./contexts";
-import useChatUser from "./chatUser";
 
 ///////////////////////////////////////////////////////////////////
-function useContactInfoActions(setChat, blockLength, handleOpenModal) {
+function useContactInfoActions(handleOpenModal, block) {
   // Custom hooks
-  const { currentUser, emailId } = useContexts();
-  const { chatUser } = useChatUser();
-
-  // db Ref
-  const firebaseRef = emailId ? FirebaseRefs(emailId, currentUser) : "";
+  const { currentUser, chatDetailsContext } = useContexts();
 
   const contactInfoActions = [
     {
       id: 1,
-      name: blockLength === 0 ? "Block" : "Unblock",
+      name: block.length === 0 ? "Block" : "Unblock",
       icon: <Icons.BlockIcon sx={{ color: "#F15C6D" }} />,
       className: "block",
       onClick: () => {
-        blockLength === 0
-          ? blockUser(currentUser, chatUser)
-          : unblockUser(currentUser, emailId);
+        block.length === 0
+          ? blockUser(currentUser, chatDetailsContext.chatUser.email)
+          : unblockUser(currentUser, chatDetailsContext.chatUser.email);
       },
     },
     {
@@ -46,13 +40,9 @@ function useContactInfoActions(setChat, blockLength, handleOpenModal) {
       className: "delete-chat",
       onClick: () => {
         deleteChat(
-          emailId,
+          chatDetailsContext.chatUser.email,
           currentUser,
-          firebaseRef.senderMessageCollectionRef,
-          firebaseRef.receiverMessageCollectionRef,
-          firebaseRef.senderFriendListRef,
-          firebaseRef.receiverFriendListRef,
-          setChat()
+          chatDetailsContext.setChat
         );
       },
     },

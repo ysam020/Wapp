@@ -9,12 +9,12 @@ import useGetMessages from "../customHooks/getMessages";
 ///////////////////////////////////////////////////////////////////
 function useFriendData() {
   // useState
-  const [emailId, setEmailId] = useState(
+  const [chatUser, setChatUser] = useState(
     JSON.parse(localStorage.getItem("chat"))
   );
-  const [chat, setChat] = useState(emailId ? true : false);
-  const [block, setBlock] = useState([]);
-  const [starredMessages, setStarredMessages] = useState([]);
+
+  const [chat, setChat] = useState(chatUser?.email ? true : false);
+
   const { chatMessages } = useGetMessages();
 
   // db Ref
@@ -25,24 +25,20 @@ function useFriendData() {
 
   // Update last online in user collection
   useEffect(() => {
-    if (chatMessages.length > 0 && emailId) {
+    if (chatMessages.length > 0 && chatUser?.email) {
       usersCollectionRef
         .doc(currentUser.email)
         .update({ lastOnline: firebase.firestore.Timestamp.now() });
     }
 
     // eslint-disable-next-line
-  }, [currentUser.email]);
+  }, []);
 
   return {
-    emailId,
-    setEmailId,
+    chatUser,
+    setChatUser,
     chat,
     setChat,
-    block,
-    setBlock,
-    starredMessages,
-    setStarredMessages,
   };
 }
 

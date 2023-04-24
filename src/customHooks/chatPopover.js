@@ -10,7 +10,7 @@ function useChatPopover(toggleDrawer) {
   const [chatPopover, setChatPopover] = useState(false);
 
   // Custom hooks
-  const { chatDetailsContext, currentUser, emailId } = useContexts();
+  const { chatDetailsContext, currentUser } = useContexts();
 
   const chatPropoverList = [
     {
@@ -59,7 +59,11 @@ function useChatPopover(toggleDrawer) {
       id: 7,
       name: "Delete chat",
       onClick: () => {
-        deleteChat(emailId, currentUser, chatDetailsContext.setChat);
+        deleteChat(
+          chatDetailsContext.chatUser.email,
+          currentUser,
+          chatDetailsContext.setChat
+        );
         setChatPopover(!chatPopover);
       },
     },

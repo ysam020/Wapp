@@ -9,8 +9,8 @@ function SidebarSearchedUser(props) {
       className="sidebar-chat-item"
       onClick={() => {
         props.setChat(true);
-        props.setEmailId(props.email);
-        localStorage.setItem("chat", JSON.stringify(props.email));
+        props.setChatUser(props.user);
+        localStorage.setItem("chat", JSON.stringify(props.user));
         props.setSearchInput("");
       }}
     >

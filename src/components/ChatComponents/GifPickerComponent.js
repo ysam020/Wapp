@@ -9,7 +9,7 @@ import useContexts from "../../customHooks/contexts";
 ///////////////////////////////////////////////////////////////////
 function GifPickerComponent() {
   // Custom hooks
-  const { currentUser, emailId, chatDetailsContext } = useContexts();
+  const { currentUser, chatDetailsContext } = useContexts();
 
   return (
     <Tenor
@@ -19,7 +19,7 @@ function GifPickerComponent() {
       onSelect={(result) =>
         selectGif(
           currentUser,
-          emailId,
+          chatDetailsContext.chatUser.email,
           chatDetailsContext.message,
           chatDetailsContext.chatMessages,
           chatDetailsContext.chatUser,

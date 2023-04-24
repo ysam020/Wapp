@@ -7,11 +7,15 @@ import Encryption from "../components/Encryption";
 import SearchMessage from "../components/SearchMessage";
 import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-// Custom hooks
-import useFriendData from "./friendData";
 
 ///////////////////////////////////////////////////////////////////
-function useRightSidebarPanels(drawerWidth, starredMessages, block) {
+function useRightSidebarPanels(
+  drawerWidth,
+  setChat,
+  block,
+  starredMessages,
+  chatMessages
+) {
   // useState
   const [state, setState] = useState({
     contactInfo: false,
@@ -22,7 +26,6 @@ function useRightSidebarPanels(drawerWidth, starredMessages, block) {
   });
 
   // Custom hooks
-  const { setChat } = useFriendData();
 
   const toggleDrawer = (drawer, open) => (event) => {
     if (

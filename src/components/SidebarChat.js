@@ -53,9 +53,9 @@ function SidebarChat(props) {
         <div
           className="sidebar-chat-item"
           onClick={() => {
+            localStorage.setItem("chat", JSON.stringify(props.friend));
             props.setChat(true);
-            props.setEmailId(props.email);
-            localStorage.setItem("chat", JSON.stringify(props.email));
+            props.setChatUser(props.friend);
           }}
         >
           <Avatar src={props.photoURL} alt={props.name} />

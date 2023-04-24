@@ -5,12 +5,11 @@ import { getMessages } from "../utils/getMessages";
 import useContexts from "./contexts";
 
 ///////////////////////////////////////////////////////////////////
-function useGetMessages(setStarredMessages = null) {
+function useGetMessages(setStarredMessages = null, emailId) {
   // useState
   const [chatMessages, setChatMessages] = useState([]);
-
   // Custom hooks
-  const { currentUser, emailId } = useContexts();
+  const { currentUser } = useContexts();
 
   useEffect(() => {
     if (typeof setStarredMessages === "function") {

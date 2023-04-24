@@ -9,8 +9,7 @@ import Switch from "@mui/material/Switch";
 // Custom hooks
 import useContactInfoActions from "../customHooks/contactInfoActions";
 import useContactInfoList from "../customHooks/contactInfoList";
-import useChatUser from "../customHooks/chatUser";
-import useFriendData from "../customHooks/friendData";
+import useContexts from "../customHooks/contexts";
 
 ///////////////////////////////////////////////////////////////////
 function ContactInfo(props) {
@@ -22,15 +21,13 @@ function ContactInfo(props) {
   const handleCloseModal = () => setOpenModal(false);
 
   // Custom hooks
-  const { setChat } = useFriendData();
   const contactInfoActions = useContactInfoActions(
-    setChat,
-    props.block.length,
-    handleOpenModal
+    handleOpenModal,
+    props.block
   );
 
   const contactInfoList = useContactInfoList(props.toggleDrawer);
-  const { chatUser } = useChatUser();
+  const { chatDetailsContext } = useContexts();
 
   return (
     <>
@@ -48,16 +45,16 @@ function ContactInfo(props) {
         <div className="contact-info-body">
           <div className="contact-info-img">
             <Avatar
-              src={chatUser.photoURL}
+              src={chatDetailsContext.chatUser.photoURL}
               style={{ height: "200px", width: "200px", margin: "auto" }}
-              alt={chatUser.fullname}
+              alt={chatDetailsContext.chatUser.fullname}
             />
-            <h3>{chatUser.email}</h3>
+            <h3>{chatDetailsContext.chatUser.email}</h3>
           </div>
 
           <div className="contact-info-about">
             <h5>About</h5>
-            <p>{chatUser.about}</p>
+            <p>{chatDetailsContext.chatUser.about}</p>
           </div>
 
           <div className="contact-info-media">
@@ -124,7 +121,7 @@ function ContactInfo(props) {
                     <div className="block-text">
                       <h5>
                         {item.id !== 3
-                          ? `${item.name} ${chatUser.email}`
+                          ? `${item.name} ${chatDetailsContext.chatUser.email}`
                           : item.name}
                       </h5>
                     </div>

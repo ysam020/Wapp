@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 // utils
 import FirebaseRefs from "../components/FirebaseRefs";
 // Custom hooks
@@ -14,14 +14,17 @@ function useGetSearchedMessages() {
   const searchMessagesRef = useRef();
 
   // Custom hooks
-  const { currentUser, emailId } = useContexts();
+  const { currentUser, chatDetailsContext } = useContexts();
 
   // db ref
-  const firebaseRef = emailId ? FirebaseRefs(emailId, currentUser) : "";
+  const firebaseRef = chatDetailsContext.chatUser.email
+    ? FirebaseRefs(chatDetailsContext.chatUser.email, currentUser)
+    : "";
 
   // Get chats from database
-  const getMessages = useCallback(() => {
-    if (emailId) {
+  useEffect(() => {
+    searchMessagesRef.current.focus();
+    if (chatDetailsContext.chatUser.email) {
       firebaseRef.senderMessageCollectionRef
         .orderBy("timestamp", "asc")
         .onSnapshot((snapshot) => {
@@ -29,8 +32,10 @@ function useGetSearchedMessages() {
 
           let newMessage = messages.filter(
             (message) =>
-              message.senderEmail === (currentUser.email && emailId) ||
-              message.receiverEmail === (currentUser.email && emailId)
+              message.senderEmail ===
+                (currentUser.email && chatDetailsContext.chatUser.email) ||
+              message.receiverEmail ===
+                (currentUser.email && chatDetailsContext.chatUser.email)
           );
 
           setSearchedMessage(
@@ -45,15 +50,9 @@ function useGetSearchedMessages() {
           );
         });
     }
-    // eslint-disable-next-line
-  }, [searchedMessageInput]);
-
-  useEffect(() => {
-    searchMessagesRef.current.focus();
-    getMessages();
 
     // eslint-disable-next-line
-  }, [searchedMessageInput, emailId]);
+  }, [searchedMessageInput, chatDetailsContext.chatUser.email]);
 
   return {
     searchedMessage,

@@ -5,7 +5,7 @@ const UserContext = createContext();
 const ThemeContext = createContext();
 const SearchMessageContext = createContext();
 const ChatBackgroundContext = createContext();
-const EmailContext = createContext();
+const ChatUserContext = createContext();
 const ChatDetailsContext = createContext();
 export {
   AuthContext,
@@ -13,6 +13,6 @@ export {
   ThemeContext,
   SearchMessageContext,
   ChatBackgroundContext,
-  EmailContext,
+  ChatUserContext,
   ChatDetailsContext,
 };
