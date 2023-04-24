@@ -14,36 +14,19 @@ function SelectMessagesUI(props) {
 
   // Check if message timestamp is same as that of previous message timestamp
   const getPreviousMessageDate = (index) => {
-    const chatMessages = chatDetailsContext.chatMessages;
+    const messages = chatDetailsContext.chatMessages;
+    const currentDate = messages[index].timestamp.toDate().toLocaleDateString();
+    const prevDate = messages[index + 1]?.timestamp
+      .toDate()
+      .toLocaleDateString();
 
-    // If this is the first message, show its date
-    if (index === chatMessages.length - 1) {
-      return chatMessages[index].timestamp.toDate().toLocaleDateString();
-    }
-
-    // Compare the dates of this message and the previous message
-    const currentMessage = chatMessages[index];
-    const previousMessage = chatMessages[index - 1];
-
-    if (!currentMessage || !previousMessage) {
-      // One of the messages is undefined or null
-      return null;
-    }
-
-    const currentDate = currentMessage.timestamp
-      ?.toDate()
-      ?.toLocaleDateString();
-    const previousDate = previousMessage.timestamp
-      ?.toDate()
-      ?.toLocaleDateString();
-
-    // If the dates are different, show the current date
-    if (currentDate && previousDate && currentDate !== previousDate) {
-      return currentDate;
-    }
-
-    // Otherwise, do not show the date
-    return null;
+    return index === messages.length - 1
+      ? currentDate
+      : currentDate === prevDate
+      ? null
+      : currentDate !== prevDate
+      ? currentDate
+      : null;
   };
 
   return (
