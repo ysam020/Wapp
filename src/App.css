@@ -3,8 +3,9 @@
 .App {
   display: grid;
   place-items: center;
-  background-image: var(--app-background);
   height: 100vh;
+  background-image: var(--app-background);
+  box-shadow: var(--box-shadow);
 }
 
 .sidebar-panel {
@@ -13,7 +14,7 @@
   height: 100%;
   min-width: var(--panel-width);
   max-width: var(--panel-width);
-  border-right: var(--border-right);
+  /* border-right: var(--border-right); */
 }
 
 .sidebar-panel-header {
@@ -51,7 +52,6 @@
   align-items: center;
   border-left: var(--border-left);
   height: 64px;
-  box-sizing: border-box;
 }
 
 .sidebar-panel-right-header h3 {

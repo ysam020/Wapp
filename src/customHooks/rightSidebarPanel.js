@@ -84,7 +84,10 @@ function useRightSidebarPanels(drawerWidth, starredMessages, block) {
           onClose={toggleDrawer(drawer.name, false)}
           onOpen={toggleDrawer(drawer.name, true)}
           sx={{
-            "& .MuiDrawer-paper": { borderWidth: 0 },
+            "& .MuiDrawer-paper": {
+              borderWidth: 0,
+              backgroundColor: "transparent !important",
+            },
           }}
         >
           {drawer.component}

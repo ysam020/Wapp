@@ -1,7 +1,6 @@
 import * as React from "react";
 // Styles
 import "../styles/home.css";
-import "../styles/chatpage.css";
 // Components
 import Chat from "../components/ChatComponents/Chat";
 import WappSVG from "../components/WappSVG";
@@ -44,7 +43,14 @@ function Home() {
 
   return (
     <Context.EmailContext.Provider value={emailId}>
-      <Box sx={{ display: "flex", width: "100%" }}>
+      <Box
+        sx={{
+          display: "flex",
+          width: "100%",
+          transform: "scale(.98, .96)",
+          overflow: "hidden",
+        }}
+      >
         {/* Sidebar panels */}
         <Box
           component="nav"
