@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // Components
 import ContactInfo from "../components/ContactInfo";
 import StarredMessages from "../components/StarredMessages";
@@ -9,13 +9,7 @@ import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
 ///////////////////////////////////////////////////////////////////
-function useRightSidebarPanels(
-  drawerWidth,
-  setChat,
-  block,
-  starredMessages,
-  chatMessages
-) {
+function useRightSidebarPanels(drawerWidth, setChat, block, starredMessages) {
   // useState
   const [state, setState] = useState({
     contactInfo: false,
@@ -24,8 +18,6 @@ function useRightSidebarPanels(
     encryption: false,
     searchMessage: false,
   });
-
-  // Custom hooks
 
   const toggleDrawer = (drawer, open) => (event) => {
     if (
@@ -37,6 +29,34 @@ function useRightSidebarPanels(
     }
     setState({ ...state, [drawer]: open });
   };
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setState((prevState) => ({
+          ...prevState,
+          contactInfo: false,
+          starredMessages: false,
+          disappearingMessages: false,
+          encryption: false,
+          searchMessage: false,
+        }));
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  // const toggleDrawer = (drawer, open) => (event) => {
+  //   if (
+  //     event &&
+  //     event.type === "keydown" &&
+  //     (event.key === "Tab" || event.key === "Shift")
+  //   ) {
+  //     return;
+  //   }
+  //   setState({ ...state, [drawer]: open });
+  // };
 
   const drawerData = [
     {

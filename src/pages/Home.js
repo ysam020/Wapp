@@ -20,9 +20,7 @@ function Home() {
 
   const { sidebarPanels } = useLeftSidebarPanels(
     drawerWidth,
-    chatUser,
     setChatUser,
-    chat,
     setChat
   );
 

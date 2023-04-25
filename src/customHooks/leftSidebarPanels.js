@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // Components
 import Sidebar from "../components/Sidebar";
 import SidebarProfile from "../components/SidebarProfile";
@@ -15,13 +15,7 @@ import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
 ///////////////////////////////////////////////////////////////////
-function useLeftSidebarPanels(
-  drawerWidth,
-  chatUser,
-  setChatUser,
-  chat,
-  setChat
-) {
+function useLeftSidebarPanels(drawerWidth, setChatUser, setChat) {
   // useState
   const [state, setState] = useState({
     sidebar: true,
@@ -47,6 +41,29 @@ function useLeftSidebarPanels(
     }
     setState({ ...state, [drawer]: open });
   };
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setState((prevState) => ({
+          ...prevState,
+          sidebar: true,
+          sidebarProfile: false,
+          communities: false,
+          newChat: false,
+          settings: false,
+          notifications: false,
+          privacy: false,
+          security: false,
+          chatWallpaper: false,
+          accountInfo: false,
+          help: false,
+        }));
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   const drawerData = [
     {

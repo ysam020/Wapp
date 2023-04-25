@@ -12,20 +12,21 @@ import SelectMessagesUI from "./SelectMessagesUI";
 import * as Icons from "../Icons";
 import { IconButton } from "@material-ui/core";
 import Box from "@mui/material/Box";
-import useRightSidebarPanels from "../../customHooks/rightSidebarPanel";
+import ChatContextMenu from "./ChatContextMenu";
 // utils
 import { deleteSelectedMessages } from "../../utils/deleteSelectedMessages";
 import { starMessages } from "../../utils/starMessages";
 import { markMessageAsread } from "../../utils/markMessageAsRead";
+import { checkBlockedUser } from "../../utils/checkBlockedUser";
+import FirebaseRefs from "../../components/FirebaseRefs";
 // Contexts
 import * as Context from "../../contexts/Context";
 // Custom hooks
 import useContexts from "../../customHooks/contexts";
 import useGetMessages from "../../customHooks/getMessages";
+import useRightSidebarPanels from "../../customHooks/rightSidebarPanel";
 import useChatWallpaper from "../../customHooks/chatWallpaper";
 import useWebcam from "../../customHooks/webcam";
-import FirebaseRefs from "../../components/FirebaseRefs";
-import { checkBlockedUser } from "../../utils/checkBlockedUser";
 
 ///////////////////////////////////////////////////////////////////
 function Chat(props) {
@@ -40,6 +41,7 @@ function Chat(props) {
   const [block, setBlock] = React.useState([]);
   const [lastSeen, setLastSeen] = React.useState();
   const [starredMessages, setStarredMessages] = React.useState([]);
+  const [contextMenu, setContextMenu] = React.useState(null);
 
   // Custom hooks
   const { currentUser, chatBackground } = useContexts();
@@ -91,16 +93,20 @@ function Chat(props) {
         setLastSeen(snapshot.data().lastOnline)
       );
     }
-
     // eslint-disable-next-line
-  }, [
-    chatMessages,
-    props.chatUser.email,
-    props.chatUser.email,
-    setBlock,
+  }, [chatMessages, props.chatUser.email, props.chatUser.email, setBlock]);
 
-    // setChatUser,
-  ]);
+  const handleContextMenu = (event) => {
+    event.preventDefault();
+    setContextMenu(
+      contextMenu === null
+        ? {
+            mouseX: event.clientX + 2,
+            mouseY: event.clientY - 6,
+          }
+        : null
+    );
+  };
 
   return (
     <Context.ChatDetailsContext.Provider
@@ -132,7 +138,7 @@ function Chat(props) {
         block: block,
       }}
     >
-      <div className="chat">
+      <div className="chat" onContextMenu={handleContextMenu}>
         {/* Chat header */}
         <ChatHeader toggleDrawer={toggleDrawer} />
 
@@ -158,7 +164,13 @@ function Chat(props) {
           {showWebcam ? (
             <WebcamComponents />
           ) : (
-            <>
+            <div
+              className={
+                emojiBox || gifBox
+                  ? "chat-messages-container-shrunk"
+                  : "chat-messages-container"
+              }
+            >
               {/* If webcam is not displayed */}
               <div style={{ flexGrow: 1 }}></div>
               {chatMessages.map((message, index) => {
@@ -170,7 +182,7 @@ function Chat(props) {
                   />
                 );
               })}
-            </>
+            </div>
           )}
         </div>
 
@@ -240,6 +252,7 @@ function Chat(props) {
           <ChatFooter />
         )}
 
+        {/* Right drawer panel */}
         <Box
           component="nav"
           sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
@@ -247,6 +260,13 @@ function Chat(props) {
         >
           {rightSidebarPanels}
         </Box>
+
+        {/* Context menu */}
+        <ChatContextMenu
+          toggleDrawer={toggleDrawer}
+          contextMenu={contextMenu}
+          setContextMenu={setContextMenu}
+        />
       </div>
     </Context.ChatDetailsContext.Provider>
   );
