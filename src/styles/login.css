@@ -38,3 +38,15 @@
 .login-container button:hover {
   background-color: var(--button);
 }
+
+.disclaimer-text {
+  color: var(--primary-strong);
+  text-align: center;
+  font-weight: 300;
+  line-height: 1.5rem;
+  padding: 20px;
+}
+
+.disclaimer-text a {
+  color: var(--link-color);
+}

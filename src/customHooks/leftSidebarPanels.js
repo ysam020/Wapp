@@ -127,7 +127,7 @@ function useLeftSidebarPanels(drawerWidth, setChatUser, setChat) {
   const sidebarPanels = (
     <Box
       component="nav"
-      sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+      sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
       aria-label="mailbox folders"
     >
       {drawerData.map((drawer) => (

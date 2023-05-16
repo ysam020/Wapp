@@ -21,6 +21,18 @@ function Login() {
         <h1>Wapp Web</h1>
         <Button onClick={signIn}>Sign in with Google</Button>
       </div>
+      <p className="disclaimer-text">
+        Please note that this website is a clone of WhatsApp Web and is not the
+        official WhatsApp website. If you were looking for the original site,
+        please visit <a href="https://web.whatsapp.com/">Whatsapp Web</a>. This
+        clone has been developed as a personal project to showcase my skills in
+        ReactJS and Firebase technologies. It is not affiliated with or endorsed
+        by WhatsApp Inc. I would like to clarify that this clone is for
+        educational and personal development purposes only. It does not involve
+        any malicious activities or intentions.
+        <br />
+        Thank you for your understanding.
+      </p>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "reactjs-wapp",
+    "site": "wapp-c2920",
     "public": "build",
     "headers": [
       {

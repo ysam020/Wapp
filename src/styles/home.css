@@ -21,7 +21,6 @@
   display: flex;
   flex: 1;
   background-color: var(--home-background);
-  min-width: 520px;
   border-bottom: 6px solid var(--home-border-bottom);
 }
 
