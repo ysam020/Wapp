@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { storage } from "../../firebase";
 // Components
 import * as Icons from "../Icons";
 import { IconButton, Tooltip } from "@material-ui/core";
@@ -16,6 +15,7 @@ import useHandleTyping from "../../customHooks/handleTyping";
 function ChatFooter() {
   // useState
   const [sendMediaList, setSendMediaList] = useState(false);
+  // eslint-disable-next-line
   const [gifButton, setGifButton] = useState(false);
   const [closeButton, setCloseButton] = useState(false);
 
@@ -153,7 +153,6 @@ function ChatFooter() {
                                   e.preventDefault();
                                   selectFiles(
                                     e,
-                                    storage,
                                     currentUser,
                                     chatDetailsContext.chatUser.email,
                                     chatDetailsContext.chatUser,
@@ -162,6 +161,10 @@ function ChatFooter() {
                                     setSendMediaList,
                                     sendMediaList
                                   );
+                                  // set file to null so that same file can be selected again
+                                  if (item.ref.current) {
+                                    item.ref.current.value = null;
+                                  }
                                 }}
                               ></input>
                             </IconButton>

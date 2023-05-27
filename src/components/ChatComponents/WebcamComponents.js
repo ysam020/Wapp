@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import { storage } from "../../firebase";
 // Components
 import * as Icons from "../Icons";
 import { IconButton } from "@material-ui/core";
@@ -47,7 +46,6 @@ function WebcamComponents() {
             onClick={() =>
               clickImage(
                 webcamRef,
-                storage,
                 currentUser,
                 chatDetailsContext.chatUser.email,
                 chatDetailsContext.chatUser,

@@ -23,8 +23,8 @@ function useEditUserDetails(updateName, updateAbout) {
   const userRef = db.collection("users").doc(currentUser.email);
 
   const editUserDetails = useCallback(() => {
-    userRef.onSnapshot((snapshot) => setFullname(snapshot.data().fullname));
-    userRef.onSnapshot((snapshot) => setAbout(snapshot.data().about));
+    userRef.onSnapshot((snapshot) => setFullname(snapshot.data()?.fullname));
+    userRef.onSnapshot((snapshot) => setAbout(snapshot.data()?.about));
 
     editNameInputRef.current.setSelectionRange(
       editNameInputRef.current.value.length,
